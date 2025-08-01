@@ -1,16 +1,89 @@
-## ...
+# Artur Sepp 👋
 
-<!--
-**ArturSepp/ArturSepp** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+*"Connecting financial applications with science and technology"*
 
-Here are some ideas to get you started:
+**PhD in Statistics | Quantitative Researcher | Author**
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+[![Website](https://img.shields.io/badge/Website-artursepp.com-blue)](https://artursepp.com)
+[![Twitter](https://img.shields.io/badge/Twitter-@artursepp-1DA1F2)](https://twitter.com/artursepp)
+[![Email](https://img.shields.io/badge/Email-artursepp@gmail.com-red)](mailto:artursepp@gmail.com)
+
+## About Me
+
+I'm a statistician and quant researcher passionate about connecting financial applications with science and technology. My professional journey spans quantitative research, portfolio management, and trading of quantitative investment strategies across investment and private banks, hedge funds, and family offices.
+
+### Expertise
+- Quantitative investing and asset allocation
+- Modeling of financial markets and instruments
+- Statistical and Machine Learning methods
+- Modern computational and programming tools
+- Stochastic volatility models
+
+## 🏆 Recognition
+
+**Quant of the Year – Risk Awards 2024**  
+[Profile on Risk.net](https://www.risk.net/awards/7958305/quant-of-the-year-artur-sepp)
+
+*For a complete list of publications and blog posts, visit [artursepp.com](https://artursepp.com)*
+
+## 📦 Key Python Packages
+
+### [QuantInvestStrats](https://github.com/ArturSepp/QuantInvestStrats) (`qis`)
+Quantitative Investment Strategies (QIS) package implements Python analytics for visualisation of financial data, performance reporting, analysis of quantitative strategies.
+
+**Features:**
+- Financial data visualization
+- Performance reporting and analytics  
+- Quantitative strategy analysis
+- Portfolio construction tools
+
+### [OptimalPortfolios](https://github.com/ArturSepp/OptimalPortfolios) (`optimalportfolios`)
+Implementation of optimization analytics for constructing and backtesting optimal portfolios in Python.
+
+**Features:**
+- Portfolio optimization algorithms
+- Risk budgeting implementation
+- Backtesting frameworks
+- Performance attribution
+
+### [StochVolModels](https://github.com/ArturSepp/StochVolModels) (`stochvolmodels`)
+Python implementation of pricing analytics and Monte Carlo simulations for stochastic volatility models including log-normal SV model, Heston.
+
+**Features:**
+- Log-normal stochastic volatility models
+- Heston model implementation
+- Monte Carlo simulations
+- Options pricing analytics
+
+### [BloombergFetch](https://github.com/ArturSepp/BloombergFetch) (`bbg-fetch`)
+Python functionality for getting different data from Bloomberg: prices, implied vols, fundamentals.
+
+**Features:**
+- Bloomberg data fetching wrapper
+- Price data retrieval
+- Implied volatility data
+- Fundamental data access
+- Built on xbbg package integration
+
+
+### Package Download Statistics
+
+| Package | Total Downloads | Monthly Downloads | Weekly Downloads |
+|---------|----------------|------------------|------------------|
+| **QuantInvestStrats (qis)** | [![Downloads](https://static.pepy.tech/badge/qis)](https://pepy.tech/project/qis) | [![Downloads](https://static.pepy.tech/badge/qis/month)](https://pepy.tech/project/qis) | [![Downloads](https://static.pepy.tech/badge/qis/week)](https://pepy.tech/project/qis) |
+| **OptimalPortfolios** | [![Downloads](https://static.pepy.tech/badge/optimalportfolios)](https://pepy.tech/project/optimalportfolios) | [![Downloads](https://static.pepy.tech/badge/optimalportfolios/month)](https://pepy.tech/project/optimalportfolios) | [![Downloads](https://static.pepy.tech/badge/optimalportfolios/week)](https://pepy.tech/project/optimalportfolios) |
+| **StochVolModels** | [![Downloads](https://static.pepy.tech/badge/stochvolmodels)](https://pepy.tech/project/stochvolmodels) | [![Downloads](https://static.pepy.tech/badge/stochvolmodels/month)](https://pepy.tech/project/stochvolmodels) | [![Downloads](https://static.pepy.tech/badge/stochvolmodels/week)](https://pepy.tech/project/stochvolmodels) |
+| **BloombergFetch (bbg-fetch)** | [![Downloads](https://static.pepy.tech/badge/bbg-fetch)](https://pepy.tech/project/bbg-fetch) | [![Downloads](https://static.pepy.tech/badge/bbg-fetch/month)](https://pepy.tech/project/bbg-fetch) | [![Downloads](https://static.pepy.tech/badge/bbg-fetch/week)](https://pepy.tech/project/bbg-fetch) |
+
+
+## 📈 GitHub Stats & Package Downloads
+
+![Artur's GitHub stats](https://github-readme-stats.vercel.app/api?username=ArturSepp&show_icons=true&theme=default)
+
+
+## 🤝 Connect With Me
+
+- 🌐 **Website**: [artursepp.com](https://artursepp.com)
+- 📧 **Email**: artursepp@gmail.com  
+- 🐦 **Twitter**: [@artursepp](https://twitter.com/artursepp)
+- 💼 **LinkedIn**: [@artursepp](https://www.linkedin.com/in/artursepp/)
