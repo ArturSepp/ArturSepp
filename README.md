@@ -1,5 +1,4 @@
 # Artur Sepp 👋
-
 *"Connecting financial applications with science and technology"*
 
 **PhD in Statistics | Quantitative Researcher | Author**
@@ -8,7 +7,9 @@
 
 ## About Me
 
-I'm a statistician and quant researcher passionate about connecting financial applications with science and technology. My professional journey spans quantitative research, portfolio management, and trading of quantitative investment strategies across investment and private banks, hedge funds, and family offices.
+**Global Head of Investment Services Quant Group @ [LGT Private Banking](https://www.lgt.com/)**
+
+I'm a statistician and quant researcher passionate about connecting financial applications with science and technology. With 20+ years of experience in financial markets, my professional journey spans quantitative research, portfolio management, and trading of quantitative investment strategies across investment and private banks, hedge funds, and family offices.
 
 ### Expertise
 - Quantitative investing and asset allocation
@@ -23,6 +24,15 @@ I'm a statistician and quant researcher passionate about connecting financial ap
 [Profile on Risk.net](https://www.risk.net/awards/7958305/quant-of-the-year-artur-sepp)
 
 *For a complete list of publications and blog posts, visit [artursepp.com](https://artursepp.com)*
+
+
+## 🤝 Connect With Me
+- 🌐 **Website**: [artursepp.com](https://artursepp.com)
+- 📧 **Email**: artursepp@gmail.com  
+- 🐦 **Twitter**: [@artursepp](https://twitter.com/artursepp)
+- 💼 **LinkedIn**: [@artursepp](https://www.linkedin.com/in/artursepp/)
+- 🎓 **Google Scholar**: [Research Profile](https://scholar.google.com/citations?user=UJy2xxMAAAAJ&hl=en)
+- 📄 **SSRN**: [Author Page](https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1229200)
 
 ## 📦 Key Python Packages
 
@@ -71,18 +81,11 @@ Python implementation of vectorised pricers for vanilla options
 - Bachelier normal option pricing
 
 ### Package Download Statistics
+
 | Package | GitHub Stars | GitHub Forks | Total Downloads | Monthly Downloads | Weekly Downloads |
 |---------|-------------|-------------|----------------|------------------|------------------|
-| **QuantInvestStrats (qis)** | [![GitHub stars](https://img.shields.io/github/stars/ArturSepp/QuantInvestStrats?style=flat-square&logo=github)](https://github.com/ArturSepp/QuantInvestStrats) | [![GitHub forks](https://img.shields.io/github/forks/ArturSepp/QuantInvestStrats?style=flat-square&logo=github)](https://github.com/ArturSepp/QuantInvestStrats) | [![Downloads](https://static.pepy.tech/badge/qis)](https://pepy.tech/project/qis) | [![Downloads](https://static.pepy.tech/badge/qis/month)](https://pepy.tech/project/qis) | [![Downloads](https://static.pepy.tech/badge/qis/week)](https://pepy.tech/project/qis) |
-| **OptimalPortfolios (optimalportfolios)** | [![GitHub stars](https://img.shields.io/github/stars/ArturSepp/OptimalPortfolios?style=flat-square&logo=github)](https://github.com/ArturSepp/OptimalPortfolios) | [![GitHub forks](https://img.shields.io/github/forks/ArturSepp/OptimalPortfolios?style=flat-square&logo=github)](https://github.com/ArturSepp/OptimalPortfolios) | [![Downloads](https://static.pepy.tech/badge/optimalportfolios)](https://pepy.tech/project/optimalportfolios) | [![Downloads](https://static.pepy.tech/badge/optimalportfolios/month)](https://pepy.tech/project/optimalportfolios) | [![Downloads](https://static.pepy.tech/badge/optimalportfolios/week)](https://pepy.tech/project/optimalportfolios) |
-| **StochVolModels (stochvolmodels)** | [![GitHub stars](https://img.shields.io/github/stars/ArturSepp/StochVolModels?style=flat-square&logo=github)](https://github.com/ArturSepp/StochVolModels) | [![GitHub forks](https://img.shields.io/github/forks/ArturSepp/StochVolModels?style=flat-square&logo=github)](https://github.com/ArturSepp/StochVolModels) | [![Downloads](https://static.pepy.tech/badge/stochvolmodels)](https://pepy.tech/project/stochvolmodels) | [![Downloads](https://static.pepy.tech/badge/stochvolmodels/month)](https://pepy.tech/project/stochvolmodels) | [![Downloads](https://static.pepy.tech/badge/stochvolmodels/week)](https://pepy.tech/project/stochvolmodels) |
-| **BloombergFetch (bbg-fetch)** | [![GitHub stars](https://img.shields.io/github/stars/ArturSepp/BloombergFetch?style=flat-square&logo=github)](https://github.com/ArturSepp/BloombergFetch) | [![GitHub forks](https://img.shields.io/github/forks/ArturSepp/BloombergFetch?style=flat-square&logo=github)](https://github.com/ArturSepp/BloombergFetch) | [![Downloads](https://static.pepy.tech/badge/bbg-fetch)](https://pepy.tech/project/bbg-fetch) | [![Downloads](https://static.pepy.tech/badge/bbg-fetch/month)](https://pepy.tech/project/bbg-fetch) | [![Downloads](https://static.pepy.tech/badge/bbg-fetch/week)](https://pepy.tech/project/bbg-fetch) |
-| **VanillaOptionPricers (vanilla-option-pricers)** | [![GitHub stars](https://img.shields.io/github/stars/ArturSepp/VanillaOptionPricers?style=flat-square&logo=github)](https://github.com/ArturSepp/VanillaOptionPricers) | [![GitHub forks](https://img.shields.io/github/forks/ArturSepp/VanillaOptionPricers?style=flat-square&logo=github)](https://github.com/ArturSepp/VanillaOptionPricers) | [![Downloads](https://static.pepy.tech/badge/vanilla-option-pricers)](https://pepy.tech/project/vanilla-option-pricers) | [![Downloads](https://static.pepy.tech/badge/vanilla-option-pricers/month)](https://pepy.tech/project/vanilla-option-pricers) | [![Downloads](https://static.pepy.tech/badge/vanilla-option-pricers/week)](https://pepy.tech/project/vanilla-option-pricers) |
-
-
-## 🤝 Connect With Me
-
-- 🌐 **Website**: [artursepp.com](https://artursepp.com)
-- 📧 **Email**: artursepp@gmail.com  
-- 🐦 **Twitter**: [@artursepp](https://twitter.com/artursepp)
-- 💼 **LinkedIn**: [@artursepp](https://www.linkedin.com/in/artursepp/)
+| **[QuantInvestStrats](https://github.com/ArturSepp/QuantInvestStrats)** (qis) | [![GitHub stars](https://img.shields.io/github/stars/ArturSepp/QuantInvestStrats?style=flat-square&logo=github)](https://github.com/ArturSepp/QuantInvestStrats) | [![GitHub forks](https://img.shields.io/github/forks/ArturSepp/QuantInvestStrats?style=flat-square&logo=github)](https://github.com/ArturSepp/QuantInvestStrats) | [![Downloads](https://static.pepy.tech/badge/qis)](https://pepy.tech/project/qis) | [![Downloads](https://static.pepy.tech/badge/qis/month)](https://pepy.tech/project/qis) | [![Downloads](https://static.pepy.tech/badge/qis/week)](https://pepy.tech/project/qis) |
+| **[OptimalPortfolios](https://github.com/ArturSepp/OptimalPortfolios)** (optimalportfolios) | [![GitHub stars](https://img.shields.io/github/stars/ArturSepp/OptimalPortfolios?style=flat-square&logo=github)](https://github.com/ArturSepp/OptimalPortfolios) | [![GitHub forks](https://img.shields.io/github/forks/ArturSepp/OptimalPortfolios?style=flat-square&logo=github)](https://github.com/ArturSepp/OptimalPortfolios) | [![Downloads](https://static.pepy.tech/badge/optimalportfolios)](https://pepy.tech/project/optimalportfolios) | [![Downloads](https://static.pepy.tech/badge/optimalportfolios/month)](https://pepy.tech/project/optimalportfolios) | [![Downloads](https://static.pepy.tech/badge/optimalportfolios/week)](https://pepy.tech/project/optimalportfolios) |
+| **[StochVolModels](https://github.com/ArturSepp/StochVolModels)** (stochvolmodels) | [![GitHub stars](https://img.shields.io/github/stars/ArturSepp/StochVolModels?style=flat-square&logo=github)](https://github.com/ArturSepp/StochVolModels) | [![GitHub forks](https://img.shields.io/github/forks/ArturSepp/StochVolModels?style=flat-square&logo=github)](https://github.com/ArturSepp/StochVolModels) | [![Downloads](https://static.pepy.tech/badge/stochvolmodels)](https://pepy.tech/project/stochvolmodels) | [![Downloads](https://static.pepy.tech/badge/stochvolmodels/month)](https://pepy.tech/project/stochvolmodels) | [![Downloads](https://static.pepy.tech/badge/stochvolmodels/week)](https://pepy.tech/project/stochvolmodels) |
+| **[BloombergFetch](https://github.com/ArturSepp/BloombergFetch)** (bbg-fetch) | [![GitHub stars](https://img.shields.io/github/stars/ArturSepp/BloombergFetch?style=flat-square&logo=github)](https://github.com/ArturSepp/BloombergFetch) | [![GitHub forks](https://img.shields.io/github/forks/ArturSepp/BloombergFetch?style=flat-square&logo=github)](https://github.com/ArturSepp/BloombergFetch) | [![Downloads](https://static.pepy.tech/badge/bbg-fetch)](https://pepy.tech/project/bbg-fetch) | [![Downloads](https://static.pepy.tech/badge/bbg-fetch/month)](https://pepy.tech/project/bbg-fetch) | [![Downloads](https://static.pepy.tech/badge/bbg-fetch/week)](https://pepy.tech/project/bbg-fetch) |
+| **[VanillaOptionPricers](https://github.com/ArturSepp/VanillaOptionPricers)** (vanilla-option-pricers) | [![GitHub stars](https://img.shields.io/github/stars/ArturSepp/VanillaOptionPricers?style=flat-square&logo=github)](https://github.com/ArturSepp/VanillaOptionPricers) | [![GitHub forks](https://img.shields.io/github/forks/ArturSepp/VanillaOptionPricers?style=flat-square&logo=github)](https://github.com/ArturSepp/VanillaOptionPricers) | [![Downloads](https://static.pepy.tech/badge/vanilla-option-pricers)](https://pepy.tech/project/vanilla-option-pricers) | [![Downloads](https://static.pepy.tech/badge/vanilla-option-pricers/month)](https://pepy.tech/project/vanilla-option-pricers) | [![Downloads](https://static.pepy.tech/badge/vanilla-option-pricers/week)](https://pepy.tech/project/vanilla-option-pricers) |
