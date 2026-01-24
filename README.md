@@ -2,7 +2,7 @@
 
 **Quantitative Researcher | [Risk Magazine Quant of the Year 2024](https://www.risk.net/awards/7958305/quant-of-the-year-artur-sepp)**
 
-Quantitative researcher focused on systematic strategies, portfolio optimization, and stochastic volatility modeling. Currently Global Head of Investment Solutions Quant Group at [LGT Private Banking](https://www.lgt.com/). Co-originator of the ROSAA framework and the log-normal beta stochastic volatility model.
+Quantitative researcher focused on systematic strategies, portfolio optimization, and stochastic volatility modeling. Currently Global Head of Investment Solutions Quant Group at [LGT Private Banking](https://www.lgt.com/). Co-originator of the Robust Optimisation of Strategic and Active Asset Allocation (ROSAA) framework and the log-normal beta stochastic volatility model.
 
 For publications, speaking, and full background → [artursepp.com](https://artursepp.com)
 
