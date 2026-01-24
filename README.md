@@ -10,6 +10,7 @@ For publications, speaking, and full background → [artursepp.com](https://artu
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-artursepp-0077B5?logo=linkedin)](https://www.linkedin.com/in/artursepp/)
 [![Twitter](https://img.shields.io/badge/Twitter-@artursepp-1DA1F2?logo=twitter)](https://twitter.com/artursepp)
 [![Google Scholar](https://img.shields.io/badge/Google%20Scholar-Profile-4285F4?logo=googlescholar)](https://scholar.google.com/citations?user=UJy2xxMAAAAJ&hl=en)
+[![SSRN](https://img.shields.io/badge/SSRN-Author%20Page-154881)](https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1229200)
 [![Email](https://img.shields.io/badge/Email-artursepp@gmail.com-red)](mailto:artursepp@gmail.com)
 
 ---
@@ -17,19 +18,48 @@ For publications, speaking, and full background → [artursepp.com](https://artu
 ## Python Packages
 
 ### [QuantInvestStrats](https://github.com/ArturSepp/QuantInvestStrats) (`qis`)
-Analytics for visualization of financial data, performance reporting, and analysis of quantitative strategies.
+Quantitative Investment Strategies (QIS) package implements Python analytics for visualisation of financial data, performance reporting, analysis of quantitative strategies.
 
-### [OptimalPortfolios](https://github.com/ArturSepp/OptimalPortfolios)
-Portfolio optimization algorithms including risk budgeting, backtesting frameworks, and performance attribution.
+**Features:**
+- Financial data visualization
+- Performance reporting and analytics  
+- Quantitative strategy analysis
+- Portfolio construction tools
 
-### [StochVolModels](https://github.com/ArturSepp/StochVolModels)
-Pricing analytics and Monte Carlo simulations for stochastic volatility models (Karasinski-Sepp log-normal SV, Heston).
+### [OptimalPortfolios](https://github.com/ArturSepp/OptimalPortfolios) (`optimalportfolios`)
+Implementation of optimization analytics for constructing and backtesting optimal portfolios in Python.
+
+**Features:**
+- Portfolio optimization algorithms
+- Risk budgeting implementation
+- Backtesting frameworks
+- Performance attribution
+
+### [StochVolModels](https://github.com/ArturSepp/StochVolModels) (`stochvolmodels`)
+Python implementation of pricing analytics and Monte Carlo simulations for stochastic volatility models including Karasinski-Sepp log-normal stochastic volatility model and Heston volatility model.
+
+**Features:**
+- Karasinski-Sepp log-normal stochastic volatility model
+- Heston model
+- Monte Carlo simulations
+- Analytical valuation of European call and put options
 
 ### [BloombergFetch](https://github.com/ArturSepp/BloombergFetch) (`bbg-fetch`)
-Wrapper for fetching prices, implied vols, and fundamentals from Bloomberg. Built on xbbg.
+Python functionality for getting different data from Bloomberg: prices, implied vols, fundamentals.
 
-### [VanillaOptionPricers](https://github.com/ArturSepp/VanillaOptionPricers)
-Vectorized pricers for vanilla options (Black-Scholes, Bachelier).
+**Features:**
+- Bloomberg data fetching wrapper
+- Price data retrieval
+- Implied volatility data
+- Fundamental data access
+- Built on xbbg package integration
+
+### [VanillaOptionPricers](https://github.com/ArturSepp/VanillaOptionPricers) (`vanilla-option-pricers`)
+Python implementation of vectorised pricers for vanilla options
+
+**Features:**
+- Black-Scholes log-normal option pricing
+- Bachelier normal option pricing
 
 ### Download Statistics
 
