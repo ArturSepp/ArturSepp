@@ -44,6 +44,17 @@ Python implementation of pricing analytics and Monte Carlo simulations for stoch
 - Monte Carlo simulations
 - Analytical valuation of European call and put options
 
+### [factorlasso](https://github.com/ArturSepp/factorlasso) (`factorlasso`)
+Sparse factor model estimation with sign-constrained LASSO, prior-centered regularisation, and hierarchical group LASSO (HCGL) with integrated factor covariance assembly.
+
+**Features:**
+- Sign-constrained LASSO and Group LASSO via CVXPY
+- Prior-centered regularisation (shrink toward β₀, not zero)
+- Hierarchical Clustering Group LASSO (HCGL) with auto-discovered groups
+- NaN-aware estimation for variables with different history lengths
+- Consistent factor covariance assembly (Σ_y = β Σ_x β' + D)
+- scikit-learn compatible API (fit / predict / score)
+
 ### [BloombergFetch](https://github.com/ArturSepp/BloombergFetch) (`bbg-fetch`)
 Python functionality for getting different data from Bloomberg: prices, implied vols, fundamentals.
 
@@ -68,5 +79,6 @@ Python implementation of vectorised pricers for vanilla options
 | [QuantInvestStrats](https://github.com/ArturSepp/QuantInvestStrats) | [![](https://img.shields.io/github/stars/ArturSepp/QuantInvestStrats?style=flat-square)](https://github.com/ArturSepp/QuantInvestStrats) | [![](https://img.shields.io/github/forks/ArturSepp/QuantInvestStrats?style=flat-square)](https://github.com/ArturSepp/QuantInvestStrats) | [![](https://static.pepy.tech/badge/qis)](https://pepy.tech/project/qis) | [![](https://static.pepy.tech/badge/qis/month)](https://pepy.tech/project/qis) |
 | [OptimalPortfolios](https://github.com/ArturSepp/OptimalPortfolios) | [![](https://img.shields.io/github/stars/ArturSepp/OptimalPortfolios?style=flat-square)](https://github.com/ArturSepp/OptimalPortfolios) | [![](https://img.shields.io/github/forks/ArturSepp/OptimalPortfolios?style=flat-square)](https://github.com/ArturSepp/OptimalPortfolios) | [![](https://static.pepy.tech/badge/optimalportfolios)](https://pepy.tech/project/optimalportfolios) | [![](https://static.pepy.tech/badge/optimalportfolios/month)](https://pepy.tech/project/optimalportfolios) |
 | [StochVolModels](https://github.com/ArturSepp/StochVolModels) | [![](https://img.shields.io/github/stars/ArturSepp/StochVolModels?style=flat-square)](https://github.com/ArturSepp/StochVolModels) | [![](https://img.shields.io/github/forks/ArturSepp/StochVolModels?style=flat-square)](https://github.com/ArturSepp/StochVolModels) | [![](https://static.pepy.tech/badge/stochvolmodels)](https://pepy.tech/project/stochvolmodels) | [![](https://static.pepy.tech/badge/stochvolmodels/month)](https://pepy.tech/project/stochvolmodels) |
+| [factorlasso](https://github.com/ArturSepp/factorlasso) | [![](https://img.shields.io/github/stars/ArturSepp/factorlasso?style=flat-square)](https://github.com/ArturSepp/factorlasso) | [![](https://img.shields.io/github/forks/ArturSepp/factorlasso?style=flat-square)](https://github.com/ArturSepp/factorlasso) | [![](https://static.pepy.tech/badge/factorlasso)](https://pepy.tech/project/factorlasso) | [![](https://static.pepy.tech/badge/factorlasso/month)](https://pepy.tech/project/factorlasso) |
 | [BloombergFetch](https://github.com/ArturSepp/BloombergFetch) | [![](https://img.shields.io/github/stars/ArturSepp/BloombergFetch?style=flat-square)](https://github.com/ArturSepp/BloombergFetch) | [![](https://img.shields.io/github/forks/ArturSepp/BloombergFetch?style=flat-square)](https://github.com/ArturSepp/BloombergFetch) | [![](https://static.pepy.tech/badge/bbg-fetch)](https://pepy.tech/project/bbg-fetch) | [![](https://static.pepy.tech/badge/bbg-fetch/month)](https://pepy.tech/project/bbg-fetch) |
 | [VanillaOptionPricers](https://github.com/ArturSepp/VanillaOptionPricers) | [![](https://img.shields.io/github/stars/ArturSepp/VanillaOptionPricers?style=flat-square)](https://github.com/ArturSepp/VanillaOptionPricers) | [![](https://img.shields.io/github/forks/ArturSepp/VanillaOptionPricers?style=flat-square)](https://github.com/ArturSepp/VanillaOptionPricers) | [![](https://static.pepy.tech/badge/vanilla-option-pricers)](https://pepy.tech/project/vanilla-option-pricers) | [![](https://static.pepy.tech/badge/vanilla-option-pricers/month)](https://pepy.tech/project/vanilla-option-pricers) |
