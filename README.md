@@ -27,7 +27,7 @@ Quantitative Investment Strategies (QIS) package implements Python analytics for
 - Portfolio construction tools
 
 ### [OptimalPortfolios](https://github.com/ArturSepp/OptimalPortfolios) (`optimalportfolios`)
-Implementation of optimization analytics for constructing and backtesting optimal portfolios in Python.
+Implementation of optimization analytics for constructing and backtesting optimal portfolios in Python. Companion code to [Sepp (2023)](https://ssrn.com/abstract=4217841) and [Sepp, Ossa & Kastenholz (2026)](https://www.pm-research.com/content/iijpormgmt/52/4/86)
 
 **Features:**
 - Portfolio optimization algorithms
@@ -36,7 +36,7 @@ Implementation of optimization analytics for constructing and backtesting optima
 - Performance attribution
 
 ### [StochVolModels](https://github.com/ArturSepp/StochVolModels) (`stochvolmodels`)
-Python implementation of pricing analytics and Monte Carlo simulations for stochastic volatility models including Karasinski-Sepp log-normal stochastic volatility model and Heston volatility model.
+Python implementation of pricing analytics and Monte Carlo simulations for stochastic volatility models including Karasinski-Sepp log-normal stochastic volatility model and Heston volatility model. Companion code to [Sepp & Rakhmonov (2023)](https://www.worldscientific.com/doi/10.1142/S0219024924500031).
 
 **Features:**
 - Karasinski-Sepp log-normal stochastic volatility model
@@ -45,8 +45,16 @@ Python implementation of pricing analytics and Monte Carlo simulations for stoch
 - Analytical valuation of European call and put options
 
 ### [factorlasso](https://github.com/ArturSepp/factorlasso) (`factorlasso`)
-Sparse factor model estimation with sign-constrained LASSO, prior-centered regularisation, and hierarchical group LASSO (HCGL) with integrated factor covariance assembly.
+Sparse factor model estimation with sign-constrained LASSO, prior-centered regularisation, and hierarchical group LASSO (HCGL) with integrated factor covariance assembly. Companion code to [Sepp, Ossa & Kastenholz (2026)](https://www.pm-research.com/content/iijpormgmt/52/4/86) and [Sepp, Hansen & Kastenholz (2026)].
 
+**Features:**
+- Sign-constrained LASSO and Group LASSO via CVXPY
+- Prior-centered regularisation (shrink toward β₀, not zero)
+- Hierarchical Clustering Group LASSO (HCGL) with auto-discovered groups
+- NaN-aware estimation for variables with different history lengths
+- Consistent factor covariance assembly (Σ_y = β Σ_x β' + D)
+- scikit-learn compatible API (fit / predict / score)
+- 
 **Features:**
 - Sign-constrained LASSO and Group LASSO via CVXPY
 - Prior-centered regularisation (shrink toward β₀, not zero)
@@ -72,6 +80,16 @@ Python implementation of vectorised pricers for vanilla options
 - Black-Scholes log-normal option pricing
 - Bachelier normal option pricing
 
+### [GoalBasedAllocation](https://github.com/ArturSepp/GoalBasedAllocation) (`goal-based-allocation`)
+Analytical Laplace-transform framework for dynamic mean-variance portfolio allocation under regime-switching jump-diffusions with absorbing wealth floors. Companion code to [Sepp (2026)](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6534579).
+
+**Features:**
+- Riccati ODE system for MV-optimal policy with regime-dependent coefficients
+- Terminal wealth density decomposition (survived + floor atom + overshoot)
+- Exact buy-and-hold moments via matrix exponential
+- Investment opportunity set construction with endogenous de-risking glide paths
+- Monte Carlo simulator for validation
+
 ### Download Statistics
 
 | Package | Stars | Forks | Total Downloads | Monthly |
@@ -82,3 +100,4 @@ Python implementation of vectorised pricers for vanilla options
 | [factorlasso](https://github.com/ArturSepp/factorlasso) | [![](https://img.shields.io/github/stars/ArturSepp/factorlasso?style=flat-square)](https://github.com/ArturSepp/factorlasso) | [![](https://img.shields.io/github/forks/ArturSepp/factorlasso?style=flat-square)](https://github.com/ArturSepp/factorlasso) | [![](https://static.pepy.tech/badge/factorlasso)](https://pepy.tech/project/factorlasso) | [![](https://static.pepy.tech/badge/factorlasso/month)](https://pepy.tech/project/factorlasso) |
 | [BloombergFetch](https://github.com/ArturSepp/BloombergFetch) | [![](https://img.shields.io/github/stars/ArturSepp/BloombergFetch?style=flat-square)](https://github.com/ArturSepp/BloombergFetch) | [![](https://img.shields.io/github/forks/ArturSepp/BloombergFetch?style=flat-square)](https://github.com/ArturSepp/BloombergFetch) | [![](https://static.pepy.tech/badge/bbg-fetch)](https://pepy.tech/project/bbg-fetch) | [![](https://static.pepy.tech/badge/bbg-fetch/month)](https://pepy.tech/project/bbg-fetch) |
 | [VanillaOptionPricers](https://github.com/ArturSepp/VanillaOptionPricers) | [![](https://img.shields.io/github/stars/ArturSepp/VanillaOptionPricers?style=flat-square)](https://github.com/ArturSepp/VanillaOptionPricers) | [![](https://img.shields.io/github/forks/ArturSepp/VanillaOptionPricers?style=flat-square)](https://github.com/ArturSepp/VanillaOptionPricers) | [![](https://static.pepy.tech/badge/vanilla-option-pricers)](https://pepy.tech/project/vanilla-option-pricers) | [![](https://static.pepy.tech/badge/vanilla-option-pricers/month)](https://pepy.tech/project/vanilla-option-pricers) |
+| [GoalBasedAllocation](https://github.com/ArturSepp/GoalBasedAllocation) | [![](https://img.shields.io/github/stars/ArturSepp/GoalBasedAllocation?style=flat-square)](https://github.com/ArturSepp/GoalBasedAllocation) | [![](https://img.shields.io/github/forks/ArturSepp/GoalBasedAllocation?style=flat-square)](https://github.com/ArturSepp/GoalBasedAllocation) | [![](https://static.pepy.tech/badge/goal-based-allocation)](https://pepy.tech/project/goal-based-allocation) | [![](https://static.pepy.tech/badge/goal-based-allocation/month)](https://pepy.tech/project/goal-based-allocation) |
