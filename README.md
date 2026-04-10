@@ -22,7 +22,7 @@ Quantitative Investment Strategies (QIS) package implements Python analytics for
 
 **Features:**
 - Financial data visualization
-- Performance reporting and analytics  
+- Performance reporting and analytics
 - Quantitative strategy analysis
 - Portfolio construction tools
 
@@ -54,14 +54,6 @@ Sparse factor model estimation with sign-constrained LASSO, prior-centered regul
 - NaN-aware estimation for variables with different history lengths
 - Consistent factor covariance assembly (Σ_y = β Σ_x β' + D)
 - scikit-learn compatible API (fit / predict / score)
-- 
-**Features:**
-- Sign-constrained LASSO and Group LASSO via CVXPY
-- Prior-centered regularisation (shrink toward β₀, not zero)
-- Hierarchical Clustering Group LASSO (HCGL) with auto-discovered groups
-- NaN-aware estimation for variables with different history lengths
-- Consistent factor covariance assembly (Σ_y = β Σ_x β' + D)
-- scikit-learn compatible API (fit / predict / score)
 
 ### [BloombergFetch](https://github.com/ArturSepp/BloombergFetch) (`bbg-fetch`)
 Python functionality for getting different data from Bloomberg: prices, implied vols, fundamentals.
@@ -71,7 +63,7 @@ Python functionality for getting different data from Bloomberg: prices, implied 
 - Price data retrieval
 - Implied volatility data
 - Fundamental data access
-- Built on xbbg package integration
+- Direct `blpapi` integration (no `xbbg` dependency)
 
 ### [VanillaOptionPricers](https://github.com/ArturSepp/VanillaOptionPricers) (`vanilla-option-pricers`)
 Python implementation of vectorised pricers for vanilla options
