@@ -31,20 +31,6 @@ pip install optimalportfolios
 - Backtesting frameworks
 - Performance attribution
 
-#### [GoalBasedAllocation](https://github.com/ArturSepp/GoalBasedAllocation) (`goal-based-allocation`)
-Analytical Laplace-transform framework for dynamic mean-variance portfolio allocation under regime-switching jump-diffusions with absorbing wealth floors. Companion code to [Sepp (2026)](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6534579).
-
-```bash
-pip install goal-based-allocation
-```
-
-**Features:**
-- Riccati ODE system for MV-optimal policy with regime-dependent coefficients
-- Terminal wealth density decomposition (survived + floor atom + overshoot)
-- Exact buy-and-hold moments via matrix exponential
-- Investment opportunity set construction with endogenous de-risking glide paths
-- Monte Carlo simulator for validation
-
 #### [factorlasso](https://github.com/ArturSepp/factorlasso) (`factorlasso`)
 Sparse factor model estimation with sign-constrained LASSO, prior-centered regularisation, and hierarchical group LASSO (HCGL) with integrated factor covariance assembly. Companion code to [Sepp, Ossa & Kastenholz (2026)](https://www.pm-research.com/content/iijpormgmt/52/4/86) and [Sepp, Hansen & Kastenholz (2026)].
 
@@ -59,6 +45,20 @@ pip install factorlasso
 - NaN-aware estimation for variables with different history lengths
 - Consistent factor covariance assembly (Σ_y = β Σ_x β' + D)
 - scikit-learn compatible API (fit / predict / score)
+
+#### [GoalBasedAllocation](https://github.com/ArturSepp/GoalBasedAllocation) (`goal-based-allocation`)
+Analytical Laplace-transform framework for dynamic mean-variance portfolio allocation under regime-switching jump-diffusions with absorbing wealth floors. Companion code to [Sepp (2026)](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6534579).
+
+```bash
+pip install goal-based-allocation
+```
+
+**Features:**
+- Riccati ODE system for MV-optimal policy with regime-dependent coefficients
+- Terminal wealth density decomposition (survived + floor atom + overshoot)
+- Exact buy-and-hold moments via matrix exponential
+- Investment opportunity set construction with endogenous de-risking glide paths
+- Monte Carlo simulator for validation
 
 ---
 
