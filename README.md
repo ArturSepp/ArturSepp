@@ -16,7 +16,12 @@ For publications, speaking, and full background → [artursepp.com](https://artu
 
 ## Python Packages
 
+Over 20+ years of building quantitative models — across equity, credit and rates derivatives on the sell-side, a systematic CTA, market-neutral crypto/DeFi, and now multi-asset private banking — one pattern holds: volatility regimes migrate across asset classes, and models that feel robust fail at the worst moment. This ecosystem is my working answer: open-source, production-grade implementations of frameworks designed to survive regime change, spanning the full quant workflow from market data to signal generation, factor modeling, and portfolio construction.
+
+Each package is developed alongside my published research — the papers ship with code you can run, and the code carries the exact methodology of the papers. They are used by practitioners and researchers in quantitative finance.
+
 The packages compose into a single research workflow — market data → analytics and reporting → factor models → portfolio construction — with standalone research libraries alongside:
+
 
 ```mermaid
 flowchart LR
