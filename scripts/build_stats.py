@@ -14,14 +14,16 @@ import requests
 OWNER = "ArturSepp"
 
 # repo -> pepy/PyPI distribution slug
+# Order defines the table order: mirrors the package sections in README.md
 REPOS = {
-    "QuantInvestStrats": "qis",
     "OptimalPortfolios": "optimalportfolios",
-    "StochVolModels": "stochvolmodels",
     "factorlasso": "factorlasso",
+    "QuantInvestStrats": "qis",
     "BloombergFetch": "bbg-fetch",
-    "VanillaOptionPricers": "vanilla-option-pricers",
+    "TrendFollowingSystems": "trendfollowing",
     "GoalBasedAllocation": "goal-based-allocation",
+    "StochVolModels": "stochvolmodels",
+    "VanillaOptionPricers": "vanilla-option-pricers",
 }
 
 HEADERS = {
