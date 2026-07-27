@@ -33,46 +33,6 @@ flowchart LR
 
 Standalone research libraries: [`stochvolmodels`](https://github.com/ArturSepp/StochVolModels), [`vanilla-option-pricers`](https://github.com/ArturSepp/VanillaOptionPricers), [`goal-based-allocation`](https://github.com/ArturSepp/GoalBasedAllocation).
 
-### One workflow, end to end
-
-A vol-parity multi-asset portfolio — market data, signal, backtest, factsheet — runnable top to bottom with `pip install qis[data]`:
-
-```python
-import pandas as pd
-import yfinance as yf
-import qis
-
-# universe with asset-class grouping; bbg-fetch replaces yfinance in production
-universe = dict(SPY='Equities', QQQ='Equities', TLT='Bonds', IEF='Bonds', LQD='Credit', GLD='Gold')
-tickers, group_data = list(universe.keys()), pd.Series(universe)
-prices = yf.download(tickers, start='2005-12-31', ignore_tz=True, auto_adjust=True)['Close'][tickers]
-prices = prices.asfreq('B', method='ffill').dropna()
-
-# signal: inverse-vol weights at a 15% vol target, lagged one day by construction
-_, weights, _ = qis.compute_ra_returns(returns=qis.to_returns(prices=prices, is_log_returns=True),
-                                       span=30,
-                                       vol_target=0.15)
-weights = weights.divide(weights.sum(axis=1), axis=0)
-
-# backtest: holds units between rebalancings, 10bp of traded volume, one-day implementation lag
-portfolio_data = qis.backtest_model_portfolio(prices=prices,
-                                              weights=weights,
-                                              rebalancing_costs=0.0010,
-                                              weight_implementation_lag=1,
-                                              ticker='VolParity')
-portfolio_data.set_group_data(group_data=group_data, group_order=list(group_data.unique()))
-
-# factsheet: performance, drawdowns, exposures, attribution, regime conditioning
-time_period = qis.TimePeriod('31Dec2005', '31Dec2025')
-figs = qis.generate_strategy_factsheet(portfolio_data=portfolio_data,
-                                       benchmark_prices=prices[['SPY', 'TLT']],
-                                       time_period=time_period,
-                                       **qis.fetch_default_report_kwargs(time_period=time_period))
-qis.save_figs_to_pdf(figs=figs, file_name='volparity_factsheet', local_path=None)
-```
-
-Swap the signal step for one of the `optimalportfolios` roll-forward solvers — `rolling_risk_budgeting`, `rolling_maximise_diversification`, `rolling_maximise_alpha_over_tre` — to solve for the weights under `Constraints` instead of setting them.
-
 ### Portfolio Construction & Factor Analytics
 
 `factorlasso` estimates the sparse factor model and the factor covariance; `optimalportfolios` consumes them — together with the `qis` analytics engine — for portfolio construction and backtesting.
