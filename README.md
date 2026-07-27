@@ -16,7 +16,7 @@ For publications, speaking, and full background → [artursepp.com](https://artu
 
 ## Python Packages
 
-Over 20+ years of building quantitative models — across equity, credit and rates derivatives on the sell-side, a systematic CTA, market-neutral crypto/DeFi, and now multi-asset private banking — one pattern holds: volatility regimes migrate across asset classes, and models that feel robust fail at the worst moment. These eight open-source packages are my working answer, spanning the full quant workflow from market data to signal generation, factor modeling, and portfolio construction.
+Over 20 years of building quantitative models — across equity, credit and rates derivatives on the sell-side, a systematic CTA, market-neutral crypto/DeFi, and now multi-asset private banking — one pattern holds: volatility regimes migrate across asset classes, and models that feel robust fail at the worst moment. These eight open-source packages are my working answer, spanning the full quant workflow from market data to signal generation, factor modeling, and portfolio construction.
 
 Each package is developed alongside my published research — the papers ship with code you can run, and the code carries the exact methodology of the papers. <!-- TOTALS_START -->966 stars and 166 forks across the 8 repositories.<!-- TOTALS_END -->
 
@@ -45,9 +45,7 @@ pip install optimalportfolios
 ```
 
 **Features:**
-- Portfolio optimization algorithms
-- Risk budgeting implementation
-- Alpha-focused and benchmark-constrained engines
+- Risk budgeting, alpha-focused and benchmark-constrained optimisers
 - Backtesting frameworks for roll-forward analysis with handling of incomplete and missing data
 - Performance attribution
 
@@ -59,12 +57,10 @@ pip install factorlasso
 ```
 
 **Features:**
-- Sign-constrained LASSO and Group LASSO via CVXPY
-- Prior-centered regularisation (shrink toward β₀, not zero)
+- Sign-constrained LASSO and Group LASSO via CVXPY, with prior-centered regularisation (shrink toward β₀, not zero)
 - Hierarchical Clustering Group LASSO (HCGL) and Factor-Clustering Group LASSO (FCGL) with auto-discovered groups
 - NaN-aware estimation for variables with different history lengths
-- Consistent factor covariance assembly (Σ_y = β Σ_x β' + D)
-- scikit-learn compatible API (fit / predict / score)
+- Consistent factor covariance assembly (Σ_y = β Σ_x β' + D), scikit-learn compatible API (fit / predict / score)
 
 ---
 
@@ -79,10 +75,8 @@ pip install qis
 
 **Features:**
 - Backtesting engine for externally computed weights with provided instrument price, carry and cost data
-- Performance reporting: risk-adjusted performance tables with returns, volatilities, Sharpe ratios, and benchmark regressions
-- Factsheet generation: multi-asset, strategy, strategy vs benchmark, and multi-strategy factsheets
+- Performance reporting and factsheets: risk-adjusted tables, benchmark regressions and attribution, for multi-asset, strategy, strategy vs benchmark and multi-strategy
 - Visualisation layer for financial time series built on matplotlib/seaborn
-- Portfolio analytics and performance attribution
 
 #### [BloombergFetch](https://github.com/ArturSepp/BloombergFetch) (`bbg-fetch`)
 Python functionality for getting different data from Bloomberg: prices, implied vols, fundamentals.
@@ -92,11 +86,7 @@ pip install bbg-fetch
 ```
 
 **Features:**
-- Bloomberg data fetching wrapper
-- Price data retrieval
-- Implied volatility data
-- Option chain data
-- Fundamental data access
+- Prices, implied vols, option chains and fundamentals
 - Direct `blpapi` integration
 
 ---
@@ -111,9 +101,8 @@ pip install trendfollowing
 ```
 
 **Features:**
-- Closed-form expected return, Sharpe ratio, skewness, and turnover of trend-following systems under white noise, AR(1), and ARFIMA processes
+- Closed-form expected return, Sharpe ratio, skewness, and turnover of trend-following systems under white noise, AR(1), and ARFIMA processes, verified by Monte Carlo
 - Three complete system implementations: European, American, and Time Series Momentum (TSMOM)
-- Monte Carlo verification of analytical results
 - 84-contract futures dataset spanning 1959–2026
 
 #### [GoalBasedAllocation](https://github.com/ArturSepp/GoalBasedAllocation) (`goal-based-allocation`)
@@ -125,10 +114,8 @@ pip install goal-based-allocation
 
 **Features:**
 - Riccati ODE system for MV-optimal policy with regime-dependent coefficients
-- Terminal wealth density decomposition (survived + floor atom + overshoot)
-- Exact buy-and-hold moments via matrix exponential
-- Investment opportunity set construction with endogenous de-risking glide paths
-- Monte Carlo simulator for validation
+- Terminal wealth density decomposition (survived + floor atom + overshoot), with exact buy-and-hold moments via matrix exponential
+- Investment opportunity set construction with endogenous de-risking glide paths, validated against a Monte Carlo simulator
 
 ---
 
@@ -142,11 +129,9 @@ pip install stochvolmodels
 ```
 
 **Features:**
-- Karasinski-Sepp log-normal beta SV model
-- Heston model
+- Karasinski-Sepp log-normal beta SV model, with the Heston model as benchmark
 - Factor Heath-Jarrow-Morton framework for rates with log-normal stochastic volatility
-- Monte Carlo simulations
-- Analytical valuation of European call and put options
+- Analytical valuation of European call and put options, and Monte Carlo simulations
 
 #### [VanillaOptionPricers](https://github.com/ArturSepp/VanillaOptionPricers) (`vanilla-option-pricers`)
 Python implementation of vectorised pricers and implied volatility fitters for vanilla options under Black-Scholes-Merton and Bachelier models.
@@ -156,8 +141,7 @@ pip install vanilla-option-pricers
 ```
 
 **Features:**
-- Black-Scholes-Merton log-normal option pricing
-- Bachelier normal option pricing
+- Black-Scholes-Merton log-normal and Bachelier normal option pricing
 - Vectorised implied volatility fitters
 - Numba-accelerated implementation
 
