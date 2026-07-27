@@ -1,0 +1,6 @@
+# normalise line endings: the repository stores LF, Windows checkouts get CRLF
+* text=auto
+*.md    text eol=lf
+*.py    text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf

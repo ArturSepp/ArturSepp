@@ -1,0 +1,13 @@
+# IDE
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv
+venv/
+
+# secrets: never commit a key from this working tree
+github_key
+github_key.pub
+*.pem

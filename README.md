@@ -16,9 +16,9 @@ For publications, speaking, and full background → [artursepp.com](https://artu
 
 ## Python Packages
 
-Over 20+ years of building quantitative models — across equity, credit and rates derivatives on the sell-side, a systematic CTA, market-neutral crypto/DeFi, and now multi-asset private banking — one pattern holds: volatility regimes migrate across asset classes, and models that feel robust fail at the worst moment. This ecosystem is my working answer: open-source, production-grade implementations of frameworks designed to survive regime change, spanning the full quant workflow from market data to signal generation, factor modeling, and portfolio construction.
+Over 20+ years of building quantitative models — across equity, credit and rates derivatives on the sell-side, a systematic CTA, market-neutral crypto/DeFi, and now multi-asset private banking — one pattern holds: volatility regimes migrate across asset classes, and models that feel robust fail at the worst moment. These eight open-source packages are my working answer, spanning the full quant workflow from market data to signal generation, factor modeling, and portfolio construction.
 
-Each package is developed alongside my published research — the papers ship with code you can run, and the code carries the exact methodology of the papers. They are used by practitioners and researchers in quantitative finance.
+Each package is developed alongside my published research — the papers ship with code you can run, and the code carries the exact methodology of the papers. <!-- TOTALS_START -->966 stars and 166 forks across the 8 repositories.<!-- TOTALS_END -->
 
 The packages compose into a single research workflow — market data → analytics and reporting → factor models → portfolio construction — with standalone research libraries alongside:
 
@@ -32,6 +32,46 @@ flowchart LR
 ```
 
 Standalone research libraries: [`stochvolmodels`](https://github.com/ArturSepp/StochVolModels), [`vanilla-option-pricers`](https://github.com/ArturSepp/VanillaOptionPricers), [`goal-based-allocation`](https://github.com/ArturSepp/GoalBasedAllocation).
+
+### One workflow, end to end
+
+A vol-parity multi-asset portfolio — market data, signal, backtest, factsheet — runnable top to bottom with `pip install qis[data]`:
+
+```python
+import pandas as pd
+import yfinance as yf
+import qis
+
+# universe with asset-class grouping; bbg-fetch replaces yfinance in production
+universe = dict(SPY='Equities', QQQ='Equities', TLT='Bonds', IEF='Bonds', LQD='Credit', GLD='Gold')
+tickers, group_data = list(universe.keys()), pd.Series(universe)
+prices = yf.download(tickers, start='2005-12-31', ignore_tz=True, auto_adjust=True)['Close'][tickers]
+prices = prices.asfreq('B', method='ffill').dropna()
+
+# signal: inverse-vol weights at a 15% vol target, lagged one day by construction
+_, weights, _ = qis.compute_ra_returns(returns=qis.to_returns(prices=prices, is_log_returns=True),
+                                       span=30,
+                                       vol_target=0.15)
+weights = weights.divide(weights.sum(axis=1), axis=0)
+
+# backtest: holds units between rebalancings, 10bp of traded volume, one-day implementation lag
+portfolio_data = qis.backtest_model_portfolio(prices=prices,
+                                              weights=weights,
+                                              rebalancing_costs=0.0010,
+                                              weight_implementation_lag=1,
+                                              ticker='VolParity')
+portfolio_data.set_group_data(group_data=group_data, group_order=list(group_data.unique()))
+
+# factsheet: performance, drawdowns, exposures, attribution, regime conditioning
+time_period = qis.TimePeriod('31Dec2005', '31Dec2025')
+figs = qis.generate_strategy_factsheet(portfolio_data=portfolio_data,
+                                       benchmark_prices=prices[['SPY', 'TLT']],
+                                       time_period=time_period,
+                                       **qis.fetch_default_report_kwargs(time_period=time_period))
+qis.save_figs_to_pdf(figs=figs, file_name='volparity_factsheet', local_path=None)
+```
+
+Swap the signal step for one of the `optimalportfolios` roll-forward solvers — `rolling_risk_budgeting`, `rolling_maximise_diversification`, `rolling_maximise_alpha_over_tre` — to solve for the weights under `Constraints` instead of setting them.
 
 ### Portfolio Construction & Factor Analytics
 
@@ -47,11 +87,12 @@ pip install optimalportfolios
 **Features:**
 - Portfolio optimization algorithms
 - Risk budgeting implementation
-- Backtesting frameworks
+- Alpha-focused and benchmark-constrained engines
+- Backtesting frameworks for roll-forward analysis with handling of incomplete and missing data
 - Performance attribution
 
 #### [factorlasso](https://github.com/ArturSepp/factorlasso) (`factorlasso`)
-Sparse factor model estimation with sign-constrained LASSO, prior-centered regularisation, and hierarchical group LASSO (HCGL) with integrated factor covariance assembly. Companion code to [Sepp, Ossa & Kastenholz (2026)](https://www.pm-research.com/content/iijpormgmt/52/4/86) and [Sepp, Hansen & Kastenholz (2026)](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6785958).
+Sparse factor model estimation with sign-constrained LASSO, prior-centered regularisation, hierarchical clustering group LASSO (HCGL) and factor-clustering group LASSO (FCGL), with integrated factor covariance assembly. Companion code to [Sepp, Ossa & Kastenholz (2026)](https://www.pm-research.com/content/iijpormgmt/52/4/86) and [Sepp, Hansen & Kastenholz (2026)](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6785958).
 
 ```bash
 pip install factorlasso
@@ -60,7 +101,7 @@ pip install factorlasso
 **Features:**
 - Sign-constrained LASSO and Group LASSO via CVXPY
 - Prior-centered regularisation (shrink toward β₀, not zero)
-- Hierarchical Clustering Group LASSO (HCGL) with auto-discovered groups
+- Hierarchical Clustering Group LASSO (HCGL) and Factor-Clustering Group LASSO (FCGL) with auto-discovered groups
 - NaN-aware estimation for variables with different history lengths
 - Consistent factor covariance assembly (Σ_y = β Σ_x β' + D)
 - scikit-learn compatible API (fit / predict / score)
@@ -77,6 +118,7 @@ pip install qis
 ```
 
 **Features:**
+- Backtesting engine for externally computed weights with provided instrument price, carry and cost data
 - Performance reporting: risk-adjusted performance tables with returns, volatilities, Sharpe ratios, and benchmark regressions
 - Factsheet generation: multi-asset, strategy, strategy vs benchmark, and multi-strategy factsheets
 - Visualisation layer for financial time series built on matplotlib/seaborn
@@ -93,8 +135,9 @@ pip install bbg-fetch
 - Bloomberg data fetching wrapper
 - Price data retrieval
 - Implied volatility data
+- Option chain data
 - Fundamental data access
-- Direct `blpapi` integration (no `xbbg` dependency)
+- Direct `blpapi` integration
 
 ---
 
@@ -132,7 +175,7 @@ pip install goal-based-allocation
 ### Derivatives & Volatility
 
 #### [StochVolModels](https://github.com/ArturSepp/StochVolModels) (`stochvolmodels`)
-Python implementation of pricing analytics and Monte Carlo simulations for stochastic volatility models including the Karasinski-Sepp log-normal beta SV model and the Heston model. Companion code to [Sepp & Rakhmonov (2023)](https://www.worldscientific.com/doi/10.1142/S0219024924500031).
+Python implementation of pricing analytics and Monte Carlo simulations for stochastic volatility models including the Karasinski-Sepp log-normal beta SV model and the Heston model. Companion code to [Sepp & Rakhmonov (2023)](https://www.worldscientific.com/doi/10.1142/S0219024924500031) and [Sepp & Rakhmonov (2025)](https://doi.org/10.1007/s11147-025-09217-4).
 
 ```bash
 pip install stochvolmodels
@@ -141,6 +184,7 @@ pip install stochvolmodels
 **Features:**
 - Karasinski-Sepp log-normal beta SV model
 - Heston model
+- Factor Heath-Jarrow-Morton framework for rates with log-normal stochastic volatility
 - Monte Carlo simulations
 - Analytical valuation of European call and put options
 
@@ -162,14 +206,14 @@ pip install vanilla-option-pricers
 ### Download Statistics
 
 <!-- STATS_START -->
-| Package | Stars | Forks | Total Downloads | Monthly |
-|---------|:-----:|:-----:|:---------------:|:-------:|
-| [OptimalPortfolios](https://github.com/ArturSepp/OptimalPortfolios) | [![](https://img.shields.io/badge/stars-81-blue?style=flat-square)](https://github.com/ArturSepp/OptimalPortfolios/stargazers) | [![](https://img.shields.io/badge/forks-32-blue?style=flat-square)](https://github.com/ArturSepp/OptimalPortfolios/network/members) | [![](https://static.pepy.tech/badge/optimalportfolios)](https://pepy.tech/project/optimalportfolios) | [![](https://static.pepy.tech/badge/optimalportfolios/month)](https://pepy.tech/project/optimalportfolios) |
-| [factorlasso](https://github.com/ArturSepp/factorlasso) | [![](https://img.shields.io/badge/stars-21-blue?style=flat-square)](https://github.com/ArturSepp/factorlasso/stargazers) | [![](https://img.shields.io/badge/forks-2-blue?style=flat-square)](https://github.com/ArturSepp/factorlasso/network/members) | [![](https://static.pepy.tech/badge/factorlasso)](https://pepy.tech/project/factorlasso) | [![](https://static.pepy.tech/badge/factorlasso/month)](https://pepy.tech/project/factorlasso) |
-| [QuantInvestStrats](https://github.com/ArturSepp/QuantInvestStrats) | [![](https://img.shields.io/badge/stars-591-blue?style=flat-square)](https://github.com/ArturSepp/QuantInvestStrats/stargazers) | [![](https://img.shields.io/badge/forks-65-blue?style=flat-square)](https://github.com/ArturSepp/QuantInvestStrats/network/members) | [![](https://static.pepy.tech/badge/qis)](https://pepy.tech/project/qis) | [![](https://static.pepy.tech/badge/qis/month)](https://pepy.tech/project/qis) |
-| [BloombergFetch](https://github.com/ArturSepp/BloombergFetch) | [![](https://img.shields.io/badge/stars-17-blue?style=flat-square)](https://github.com/ArturSepp/BloombergFetch/stargazers) | [![](https://img.shields.io/badge/forks-8-blue?style=flat-square)](https://github.com/ArturSepp/BloombergFetch/network/members) | [![](https://static.pepy.tech/badge/bbg-fetch)](https://pepy.tech/project/bbg-fetch) | [![](https://static.pepy.tech/badge/bbg-fetch/month)](https://pepy.tech/project/bbg-fetch) |
-| [TrendFollowingSystems](https://github.com/ArturSepp/TrendFollowingSystems) | [![](https://img.shields.io/badge/stars-6-blue?style=flat-square)](https://github.com/ArturSepp/TrendFollowingSystems/stargazers) | [![](https://img.shields.io/badge/forks-2-blue?style=flat-square)](https://github.com/ArturSepp/TrendFollowingSystems/network/members) | [![](https://static.pepy.tech/badge/trendfollowing)](https://pepy.tech/project/trendfollowing) | [![](https://static.pepy.tech/badge/trendfollowing/month)](https://pepy.tech/project/trendfollowing) |
-| [GoalBasedAllocation](https://github.com/ArturSepp/GoalBasedAllocation) | [![](https://img.shields.io/badge/stars-10-blue?style=flat-square)](https://github.com/ArturSepp/GoalBasedAllocation/stargazers) | [![](https://img.shields.io/badge/forks-2-blue?style=flat-square)](https://github.com/ArturSepp/GoalBasedAllocation/network/members) | [![](https://static.pepy.tech/badge/goal-based-allocation)](https://pepy.tech/project/goal-based-allocation) | [![](https://static.pepy.tech/badge/goal-based-allocation/month)](https://pepy.tech/project/goal-based-allocation) |
-| [StochVolModels](https://github.com/ArturSepp/StochVolModels) | [![](https://img.shields.io/badge/stars-227-blue?style=flat-square)](https://github.com/ArturSepp/StochVolModels/stargazers) | [![](https://img.shields.io/badge/forks-46-blue?style=flat-square)](https://github.com/ArturSepp/StochVolModels/network/members) | [![](https://static.pepy.tech/badge/stochvolmodels)](https://pepy.tech/project/stochvolmodels) | [![](https://static.pepy.tech/badge/stochvolmodels/month)](https://pepy.tech/project/stochvolmodels) |
-| [VanillaOptionPricers](https://github.com/ArturSepp/VanillaOptionPricers) | [![](https://img.shields.io/badge/stars-13-blue?style=flat-square)](https://github.com/ArturSepp/VanillaOptionPricers/stargazers) | [![](https://img.shields.io/badge/forks-9-blue?style=flat-square)](https://github.com/ArturSepp/VanillaOptionPricers/network/members) | [![](https://static.pepy.tech/badge/vanilla-option-pricers)](https://pepy.tech/project/vanilla-option-pricers) | [![](https://static.pepy.tech/badge/vanilla-option-pricers/month)](https://pepy.tech/project/vanilla-option-pricers) |
+| Package | Version | Stars | Forks | Total Downloads | Monthly |
+|---------|:-------:|:-----:|:-----:|:---------------:|:-------:|
+| [OptimalPortfolios](https://github.com/ArturSepp/OptimalPortfolios) | [![](https://img.shields.io/pypi/v/optimalportfolios?style=flat-square&label=&color=blue)](https://pypi.org/project/optimalportfolios/) | [![](https://img.shields.io/badge/stars-81-blue?style=flat-square)](https://github.com/ArturSepp/OptimalPortfolios/stargazers) | [![](https://img.shields.io/badge/forks-32-blue?style=flat-square)](https://github.com/ArturSepp/OptimalPortfolios/network/members) | [![](https://static.pepy.tech/badge/optimalportfolios)](https://pepy.tech/project/optimalportfolios) | [![](https://static.pepy.tech/badge/optimalportfolios/month)](https://pepy.tech/project/optimalportfolios) |
+| [factorlasso](https://github.com/ArturSepp/factorlasso) | [![](https://img.shields.io/pypi/v/factorlasso?style=flat-square&label=&color=blue)](https://pypi.org/project/factorlasso/) | [![](https://img.shields.io/badge/stars-21-blue?style=flat-square)](https://github.com/ArturSepp/factorlasso/stargazers) | [![](https://img.shields.io/badge/forks-2-blue?style=flat-square)](https://github.com/ArturSepp/factorlasso/network/members) | [![](https://static.pepy.tech/badge/factorlasso)](https://pepy.tech/project/factorlasso) | [![](https://static.pepy.tech/badge/factorlasso/month)](https://pepy.tech/project/factorlasso) |
+| [QuantInvestStrats](https://github.com/ArturSepp/QuantInvestStrats) | [![](https://img.shields.io/pypi/v/qis?style=flat-square&label=&color=blue)](https://pypi.org/project/qis/) | [![](https://img.shields.io/badge/stars-591-blue?style=flat-square)](https://github.com/ArturSepp/QuantInvestStrats/stargazers) | [![](https://img.shields.io/badge/forks-65-blue?style=flat-square)](https://github.com/ArturSepp/QuantInvestStrats/network/members) | [![](https://static.pepy.tech/badge/qis)](https://pepy.tech/project/qis) | [![](https://static.pepy.tech/badge/qis/month)](https://pepy.tech/project/qis) |
+| [BloombergFetch](https://github.com/ArturSepp/BloombergFetch) | [![](https://img.shields.io/pypi/v/bbg-fetch?style=flat-square&label=&color=blue)](https://pypi.org/project/bbg-fetch/) | [![](https://img.shields.io/badge/stars-17-blue?style=flat-square)](https://github.com/ArturSepp/BloombergFetch/stargazers) | [![](https://img.shields.io/badge/forks-8-blue?style=flat-square)](https://github.com/ArturSepp/BloombergFetch/network/members) | [![](https://static.pepy.tech/badge/bbg-fetch)](https://pepy.tech/project/bbg-fetch) | [![](https://static.pepy.tech/badge/bbg-fetch/month)](https://pepy.tech/project/bbg-fetch) |
+| [TrendFollowingSystems](https://github.com/ArturSepp/TrendFollowingSystems) | [![](https://img.shields.io/pypi/v/trendfollowing?style=flat-square&label=&color=blue)](https://pypi.org/project/trendfollowing/) | [![](https://img.shields.io/badge/stars-6-blue?style=flat-square)](https://github.com/ArturSepp/TrendFollowingSystems/stargazers) | [![](https://img.shields.io/badge/forks-2-blue?style=flat-square)](https://github.com/ArturSepp/TrendFollowingSystems/network/members) | [![](https://static.pepy.tech/badge/trendfollowing)](https://pepy.tech/project/trendfollowing) | [![](https://static.pepy.tech/badge/trendfollowing/month)](https://pepy.tech/project/trendfollowing) |
+| [GoalBasedAllocation](https://github.com/ArturSepp/GoalBasedAllocation) | [![](https://img.shields.io/pypi/v/goal-based-allocation?style=flat-square&label=&color=blue)](https://pypi.org/project/goal-based-allocation/) | [![](https://img.shields.io/badge/stars-10-blue?style=flat-square)](https://github.com/ArturSepp/GoalBasedAllocation/stargazers) | [![](https://img.shields.io/badge/forks-2-blue?style=flat-square)](https://github.com/ArturSepp/GoalBasedAllocation/network/members) | [![](https://static.pepy.tech/badge/goal-based-allocation)](https://pepy.tech/project/goal-based-allocation) | [![](https://static.pepy.tech/badge/goal-based-allocation/month)](https://pepy.tech/project/goal-based-allocation) |
+| [StochVolModels](https://github.com/ArturSepp/StochVolModels) | [![](https://img.shields.io/pypi/v/stochvolmodels?style=flat-square&label=&color=blue)](https://pypi.org/project/stochvolmodels/) | [![](https://img.shields.io/badge/stars-227-blue?style=flat-square)](https://github.com/ArturSepp/StochVolModels/stargazers) | [![](https://img.shields.io/badge/forks-46-blue?style=flat-square)](https://github.com/ArturSepp/StochVolModels/network/members) | [![](https://static.pepy.tech/badge/stochvolmodels)](https://pepy.tech/project/stochvolmodels) | [![](https://static.pepy.tech/badge/stochvolmodels/month)](https://pepy.tech/project/stochvolmodels) |
+| [VanillaOptionPricers](https://github.com/ArturSepp/VanillaOptionPricers) | [![](https://img.shields.io/pypi/v/vanilla-option-pricers?style=flat-square&label=&color=blue)](https://pypi.org/project/vanilla-option-pricers/) | [![](https://img.shields.io/badge/stars-13-blue?style=flat-square)](https://github.com/ArturSepp/VanillaOptionPricers/stargazers) | [![](https://img.shields.io/badge/forks-9-blue?style=flat-square)](https://github.com/ArturSepp/VanillaOptionPricers/network/members) | [![](https://static.pepy.tech/badge/vanilla-option-pricers)](https://pepy.tech/project/vanilla-option-pricers) | [![](https://static.pepy.tech/badge/vanilla-option-pricers/month)](https://pepy.tech/project/vanilla-option-pricers) |
 <!-- STATS_END -->
