@@ -9,16 +9,17 @@ For publications, speaking, and full background → [artursepp.com](https://artu
 [![Website](https://img.shields.io/badge/Website-artursepp.com-blue)](https://artursepp.com)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-artursepp-0077B5?logo=linkedin)](https://www.linkedin.com/in/artursepp/)
 [![Twitter](https://img.shields.io/badge/Twitter-@artursepp-1DA1F2?logo=twitter)](https://twitter.com/artursepp)
-[![Google Scholar](https://img.shields.io/badge/Google%20Scholar-Profile-4285F4?logo=googlescholar)](https://scholar.google.com/citations?user=UJy2xxMAAAAJ&hl=en)
-[![SSRN](https://img.shields.io/badge/SSRN-Author%20Page-154881)](https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1229200)
+[![Google Scholar](https://img.shields.io/badge/Google%20Scholar-Profile-4285F4?logo=googlescholar)](https://scholar.google.com/citations?user=UJy2xxMAAAAJ)
+[![SSRN](https://img.shields.io/badge/SSRN-Author%20Page-154881)](https://ssrn.com/author=1229200)
+[![ORCID](https://img.shields.io/badge/ORCID-0000--0002--7038--1748-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0000-0002-7038-1748)
 
 ---
 
 ## Python Packages
 
-Over 20 years of building quantitative models — across equity, credit and rates derivatives on the sell-side, a systematic CTA, market-neutral crypto/DeFi, and now multi-asset private banking — one pattern holds: volatility regimes migrate across asset classes, and models that feel robust fail at the worst moment. These eight open-source packages are my working answer, spanning the full quant workflow from market data to signal generation, factor modeling, and portfolio construction.
+Over 20 years of building quantitative models — across equity, credit and rates derivatives on the sell-side, a systematic CTA, market-neutral crypto/DeFi, and now multi-asset private banking — one pattern holds: volatility regimes migrate across asset classes, and models that feel robust fail at the worst moment. These nine open-source packages are my working answer, spanning the full quant workflow from market data to signal generation, factor modeling, and portfolio construction, through to performance measurement of private assets.
 
-Each package is developed alongside my published research — the papers ship with code you can run, and the code carries the exact methodology of the papers. <!-- TOTALS_START -->971 stars and 169 forks across the 8 repositories.<!-- TOTALS_END -->
+Each package is developed alongside my published research — the papers ship with code you can run, and the code carries the exact methodology of the papers. <!-- TOTALS_START -->972 stars and 169 forks across the 9 repositories.<!-- TOTALS_END -->
 
 The packages compose into a single research workflow — market data → analytics and reporting → factor models → portfolio construction — with standalone research libraries alongside:
 
@@ -29,13 +30,15 @@ flowchart LR
     fl["factorlasso<br/>factor models & covariances"] --> op["optimalportfolios<br/>portfolio construction & backtesting"]
     qis --> op
     qis --> tf["trendfollowing<br/>trend-following systems"]
+    fl --> pa["privateassets<br/>private-asset PME"]
+    qis --> pa
 ```
 
 Standalone research libraries: [`stochvolmodels`](https://github.com/ArturSepp/StochVolModels), [`vanilla-option-pricers`](https://github.com/ArturSepp/VanillaOptionPricers), [`goal-based-allocation`](https://github.com/ArturSepp/GoalBasedAllocation).
 
 ### Portfolio Construction & Factor Analytics
 
-`factorlasso` estimates the sparse factor model and the factor covariance; `optimalportfolios` consumes them — together with the `qis` analytics engine — for portfolio construction and backtesting.
+`factorlasso` estimates the sparse factor model and the factor covariance; `optimalportfolios` consumes them — together with the `qis` analytics engine — for portfolio construction and backtesting. `privateassets` applies the same factor machinery to private-asset cash flows, replacing single-benchmark PME with a tradable multi-factor deflator.
 
 #### [OptimalPortfolios](https://github.com/ArturSepp/OptimalPortfolios) (`optimalportfolios`)
 Implementation of optimization analytics for constructing and backtesting optimal portfolios in Python. Companion code to [Sepp (2023)](https://ssrn.com/abstract=4217841) and [Sepp, Ossa & Kastenholz (2026)](https://www.pm-research.com/content/iijpormgmt/52/4/86).
@@ -61,6 +64,18 @@ pip install factorlasso
 - Hierarchical Clustering Group LASSO (HCGL) and Factor-Clustering Group LASSO (FCGL) with auto-discovered groups
 - NaN-aware estimation for variables with different history lengths
 - Consistent factor covariance assembly (Σ_y = β Σ_x β' + D), scikit-learn compatible API (fit / predict / score)
+
+#### [privateassets](https://github.com/ArturSepp/privateassets) (`privateassets`)
+Multi-factor, money-weighted PME for private-asset cash flows: generalises Direct Alpha, KS-PME and GPME from a single benchmark to a tradable multi-factor deflator, with the classical measures shipped alongside for comparison on the same cash flows.
+
+```bash
+pip install privateassets
+```
+
+**Features:**
+- Fund reporting to alpha in one call: NAV-implied returns → AR(1) unsmoothing with bootstrap bias correction → sign-constrained factor betas → multi-factor deflator → per-vintage and capital-weighted alpha with bootstrap intervals
+- Point-in-time covariance with no look-ahead, enforced by tests; provenance (versions, seed, specification) travels with every result
+- Classical single-benchmark measures (Direct Alpha, KS-PME, GPME) alongside the multi-factor versions
 
 ---
 
@@ -154,6 +169,7 @@ pip install vanilla-option-pricers
 |---------|:-------:|:-----:|:-----:|:---------------:|:-------:|
 | [OptimalPortfolios](https://github.com/ArturSepp/OptimalPortfolios) | [![](https://img.shields.io/pypi/v/optimalportfolios?style=flat-square&label=&color=blue)](https://pypi.org/project/optimalportfolios/) | [![](https://img.shields.io/badge/stars-82-blue?style=flat-square)](https://github.com/ArturSepp/OptimalPortfolios/stargazers) | [![](https://img.shields.io/badge/forks-33-blue?style=flat-square)](https://github.com/ArturSepp/OptimalPortfolios/network/members) | [![](https://static.pepy.tech/badge/optimalportfolios)](https://pepy.tech/project/optimalportfolios) | [![](https://static.pepy.tech/badge/optimalportfolios/month)](https://pepy.tech/project/optimalportfolios) |
 | [factorlasso](https://github.com/ArturSepp/factorlasso) | [![](https://img.shields.io/pypi/v/factorlasso?style=flat-square&label=&color=blue)](https://pypi.org/project/factorlasso/) | [![](https://img.shields.io/badge/stars-21-blue?style=flat-square)](https://github.com/ArturSepp/factorlasso/stargazers) | [![](https://img.shields.io/badge/forks-2-blue?style=flat-square)](https://github.com/ArturSepp/factorlasso/network/members) | [![](https://static.pepy.tech/badge/factorlasso)](https://pepy.tech/project/factorlasso) | [![](https://static.pepy.tech/badge/factorlasso/month)](https://pepy.tech/project/factorlasso) |
+| [privateassets](https://github.com/ArturSepp/privateassets) | [![](https://img.shields.io/pypi/v/privateassets?style=flat-square&label=&color=blue)](https://pypi.org/project/privateassets/) | [![](https://img.shields.io/badge/stars-1-blue?style=flat-square)](https://github.com/ArturSepp/privateassets/stargazers) | [![](https://img.shields.io/badge/forks-0-blue?style=flat-square)](https://github.com/ArturSepp/privateassets/network/members) | [![](https://static.pepy.tech/badge/privateassets)](https://pepy.tech/project/privateassets) | [![](https://static.pepy.tech/badge/privateassets/month)](https://pepy.tech/project/privateassets) |
 | [QuantInvestStrats](https://github.com/ArturSepp/QuantInvestStrats) | [![](https://img.shields.io/pypi/v/qis?style=flat-square&label=&color=blue)](https://pypi.org/project/qis/) | [![](https://img.shields.io/badge/stars-592-blue?style=flat-square)](https://github.com/ArturSepp/QuantInvestStrats/stargazers) | [![](https://img.shields.io/badge/forks-65-blue?style=flat-square)](https://github.com/ArturSepp/QuantInvestStrats/network/members) | [![](https://static.pepy.tech/badge/qis)](https://pepy.tech/project/qis) | [![](https://static.pepy.tech/badge/qis/month)](https://pepy.tech/project/qis) |
 | [BloombergFetch](https://github.com/ArturSepp/BloombergFetch) | [![](https://img.shields.io/pypi/v/bbg-fetch?style=flat-square&label=&color=blue)](https://pypi.org/project/bbg-fetch/) | [![](https://img.shields.io/badge/stars-17-blue?style=flat-square)](https://github.com/ArturSepp/BloombergFetch/stargazers) | [![](https://img.shields.io/badge/forks-8-blue?style=flat-square)](https://github.com/ArturSepp/BloombergFetch/network/members) | [![](https://static.pepy.tech/badge/bbg-fetch)](https://pepy.tech/project/bbg-fetch) | [![](https://static.pepy.tech/badge/bbg-fetch/month)](https://pepy.tech/project/bbg-fetch) |
 | [TrendFollowingSystems](https://github.com/ArturSepp/TrendFollowingSystems) | [![](https://img.shields.io/pypi/v/trendfollowing?style=flat-square&label=&color=blue)](https://pypi.org/project/trendfollowing/) | [![](https://img.shields.io/badge/stars-9-blue?style=flat-square)](https://github.com/ArturSepp/TrendFollowingSystems/stargazers) | [![](https://img.shields.io/badge/forks-4-blue?style=flat-square)](https://github.com/ArturSepp/TrendFollowingSystems/network/members) | [![](https://static.pepy.tech/badge/trendfollowing)](https://pepy.tech/project/trendfollowing) | [![](https://static.pepy.tech/badge/trendfollowing/month)](https://pepy.tech/project/trendfollowing) |

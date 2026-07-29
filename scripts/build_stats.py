@@ -24,6 +24,7 @@ OWNER = "ArturSepp"
 REPOS = {
     "OptimalPortfolios": "optimalportfolios",
     "factorlasso": "factorlasso",
+    "privateassets": "privateassets",
     "QuantInvestStrats": "qis",
     "BloombergFetch": "bbg-fetch",
     "TrendFollowingSystems": "trendfollowing",
