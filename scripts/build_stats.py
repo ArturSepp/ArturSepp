@@ -20,17 +20,21 @@ import requests
 OWNER = "ArturSepp"
 
 # repo -> pepy/PyPI distribution slug
-# Order defines the table order: mirrors the package sections in README.md
+# Order defines the table order, and is the single source of truth for it: the
+# generated block between STATS_START/STATS_END is rewritten on every run, so a
+# hand-edit of the table in README.md is discarded at the next refresh. Change
+# the order here. This order is the stack's dependency order (base layer first),
+# and deliberately does not follow the package sections further down README.md.
 REPOS = {
+    "QuantInvestStrats": "qis",
     "OptimalPortfolios": "optimalportfolios",
     "factorlasso": "factorlasso",
-    "privateassets": "privateassets",
-    "QuantInvestStrats": "qis",
+    "StochVolModels": "stochvolmodels",
     "BloombergFetch": "bbg-fetch",
+    "VanillaOptionPricers": "vanilla-option-pricers",
     "TrendFollowingSystems": "trendfollowing",
     "GoalBasedAllocation": "goal-based-allocation",
-    "StochVolModels": "stochvolmodels",
-    "VanillaOptionPricers": "vanilla-option-pricers",
+    "privateassets": "privateassets",
 }
 
 HEADERS = {
