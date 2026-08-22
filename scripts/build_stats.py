@@ -60,7 +60,7 @@ CONCEPTS = {
 GROUPS = {
     "Portfolio Construction, Factor Models, Backtest Reporting":
         ["QuantInvestStrats", "OptimalPortfolios", "factorlasso"],
-    "Volatility and Option Modeling":
+    "Volatility and Option Modelling":
         ["StochVolModels", "VanillaOptionPricers", "OptionChainAnalytics"],
     "Dynamic Strategies":
         ["TrendFollowingSystems", "GoalBasedAllocation"],
@@ -113,7 +113,10 @@ def build_blocks(counts: Dict[str, Tuple[int, int]]) -> Tuple[str, str]:
     """Return the (totals, table) markdown blocks for the given repo -> (stars, forks) map."""
     total_stars = sum(stars for stars, _ in counts.values())
     total_forks = sum(forks for _, forks in counts.values())
-    totals = f"{total_stars} stars and {total_forks} forks across the {len(counts)} repositories."
+    repo_count = len(counts)
+    repo_count_text = "ten" if repo_count == 10 else f"{repo_count:,}"
+    totals = (f"Across {repo_count_text} repositories, they have received "
+              f"{total_stars:,} stars and {total_forks:,} forks.")
 
     header = ("| Package | Concept | Version | Stars | Forks | Total Downloads | Monthly |\n"
               "|---------|---------|:-------:|:-----:|:-----:|:---------------:|:-------:|")
