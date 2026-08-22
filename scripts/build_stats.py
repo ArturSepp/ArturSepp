@@ -94,12 +94,18 @@ def row(repo: str, slug: str, concept: str, stars: int, forks: int) -> str:
     base = f"https://github.com/{OWNER}/{repo}"
     version_badge = (f"[![](https://img.shields.io/pypi/v/{slug}?style=flat-square&label=&color=blue)]"
                      f"(https://pypi.org/project/{slug}/)")
-    star_badge = (f"[![](https://img.shields.io/badge/stars-{stars}-blue?style=flat-square)]"
+    star_noun = "star" if stars == 1 else "stars"
+    fork_noun = "fork" if forks == 1 else "forks"
+    star_badge = (f"[![{stars} {star_noun}](https://img.shields.io/badge/{stars}-blue?style=flat-square)]"
                   f"({base}/stargazers)")
-    fork_badge = (f"[![](https://img.shields.io/badge/forks-{forks}-blue?style=flat-square)]"
+    fork_badge = (f"[![{forks} {fork_noun}](https://img.shields.io/badge/{forks}-blue?style=flat-square)]"
                   f"({base}/network/members)")
-    dl_total = f"[![](https://static.pepy.tech/badge/{slug})](https://pepy.tech/project/{slug})"
-    dl_month = f"[![](https://static.pepy.tech/badge/{slug}/month)](https://pepy.tech/project/{slug})"
+    pepy_badge = "https://static.pepy.tech/personalized-badge"
+    pepy_options = "units=international_system&left_color=blue&right_color=blue&left_text="
+    dl_total = (f"[![total downloads]({pepy_badge}/{slug}?period=total&{pepy_options})]"
+                f"(https://pepy.tech/project/{slug})")
+    dl_month = (f"[![monthly downloads]({pepy_badge}/{slug}?period=month&{pepy_options})]"
+                f"(https://pepy.tech/project/{slug})")
     return f"| [{repo}]({base}) | {concept} | {version_badge} | {star_badge} | {fork_badge} | {dl_total} | {dl_month} |"
 
 
