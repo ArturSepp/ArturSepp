@@ -7,6 +7,10 @@ depends on shields.io's shared GitHub-token pool. Version badges (shields'
 /pypi/v/ endpoint) and download badges (pepy.tech) stay live, since neither
 touches the GitHub API.
 
+The table's group-header rows and Concept column are generated from GROUPS and
+CONCEPTS below; edit them there, never in README.md, because the block is
+rewritten on every run.
+
 Two marker pairs are rewritten, both of which must be present exactly once:
   <!-- TOTALS_START --> ... <!-- TOTALS_END -->   one-line stars/forks total
   <!-- STATS_START -->  ... <!-- STATS_END -->    per-package table
@@ -19,23 +23,56 @@ import requests
 
 OWNER = "ArturSepp"
 
-# repo -> pepy/PyPI distribution slug
-# Order defines the table order, and is the single source of truth for it: the
-# generated block between STATS_START/STATS_END is rewritten on every run, so a
-# hand-edit of the table in README.md is discarded at the next refresh. Change
-# the order here. This order is the stack's dependency order (base layer first),
-# and deliberately does not follow the package sections further down README.md.
+# repo -> pepy/PyPI distribution slug, in the display order defined by GROUPS.
 REPOS = {
     "QuantInvestStrats": "qis",
     "OptimalPortfolios": "optimalportfolios",
     "factorlasso": "factorlasso",
     "StochVolModels": "stochvolmodels",
-    "BloombergFetch": "bbg-fetch",
     "VanillaOptionPricers": "vanilla-option-pricers",
+    "OptionChainAnalytics": "option-chain-analytics",
     "TrendFollowingSystems": "trendfollowing",
     "GoalBasedAllocation": "goal-based-allocation",
     "privateassets": "privateassets",
+    "BloombergFetch": "bbg-fetch",
 }
+
+# repo -> one-line concept rendered in the table's Concept column.
+CONCEPTS = {
+    "QuantInvestStrats": "Performance analytics, backtesting and factsheets",
+    "OptimalPortfolios": "Portfolio optimisation and rolling backtests",
+    "factorlasso": "Sparse factor models with sign-constrained LASSO",
+    "StochVolModels": "Stochastic volatility pricing and calibration",
+    "VanillaOptionPricers": "Vectorised BSM and Bachelier pricing",
+    "OptionChainAnalytics": "Point-in-time option-chain data and queries",
+    "TrendFollowingSystems": "Closed-form trend-following analytics",
+    "GoalBasedAllocation": "Goal-based allocation with wealth floors",
+    "privateassets": "Multi-factor PME for private assets",
+    "BloombergFetch": "Bloomberg data in pandas DataFrames",
+}
+
+# group title -> repos, in display order. GROUPS is the single source of truth
+# for the table's order and its bold group-header rows: the block between
+# STATS_START/STATS_END is rewritten on every run, so a hand-edit of the table
+# in README.md is discarded at the next refresh. Change grouping and order here.
+# The Package Features sections in README.md mirror this grouping and order;
+# keep the two aligned when editing either.
+GROUPS = {
+    "Portfolio Construction, Factor Models, Backtest Reporting":
+        ["QuantInvestStrats", "OptimalPortfolios", "factorlasso"],
+    "Volatility and Option Modeling":
+        ["StochVolModels", "VanillaOptionPricers", "OptionChainAnalytics"],
+    "Dynamic Strategies":
+        ["TrendFollowingSystems", "GoalBasedAllocation"],
+    "Illiquid Private Markets":
+        ["privateassets"],
+    "Data":
+        ["BloombergFetch"],
+}
+
+if [repo for repos in GROUPS.values() for repo in repos] != list(REPOS) or set(CONCEPTS) != set(REPOS):
+    raise SystemExit("GROUPS, REPOS and CONCEPTS must list the same repositories, "
+                     "with REPOS in the order GROUPS defines")
 
 HEADERS = {
     "Authorization": f"Bearer {os.environ['GH_TOKEN']}",
@@ -52,8 +89,8 @@ def fetch_stars_forks(repo: str) -> Tuple[int, int]:
     return d["stargazers_count"], d["forks_count"]
 
 
-def row(repo: str, slug: str, stars: int, forks: int) -> str:
-    """Render one table row: package, PyPI version, stars, forks, total and monthly downloads."""
+def row(repo: str, slug: str, concept: str, stars: int, forks: int) -> str:
+    """Render one table row: package, concept, PyPI version, stars, forks, total and monthly downloads."""
     base = f"https://github.com/{OWNER}/{repo}"
     version_badge = (f"[![](https://img.shields.io/pypi/v/{slug}?style=flat-square&label=&color=blue)]"
                      f"(https://pypi.org/project/{slug}/)")
@@ -63,7 +100,7 @@ def row(repo: str, slug: str, stars: int, forks: int) -> str:
                   f"({base}/network/members)")
     dl_total = f"[![](https://static.pepy.tech/badge/{slug})](https://pepy.tech/project/{slug})"
     dl_month = f"[![](https://static.pepy.tech/badge/{slug}/month)](https://pepy.tech/project/{slug})"
-    return f"| [{repo}]({base}) | {version_badge} | {star_badge} | {fork_badge} | {dl_total} | {dl_month} |"
+    return f"| [{repo}]({base}) | {concept} | {version_badge} | {star_badge} | {fork_badge} | {dl_total} | {dl_month} |"
 
 
 def build_blocks(counts: Dict[str, Tuple[int, int]]) -> Tuple[str, str]:
@@ -72,9 +109,12 @@ def build_blocks(counts: Dict[str, Tuple[int, int]]) -> Tuple[str, str]:
     total_forks = sum(forks for _, forks in counts.values())
     totals = f"{total_stars} stars and {total_forks} forks across the {len(counts)} repositories."
 
-    header = ("| Package | Version | Stars | Forks | Total Downloads | Monthly |\n"
-              "|---------|:-------:|:-----:|:-----:|:---------------:|:-------:|")
-    body: List[str] = [row(repo, REPOS[repo], *counts[repo]) for repo in REPOS]
+    header = ("| Package | Concept | Version | Stars | Forks | Total Downloads | Monthly |\n"
+              "|---------|---------|:-------:|:-----:|:-----:|:---------------:|:-------:|")
+    body: List[str] = []
+    for group, repos in GROUPS.items():
+        body.append(f"| **{group}** | | | | | | |")
+        body.extend(row(repo, REPOS[repo], CONCEPTS[repo], *counts[repo]) for repo in repos)
     return totals, f"{header}\n" + "\n".join(body)
 
 
