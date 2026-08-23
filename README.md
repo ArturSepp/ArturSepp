@@ -19,7 +19,7 @@ For publications, speaking, and full background → [artursepp.com](https://artu
 
 Over 20 years of building quantitative models — across equity, credit and rates derivatives on the sell-side, a systematic CTA, market-neutral crypto/DeFi, and now multi-asset private banking — one pattern holds: volatility regimes migrate across asset classes, and models that feel robust fail at the worst moment. These ten open-source packages are my working answer, spanning the full quant workflow from market data — prices, fundamentals and point-in-time option chains — to signal generation, factor modelling, and portfolio construction, through to performance measurement of private assets.
 
-Developed alongside my published research, these packages provide runnable implementations of the methods described in the papers. <!-- TOTALS_START -->Across ten repositories, they have received 1,018 stars and 185 forks.<!-- TOTALS_END -->
+Developed alongside my published research, these packages provide runnable implementations of the methods described in the papers. <!-- TOTALS_START -->Together, the repositories have received more than 1,000 stars and 185 forks.<!-- TOTALS_END -->
 
 New to the ecosystem? Start with `qis` for analytics and reporting, `optimalportfolios` for portfolio construction, or `stochvolmodels` for volatility modelling.
 

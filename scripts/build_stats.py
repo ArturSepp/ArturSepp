@@ -113,10 +113,12 @@ def build_blocks(counts: Dict[str, Tuple[int, int]]) -> Tuple[str, str]:
     """Return the (totals, table) markdown blocks for the given repo -> (stars, forks) map."""
     total_stars = sum(stars for stars, _ in counts.values())
     total_forks = sum(forks for _, forks in counts.values())
-    repo_count = len(counts)
-    repo_count_text = "ten" if repo_count == 10 else f"{repo_count:,}"
-    totals = (f"Across {repo_count_text} repositories, they have received "
-              f"{total_stars:,} stars and {total_forks:,} forks.")
+    star_milestone = total_stars // 1000 * 1000
+    if star_milestone >= 1000 and total_stars > star_milestone:
+        stars_text = f"more than {star_milestone:,} stars"
+    else:
+        stars_text = f"{total_stars:,} stars"
+    totals = f"Together, the repositories have received {stars_text} and {total_forks:,} forks."
 
     header = ("| Package | Concept | Version | Stars | Forks | Total Downloads | Monthly |\n"
               "|---------|---------|:-------:|:-----:|:-----:|:---------------:|:-------:|")
