@@ -1,11 +1,9 @@
 """
-Rebuild the Download Statistics table and the headline totals in README.md.
+Rebuild the Package Overview table and the headline totals in README.md.
 
-Stars/forks are fetched from the GitHub API with the workflow token and written
-as STATIC shields badges (the /badge/ endpoint), so the rendered README never
-depends on shields.io's shared GitHub-token pool. Version badges (shields'
-/pypi/v/ endpoint) and download badges (pepy.tech) stay live, since neither
-touches the GitHub API.
+Stars/forks are fetched from the GitHub API with the workflow token. Download
+counts are read from Pepy's public, keyless badge endpoint. These four metrics
+are written as plain links; only the PyPI version remains an image badge.
 
 The table's group-header rows and Concept column are generated from GROUPS and
 CONCEPTS below; edit them there, never in README.md, because the block is
@@ -18,6 +16,7 @@ Two marker pairs are rewritten, both of which must be present exactly once:
 import os
 import re
 from typing import Dict, List, Tuple
+from xml.etree import ElementTree
 
 import requests
 
@@ -29,8 +28,8 @@ REPOS = {
     "OptimalPortfolios": "optimalportfolios",
     "factorlasso": "factorlasso",
     "StochVolModels": "stochvolmodels",
-    "VanillaOptionPricers": "vanilla-option-pricers",
     "OptionChainAnalytics": "option-chain-analytics",
+    "VanillaOptionPricers": "vanilla-option-pricers",
     "TrendFollowingSystems": "trendfollowing",
     "GoalBasedAllocation": "goal-based-allocation",
     "privateassets": "privateassets",
@@ -61,7 +60,7 @@ GROUPS = {
     "Portfolio Construction, Factor Models, Backtest Reporting":
         ["QuantInvestStrats", "OptimalPortfolios", "factorlasso"],
     "Volatility and Option Modelling":
-        ["StochVolModels", "VanillaOptionPricers", "OptionChainAnalytics"],
+        ["StochVolModels", "OptionChainAnalytics", "VanillaOptionPricers"],
     "Dynamic Trading Strategies":
         ["TrendFollowingSystems", "GoalBasedAllocation"],
     "Illiquid Private Markets":
@@ -89,27 +88,49 @@ def fetch_stars_forks(repo: str) -> Tuple[int, int]:
     return d["stargazers_count"], d["forks_count"]
 
 
-def row(repo: str, slug: str, concept: str, stars: int, forks: int) -> str:
-    """Render one table row: package, concept, PyPI version, stars, forks, total and monthly downloads."""
+def fetch_download_count(slug: str, period: str) -> str:
+    """Return Pepy's compact public-badge count for ``period`` (month or total)."""
+    url = f"https://static.pepy.tech/personalized-badge/{slug}"
+    params = {
+        "period": period,
+        "units": "international_system",
+        "left_text": "",
+    }
+    r = requests.get(url, params=params, timeout=30)
+    r.raise_for_status()
+    root = ElementTree.fromstring(r.text)
+    values = [
+        (node.text or "").strip()
+        for node in root.iter()
+        if node.tag.endswith("text") and (node.text or "").strip()
+    ]
+    if not values:
+        raise ValueError(f"Pepy badge for {slug}/{period} contained no download count")
+    return values[-1]
+
+
+def fetch_downloads(slug: str) -> Tuple[str, str]:
+    """Return (monthly, total) public download counts for a PyPI project."""
+    return fetch_download_count(slug, "month"), fetch_download_count(slug, "total")
+
+
+def row(repo: str, slug: str, concept: str, stars: int, forks: int,
+        monthly_downloads: str, total_downloads: str) -> str:
+    """Render one table row, with only the PyPI version displayed as a badge."""
     base = f"https://github.com/{OWNER}/{repo}"
     version_badge = (f"[![](https://img.shields.io/pypi/v/{slug}?style=flat-square&label=&color=blue)]"
                      f"(https://pypi.org/project/{slug}/)")
-    star_noun = "star" if stars == 1 else "stars"
-    fork_noun = "fork" if forks == 1 else "forks"
-    star_badge = (f"[![{stars} {star_noun}](https://img.shields.io/badge/{stars}-blue?style=flat-square)]"
-                  f"({base}/stargazers)")
-    fork_badge = (f"[![{forks} {fork_noun}](https://img.shields.io/badge/{forks}-blue?style=flat-square)]"
-                  f"({base}/network/members)")
-    pepy_badge = "https://static.pepy.tech/personalized-badge"
-    pepy_options = "units=international_system&left_color=blue&right_color=blue&left_text="
-    dl_total = (f"[![total downloads]({pepy_badge}/{slug}?period=total&{pepy_options})]"
-                f"(https://pepy.tech/project/{slug})")
-    dl_month = (f"[![monthly downloads]({pepy_badge}/{slug}?period=month&{pepy_options})]"
-                f"(https://pepy.tech/project/{slug})")
-    return f"| [{repo}]({base}) | {concept} | {version_badge} | {star_badge} | {fork_badge} | {dl_total} | {dl_month} |"
+    stars_link = f"**[{stars:,}]({base}/stargazers)**"
+    forks_link = f"**[{forks:,}]({base}/network/members)**"
+    downloads_url = f"https://pepy.tech/project/{slug}"
+    monthly_link = f"**[{monthly_downloads}]({downloads_url})**"
+    total_link = f"**[{total_downloads}]({downloads_url})**"
+    return (f"| [{repo}]({base}) ({slug}) | {concept} | {version_badge} | {stars_link} | {forks_link} | "
+            f"{monthly_link} | {total_link} |")
 
 
-def build_blocks(counts: Dict[str, Tuple[int, int]]) -> Tuple[str, str]:
+def build_blocks(counts: Dict[str, Tuple[int, int]],
+                 downloads: Dict[str, Tuple[str, str]]) -> Tuple[str, str]:
     """Return the (totals, table) markdown blocks for the given repo -> (stars, forks) map."""
     total_stars = sum(stars for stars, _ in counts.values())
     total_forks = sum(forks for _, forks in counts.values())
@@ -120,12 +141,13 @@ def build_blocks(counts: Dict[str, Tuple[int, int]]) -> Tuple[str, str]:
         stars_text = f"{total_stars:,} stars"
     totals = f"Together, the repositories have received {stars_text} and {total_forks:,} forks."
 
-    header = ("| Package | Concept | Version | Stars | Forks | Total Downloads | Monthly |\n"
-              "|---------|---------|:-------:|:-----:|:-----:|:---------------:|:-------:|")
+    header = ("| Package | Concept | Version | Stars | Forks | Monthly<br>Downloads | Total<br>Downloads |\n"
+              "|---------|---------|:-------:|:-----:|:-----:|:-----------------:|:---------------:|")
     body: List[str] = []
     for group, repos in GROUPS.items():
         body.append(f"| **{group}** | | | | | | |")
-        body.extend(row(repo, REPOS[repo], CONCEPTS[repo], *counts[repo]) for repo in repos)
+        body.extend(row(repo, REPOS[repo], CONCEPTS[repo], *counts[repo], *downloads[repo])
+                    for repo in repos)
     return totals, f"{header}\n" + "\n".join(body)
 
 
@@ -141,7 +163,8 @@ def replace_block(readme: str, marker: str, content: str) -> str:
 
 def main() -> None:
     counts = {repo: fetch_stars_forks(repo) for repo in REPOS}
-    totals, table = build_blocks(counts)
+    downloads = {repo: fetch_downloads(slug) for repo, slug in REPOS.items()}
+    totals, table = build_blocks(counts, downloads)
 
     with open("README.md", encoding="utf-8") as f:
         readme = f.read()
@@ -149,7 +172,7 @@ def main() -> None:
     readme = replace_block(readme, "TOTALS", totals)
     readme = replace_block(readme, "STATS", f"\n{table}\n")
 
-    with open("README.md", "w", encoding="utf-8") as f:
+    with open("README.md", "w", encoding="utf-8", newline="\n") as f:
         f.write(readme)
 
 
