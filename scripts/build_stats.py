@@ -62,7 +62,7 @@ GROUPS = {
         ["QuantInvestStrats", "OptimalPortfolios", "factorlasso"],
     "Volatility and Option Modelling":
         ["StochVolModels", "VanillaOptionPricers", "OptionChainAnalytics"],
-    "Dynamic Strategies":
+    "Dynamic Trading Strategies":
         ["TrendFollowingSystems", "GoalBasedAllocation"],
     "Illiquid Private Markets":
         ["privateassets"],

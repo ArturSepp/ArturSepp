@@ -19,7 +19,7 @@ For publications, speaking, and full background → [artursepp.com](https://artu
 
 Over 20 years of building quantitative models — across equity, credit and rates derivatives on the sell-side, a systematic CTA, market-neutral crypto/DeFi, and now multi-asset private banking — one pattern holds: volatility regimes migrate across asset classes, and models that feel robust fail at the worst moment. These ten open-source packages are my working answer, spanning the full quant workflow from market data — prices, fundamentals and point-in-time option chains — to signal generation, factor modelling, and portfolio construction, through to performance measurement of private assets.
 
-Developed alongside my published research, these packages provide runnable implementations of the methods described in the papers. <!-- TOTALS_START -->Across ten repositories, they have received 1,016 stars and 185 forks.<!-- TOTALS_END -->
+Developed alongside my published research, these packages provide runnable implementations of the methods described in the papers. <!-- TOTALS_START -->Across ten repositories, they have received 1,018 stars and 185 forks.<!-- TOTALS_END -->
 
 New to the ecosystem? Start with `qis` for analytics and reporting, `optimalportfolios` for portfolio construction, or `stochvolmodels` for volatility modelling.
 
@@ -29,14 +29,14 @@ New to the ecosystem? Start with `qis` for analytics and reporting, `optimalport
 | Package | Concept | Version | Stars | Forks | Total Downloads | Monthly |
 |---------|---------|:-------:|:-----:|:-----:|:---------------:|:-------:|
 | **Portfolio Construction, Factor Models, Backtest Reporting** | | | | | | |
-| [QuantInvestStrats](https://github.com/ArturSepp/QuantInvestStrats) | Performance analytics, backtesting and factsheets | [![](https://img.shields.io/pypi/v/qis?style=flat-square&label=&color=blue)](https://pypi.org/project/qis/) | [![604 stars](https://img.shields.io/badge/604-blue?style=flat-square)](https://github.com/ArturSepp/QuantInvestStrats/stargazers) | [![69 forks](https://img.shields.io/badge/69-blue?style=flat-square)](https://github.com/ArturSepp/QuantInvestStrats/network/members) | [![total downloads](https://static.pepy.tech/personalized-badge/qis?period=total&units=international_system&left_color=blue&right_color=blue&left_text=)](https://pepy.tech/project/qis) | [![monthly downloads](https://static.pepy.tech/personalized-badge/qis?period=month&units=international_system&left_color=blue&right_color=blue&left_text=)](https://pepy.tech/project/qis) |
-| [OptimalPortfolios](https://github.com/ArturSepp/OptimalPortfolios) | Portfolio optimisation and rolling backtests | [![](https://img.shields.io/pypi/v/optimalportfolios?style=flat-square&label=&color=blue)](https://pypi.org/project/optimalportfolios/) | [![90 stars](https://img.shields.io/badge/90-blue?style=flat-square)](https://github.com/ArturSepp/OptimalPortfolios/stargazers) | [![37 forks](https://img.shields.io/badge/37-blue?style=flat-square)](https://github.com/ArturSepp/OptimalPortfolios/network/members) | [![total downloads](https://static.pepy.tech/personalized-badge/optimalportfolios?period=total&units=international_system&left_color=blue&right_color=blue&left_text=)](https://pepy.tech/project/optimalportfolios) | [![monthly downloads](https://static.pepy.tech/personalized-badge/optimalportfolios?period=month&units=international_system&left_color=blue&right_color=blue&left_text=)](https://pepy.tech/project/optimalportfolios) |
+| [QuantInvestStrats](https://github.com/ArturSepp/QuantInvestStrats) | Performance analytics, backtesting and factsheets | [![](https://img.shields.io/pypi/v/qis?style=flat-square&label=&color=blue)](https://pypi.org/project/qis/) | [![605 stars](https://img.shields.io/badge/605-blue?style=flat-square)](https://github.com/ArturSepp/QuantInvestStrats/stargazers) | [![69 forks](https://img.shields.io/badge/69-blue?style=flat-square)](https://github.com/ArturSepp/QuantInvestStrats/network/members) | [![total downloads](https://static.pepy.tech/personalized-badge/qis?period=total&units=international_system&left_color=blue&right_color=blue&left_text=)](https://pepy.tech/project/qis) | [![monthly downloads](https://static.pepy.tech/personalized-badge/qis?period=month&units=international_system&left_color=blue&right_color=blue&left_text=)](https://pepy.tech/project/qis) |
+| [OptimalPortfolios](https://github.com/ArturSepp/OptimalPortfolios) | Portfolio optimisation and rolling backtests | [![](https://img.shields.io/pypi/v/optimalportfolios?style=flat-square&label=&color=blue)](https://pypi.org/project/optimalportfolios/) | [![91 stars](https://img.shields.io/badge/91-blue?style=flat-square)](https://github.com/ArturSepp/OptimalPortfolios/stargazers) | [![37 forks](https://img.shields.io/badge/37-blue?style=flat-square)](https://github.com/ArturSepp/OptimalPortfolios/network/members) | [![total downloads](https://static.pepy.tech/personalized-badge/optimalportfolios?period=total&units=international_system&left_color=blue&right_color=blue&left_text=)](https://pepy.tech/project/optimalportfolios) | [![monthly downloads](https://static.pepy.tech/personalized-badge/optimalportfolios?period=month&units=international_system&left_color=blue&right_color=blue&left_text=)](https://pepy.tech/project/optimalportfolios) |
 | [factorlasso](https://github.com/ArturSepp/factorlasso) | Sparse factor models with sign-constrained LASSO | [![](https://img.shields.io/pypi/v/factorlasso?style=flat-square&label=&color=blue)](https://pypi.org/project/factorlasso/) | [![24 stars](https://img.shields.io/badge/24-blue?style=flat-square)](https://github.com/ArturSepp/factorlasso/stargazers) | [![5 forks](https://img.shields.io/badge/5-blue?style=flat-square)](https://github.com/ArturSepp/factorlasso/network/members) | [![total downloads](https://static.pepy.tech/personalized-badge/factorlasso?period=total&units=international_system&left_color=blue&right_color=blue&left_text=)](https://pepy.tech/project/factorlasso) | [![monthly downloads](https://static.pepy.tech/personalized-badge/factorlasso?period=month&units=international_system&left_color=blue&right_color=blue&left_text=)](https://pepy.tech/project/factorlasso) |
 | **Volatility and Option Modelling** | | | | | | |
 | [StochVolModels](https://github.com/ArturSepp/StochVolModels) | Stochastic volatility pricing and calibration | [![](https://img.shields.io/pypi/v/stochvolmodels?style=flat-square&label=&color=blue)](https://pypi.org/project/stochvolmodels/) | [![232 stars](https://img.shields.io/badge/232-blue?style=flat-square)](https://github.com/ArturSepp/StochVolModels/stargazers) | [![48 forks](https://img.shields.io/badge/48-blue?style=flat-square)](https://github.com/ArturSepp/StochVolModels/network/members) | [![total downloads](https://static.pepy.tech/personalized-badge/stochvolmodels?period=total&units=international_system&left_color=blue&right_color=blue&left_text=)](https://pepy.tech/project/stochvolmodels) | [![monthly downloads](https://static.pepy.tech/personalized-badge/stochvolmodels?period=month&units=international_system&left_color=blue&right_color=blue&left_text=)](https://pepy.tech/project/stochvolmodels) |
 | [VanillaOptionPricers](https://github.com/ArturSepp/VanillaOptionPricers) | Vectorised BSM and Bachelier pricing | [![](https://img.shields.io/pypi/v/vanilla-option-pricers?style=flat-square&label=&color=blue)](https://pypi.org/project/vanilla-option-pricers/) | [![13 stars](https://img.shields.io/badge/13-blue?style=flat-square)](https://github.com/ArturSepp/VanillaOptionPricers/stargazers) | [![9 forks](https://img.shields.io/badge/9-blue?style=flat-square)](https://github.com/ArturSepp/VanillaOptionPricers/network/members) | [![total downloads](https://static.pepy.tech/personalized-badge/vanilla-option-pricers?period=total&units=international_system&left_color=blue&right_color=blue&left_text=)](https://pepy.tech/project/vanilla-option-pricers) | [![monthly downloads](https://static.pepy.tech/personalized-badge/vanilla-option-pricers?period=month&units=international_system&left_color=blue&right_color=blue&left_text=)](https://pepy.tech/project/vanilla-option-pricers) |
 | [OptionChainAnalytics](https://github.com/ArturSepp/OptionChainAnalytics) | Point-in-time option-chain data and queries | [![](https://img.shields.io/pypi/v/option-chain-analytics?style=flat-square&label=&color=blue)](https://pypi.org/project/option-chain-analytics/) | [![0 stars](https://img.shields.io/badge/0-blue?style=flat-square)](https://github.com/ArturSepp/OptionChainAnalytics/stargazers) | [![0 forks](https://img.shields.io/badge/0-blue?style=flat-square)](https://github.com/ArturSepp/OptionChainAnalytics/network/members) | [![total downloads](https://static.pepy.tech/personalized-badge/option-chain-analytics?period=total&units=international_system&left_color=blue&right_color=blue&left_text=)](https://pepy.tech/project/option-chain-analytics) | [![monthly downloads](https://static.pepy.tech/personalized-badge/option-chain-analytics?period=month&units=international_system&left_color=blue&right_color=blue&left_text=)](https://pepy.tech/project/option-chain-analytics) |
-| **Dynamic Strategies** | | | | | | |
+| **Dynamic Trading Strategies** | | | | | | |
 | [TrendFollowingSystems](https://github.com/ArturSepp/TrendFollowingSystems) | Closed-form trend-following analytics | [![](https://img.shields.io/pypi/v/trendfollowing?style=flat-square&label=&color=blue)](https://pypi.org/project/trendfollowing/) | [![20 stars](https://img.shields.io/badge/20-blue?style=flat-square)](https://github.com/ArturSepp/TrendFollowingSystems/stargazers) | [![6 forks](https://img.shields.io/badge/6-blue?style=flat-square)](https://github.com/ArturSepp/TrendFollowingSystems/network/members) | [![total downloads](https://static.pepy.tech/personalized-badge/trendfollowing?period=total&units=international_system&left_color=blue&right_color=blue&left_text=)](https://pepy.tech/project/trendfollowing) | [![monthly downloads](https://static.pepy.tech/personalized-badge/trendfollowing?period=month&units=international_system&left_color=blue&right_color=blue&left_text=)](https://pepy.tech/project/trendfollowing) |
 | [GoalBasedAllocation](https://github.com/ArturSepp/GoalBasedAllocation) | Goal-based allocation with wealth floors | [![](https://img.shields.io/pypi/v/goal-based-allocation?style=flat-square&label=&color=blue)](https://pypi.org/project/goal-based-allocation/) | [![11 stars](https://img.shields.io/badge/11-blue?style=flat-square)](https://github.com/ArturSepp/GoalBasedAllocation/stargazers) | [![2 forks](https://img.shields.io/badge/2-blue?style=flat-square)](https://github.com/ArturSepp/GoalBasedAllocation/network/members) | [![total downloads](https://static.pepy.tech/personalized-badge/goal-based-allocation?period=total&units=international_system&left_color=blue&right_color=blue&left_text=)](https://pepy.tech/project/goal-based-allocation) | [![monthly downloads](https://static.pepy.tech/personalized-badge/goal-based-allocation?period=month&units=international_system&left_color=blue&right_color=blue&left_text=)](https://pepy.tech/project/goal-based-allocation) |
 | **Illiquid Private Markets** | | | | | | |
@@ -55,20 +55,29 @@ The packages compose into a single research workflow — market data → analyti
 
 ```mermaid
 flowchart LR
-    fl["factorlasso<br/>factor models & covariances"]
-    qis["qis<br/>analytics & reporting"]
-    oca["option-chain-analytics<br/>point-in-time option chains"]
-    vop["vanilla-option-pricers<br/>BSM & Bachelier pricing"]
-    bbg["bbg-fetch<br/>Bloomberg data"] --> qis
+    fl["`**factorlasso**
+    factor models & covariances`"]
+    qis["`**qis**
+    analytics & reporting`"]
+    oca["`**option-chain-analytics**
+    point-in-time option chains`"]
+    vop["`**vanilla-option-pricers**
+    BSM & Bachelier pricing`"]
+    bbg["`**bbg-fetch**
+    Bloomberg data`"] --> qis
     bbg ~~~ fl
     bbg ~~~ oca
     bbg ~~~ vop
-    fl --> op["optimalportfolios<br/>portfolio construction & backtesting"]
+    fl --> op["`**optimalportfolios**
+    portfolio construction & backtesting`"]
     qis --> op
-    fl --> pa["privateassets<br/>private-asset PME"]
+    fl --> pa["`**privateassets**
+    private-asset PME`"]
     qis --> pa
-    qis --> tf["trendfollowing<br/>trend-following systems"]
-    oca --> svm["stochvolmodels<br/>stochastic volatility models"]
+    qis --> tf["`**trendfollowing**
+    trend-following systems`"]
+    oca --> svm["`**stochvolmodels**
+    stochastic volatility models`"]
     vop --> svm
     qis --> svm
 ```
@@ -162,7 +171,7 @@ pip install option-chain-analytics
 
 ---
 
-### Dynamic Strategies
+### Dynamic Trading Strategies
 
 #### [TrendFollowingSystems](https://github.com/ArturSepp/TrendFollowingSystems) (`trendfollowing`)
 Replication package for *The Science and Practice of Trend-Following Systems*. Companion code to [Sepp & Lucic (2026)](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3167787).
