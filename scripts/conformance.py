@@ -109,6 +109,21 @@ def agent_block_digest(source: str) -> str:
 def render_release_template(name: str, package: dict) -> str:
     """Render reviewed registry variances identically for generation and checking."""
     content = (Path(__file__).with_name("templates") / name).read_text(encoding="utf-8")
+    profile = package.get("release_test_profile")
+    if profile not in (None, "windows-numerical"):
+        raise ValueError(f"Unknown release test profile: {profile}")
+    numerical = profile == "windows-numerical"
+    replacements = {
+        "PYTEST_ARGS": ' -m "not slow"' if numerical else "",
+        "NUMERICAL_JOB": (
+            Path(__file__).with_name("templates") / "release_windows_numerical.yml"
+        ).read_text(encoding="utf-8") if numerical else "",
+        "PUBLISH_NEEDS": "[validate, windows-numerical]" if numerical else "validate",
+        "RELEASE_NEEDS": "[validate, windows-numerical, publish]" if numerical else "[validate, publish]",
+        "RELEASE_GATE": " && needs.windows-numerical.result == 'success'" if numerical else "",
+    }
+    for key, value in replacements.items():
+        content = content.replace("{{" + key + "}}", value)
     for key, value in (("DIST", package["dist"]), ("IMPORT", package["import"]), ("TIER", package["tier"])):
         content = content.replace("{{" + key + "}}", value)
     sdk = package.get("release_external_sdk")

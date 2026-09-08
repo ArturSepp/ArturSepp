@@ -53,6 +53,24 @@ class RegistryTests(unittest.TestCase):
         self.assertEqual(table.count("[Docs]"), 10)
         self.assertEqual(build_stats.existing_metrics(table), (counts, downloads))
 
+    def test_svm_release_gates_upload_and_optional_page_on_tagged_windows_regressions(self):
+        packages = c.load_registry()["packages"]
+        package = next(p for p in packages if p["import"] == "stochvolmodels")
+        workflow = c.render_release_template("release.yml", package)
+        self.assertIn('uv run --no-sync pytest -m "not slow"', workflow)
+        numerical = workflow.split("  windows-numerical:\n", 1)[1].split("  publish:\n", 1)[0]
+        self.assertIn("runs-on: windows-latest", numerical)
+        self.assertIn("ref: ${{ needs.validate.outputs.sha }}", numerical)
+        self.assertIn("uv sync --locked --group test", numerical)
+        self.assertIn("uv run --no-sync pytest -m slow -v", numerical)
+        self.assertNotIn("id-token:", numerical)
+        self.assertIn("needs: [validate, windows-numerical]\n", workflow)
+        self.assertIn("needs: [validate, windows-numerical, publish]\n", workflow)
+        self.assertIn("needs.windows-numerical.result == 'success'", workflow)
+        for other in packages:
+            if other["import"] != "stochvolmodels":
+                self.assertNotIn("windows-numerical", c.render_release_template("release.yml", other))
+
     def test_cycle_rejected(self):
         registry = c.load_registry()
         registry["packages"][0]["core"] = ["optimalportfolios"]

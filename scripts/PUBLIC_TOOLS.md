@@ -75,6 +75,9 @@ Archives must contain the source package and exclude local data runners, IDE fil
 and environments. BloombergFetch's reviewed registry variance installs `blpapi` from
 Bloomberg's public SDK index after each environment sync and in the isolated wheel check;
 the tests remain terminal-free.
+StochVolModels preserves its CI platform split: tagged fast tests run on Linux, and the
+Windows Python 3.12 numerical regression job checks the same validated commit with its
+locked test dependencies. Both must pass before uploading or creating an optional release page.
 
 `python scripts/build_stats.py --reuse-existing-counts` regenerates the profile table using
 its recorded metrics without any network requests. This is appropriate for a Docs-link or

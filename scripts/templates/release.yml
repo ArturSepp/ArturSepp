@@ -53,7 +53,7 @@ jobs:
       - name: Run the tagged source test suite
         run: |
           uv sync --locked --group test
-{{PROJECT_SDK}}          uv run --no-sync pytest
+{{PROJECT_SDK}}          uv run --no-sync pytest{{PYTEST_ARGS}}
       - name: Build the tagged documentation with warnings as errors
         run: |
           uv sync --locked --extra docs
@@ -95,8 +95,8 @@ jobs:
           path: ${{ runner.temp }}/pending-upload/
           if-no-files-found: error
           retention-days: 30
-  publish:
-    needs: validate
+{{NUMERICAL_JOB}}  publish:
+    needs: {{PUBLISH_NEEDS}}
     if: needs.validate.outputs.publish == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -115,8 +115,8 @@ jobs:
         with:
           skip-existing: false
   release-page:
-    needs: [validate, publish]
-    if: always() && inputs.github_release && needs.validate.result == 'success' && (needs.publish.result == 'success' || needs.publish.result == 'skipped')
+    needs: {{RELEASE_NEEDS}}
+    if: always() && inputs.github_release && needs.validate.result == 'success'{{RELEASE_GATE}} && (needs.publish.result == 'success' || needs.publish.result == 'skipped')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:

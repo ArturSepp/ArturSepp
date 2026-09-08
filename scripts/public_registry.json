@@ -92,6 +92,7 @@
       "local_dir": "StochVolModels",
       "dist": "stochvolmodels",
       "import": "stochvolmodels",
+      "release_test_profile": "windows-numerical",
       "rtd": "stochvolmodels",
       "summary": "Fourier-transform pricing, Monte Carlo validation, and calibration of European options under stochastic-volatility models in Python",
       "tagline": "stochastic-volatility pricing and calibration",
