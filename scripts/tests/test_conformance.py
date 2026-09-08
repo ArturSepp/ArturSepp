@@ -1,10 +1,12 @@
 """Contract tests for graph errors, release history and unavailable external data."""
+import io
 import json
 import subprocess
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import conformance as c
@@ -52,6 +54,14 @@ class RegistryTests(unittest.TestCase):
         totals, table = build_stats.build_blocks(counts, downloads)
         self.assertEqual(table.count("[Docs]"), 10)
         self.assertEqual(build_stats.existing_metrics(table), (counts, downloads))
+
+    def test_profile_download_request_identifies_itself_to_pepy(self):
+        response = io.BytesIO(b"<svg><text>22k</text></svg>")
+        with mock.patch.object(build_stats.urllib.request, "urlopen", return_value=response) as urlopen:
+            self.assertEqual(build_stats.fetch_download_count("qis", "month"), "22k")
+        request = urlopen.call_args.args[0]
+        self.assertEqual(request.get_header("User-agent"), build_stats.USER_AGENT)
+        self.assertEqual(request.get_header("Accept"), "image/svg+xml")
 
     def test_svm_release_gates_upload_and_optional_page_on_tagged_windows_regressions(self):
         packages = c.load_registry()["packages"]

@@ -25,6 +25,7 @@ import urllib.request
 from pathlib import Path
 
 OWNER = "ArturSepp"
+USER_AGENT = "ArturSepp-profile-stats/1.0 (+https://github.com/ArturSepp/ArturSepp)"
 REGISTRY = json.loads(Path(__file__).with_name("public_registry.json").read_text(encoding="utf-8"))
 DOCS = {p["dist"]: f"https://{p['rtd']}.readthedocs.io" for p in REGISTRY["packages"]}
 
@@ -83,6 +84,7 @@ HEADERS = {
     **({"Authorization": f"Bearer {os.environ['GH_TOKEN']}"} if os.environ.get("GH_TOKEN") else {}),
     "Accept": "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
+    "User-Agent": USER_AGENT,
 }
 
 
@@ -102,7 +104,10 @@ def fetch_download_count(slug: str, period: str) -> str:
         "units": "international_system",
         "left_text": "",
     }
-    request = urllib.request.Request(url + "?" + urllib.parse.urlencode(params))
+    request = urllib.request.Request(
+        url + "?" + urllib.parse.urlencode(params),
+        headers={"Accept": "image/svg+xml", "User-Agent": USER_AGENT},
+    )
     with urllib.request.urlopen(request, timeout=30) as response:
         root = ElementTree.fromstring(response.read())
     values = [
