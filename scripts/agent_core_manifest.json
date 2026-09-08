@@ -1,0 +1,16 @@
+{
+  "version": "1.5",
+  "date": "2026-09-08",
+  "sha256": {
+    "QuantInvestStrats": "cf6b5c1c8cd1960ad1e47c8d1c86a29d166c000008c83b336ced0f2da429ac7d",
+    "OptimalPortfolios": "03dd0f7ad740d0c8b093a832acc52380fba9d130eae874707e52e139da09aa9f",
+    "FactorLasso": "e18ff6d91aa67efcc3b6a4e4c489c2fde9dea852f41e785d17e3d2b06f2f8c41",
+    "BloombergFetch": "5e09d361c81ec81405c66205754dc56fbbbf8fe61b3540ef7b65bd1b8819fdd0",
+    "StochVolModels": "0facbc00d578d17111fbc4dd18362ebdcc7acab2e4c75cfa9d165cefe2e79102",
+    "TrendFollowingSystems": "a0f9f406c024a5afd82c7cb67aeeb8536e8f7f282dac55154328ac947ff70e31",
+    "PrivateAssets": "53f7e0d38904112d9b6b802e109ececc71faaddd7a8a71cb25d68d7df0cef195",
+    "GoalBasedAllocation": "0579c0e002939fe8c8ca72efb2526f2c337f2e7fa614745fe768024d64c77ea0",
+    "VanillaOptionPricers": "30ecc3e4f9875bf35f4b99ee13605e74dba8578d5391cc7510a1542657c23fcd",
+    "OptionChainAnalytics": "8de006fe94dd88e5f07ab33c076bf4eee779fd5e52b88f2d9da47c34f702ff11"
+  }
+}

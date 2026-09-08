@@ -15,12 +15,18 @@ Two marker pairs are rewritten, both of which must be present exactly once:
 """
 import os
 import re
+import argparse
 from typing import Dict, List, Tuple
 from xml.etree import ElementTree
 
-import requests
+import json
+import urllib.parse
+import urllib.request
+from pathlib import Path
 
 OWNER = "ArturSepp"
+REGISTRY = json.loads(Path(__file__).with_name("public_registry.json").read_text(encoding="utf-8"))
+DOCS = {p["dist"]: f"https://{p['rtd']}.readthedocs.io" for p in REGISTRY["packages"]}
 
 # repo -> pepy/PyPI distribution slug, in the display order defined by GROUPS.
 REPOS = {
@@ -74,7 +80,7 @@ if [repo for repos in GROUPS.values() for repo in repos] != list(REPOS) or set(C
                      "with REPOS in the order GROUPS defines")
 
 HEADERS = {
-    "Authorization": f"Bearer {os.environ['GH_TOKEN']}",
+    **({"Authorization": f"Bearer {os.environ['GH_TOKEN']}"} if os.environ.get("GH_TOKEN") else {}),
     "Accept": "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
 }
@@ -82,9 +88,9 @@ HEADERS = {
 
 def fetch_stars_forks(repo: str) -> Tuple[int, int]:
     """Return (stars, forks) for OWNER/repo from the GitHub API."""
-    r = requests.get(f"https://api.github.com/repos/{OWNER}/{repo}", headers=HEADERS, timeout=30)
-    r.raise_for_status()
-    d = r.json()
+    request = urllib.request.Request(f"https://api.github.com/repos/{OWNER}/{repo}", headers=HEADERS)
+    with urllib.request.urlopen(request, timeout=30) as response:
+        d = json.load(response)
     return d["stargazers_count"], d["forks_count"]
 
 
@@ -96,9 +102,9 @@ def fetch_download_count(slug: str, period: str) -> str:
         "units": "international_system",
         "left_text": "",
     }
-    r = requests.get(url, params=params, timeout=30)
-    r.raise_for_status()
-    root = ElementTree.fromstring(r.text)
+    request = urllib.request.Request(url + "?" + urllib.parse.urlencode(params))
+    with urllib.request.urlopen(request, timeout=30) as response:
+        root = ElementTree.fromstring(response.read())
     values = [
         (node.text or "").strip()
         for node in root.iter()
@@ -125,7 +131,7 @@ def row(repo: str, slug: str, concept: str, stars: int, forks: int,
     downloads_url = f"https://pepy.tech/project/{slug}"
     monthly_link = f"**[{monthly_downloads}]({downloads_url})**"
     total_link = f"**[{total_downloads}]({downloads_url})**"
-    return (f"| [{repo}]({base}) ({slug}) | {concept} | {version_badge} | {stars_link} | {forks_link} | "
+    return (f"| [{repo}]({base}) ({slug}) · [Docs]({DOCS[slug]}) | {concept} | {version_badge} | {stars_link} | {forks_link} | "
             f"{monthly_link} | {total_link} |")
 
 
@@ -161,13 +167,43 @@ def replace_block(readme: str, marker: str, content: str) -> str:
     return new_readme
 
 
-def main() -> None:
-    counts = {repo: fetch_stars_forks(repo) for repo in REPOS}
-    downloads = {repo: fetch_downloads(slug) for repo, slug in REPOS.items()}
-    totals, table = build_blocks(counts, downloads)
+def existing_metrics(readme: str) -> Tuple[dict, dict]:
+    """Recover already recorded metrics for an explicit formatting-only regeneration."""
+    counts, downloads = {}, {}
+    for line in readme.splitlines():
+        fields = line.split("|")[1:-1]
+        if len(fields) != 7:
+            continue
+        for repo, slug in REPOS.items():
+            if f" ({slug})" not in fields[0]:
+                continue
+            labels = []
+            for field in fields[3:]:
+                match = re.search(r"\*\*\[([0-9][0-9,.]*[kKmM]?)\]", field)
+                if not match:
+                    raise ValueError(f"Unrecognized recorded metric for {repo}")
+                labels.append(match[1])
+            counts[repo] = tuple(int(value.replace(",", "")) for value in labels[:2])
+            downloads[repo] = tuple(labels[2:])
+    if counts.keys() != REPOS.keys():
+        raise ValueError("Cannot reuse metrics: expected all ten recorded package rows")
+    return counts, downloads
 
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--reuse-existing-counts", action="store_true",
+                        help="Regenerate formatting using recorded metrics; do not fetch or claim a refresh")
+    args = parser.parse_args()
     with open("README.md", encoding="utf-8") as f:
         readme = f.read()
+    if args.reuse_existing_counts:
+        counts, downloads = existing_metrics(readme)
+        print("Regenerating Docs links and layout using recorded metrics; counts were not refreshed.")
+    else:
+        counts = {repo: fetch_stars_forks(repo) for repo in REPOS}
+        downloads = {repo: fetch_downloads(slug) for repo, slug in REPOS.items()}
+    totals, table = build_blocks(counts, downloads)
 
     readme = replace_block(readme, "TOTALS", totals)
     readme = replace_block(readme, "STATS", f"\n{table}\n")

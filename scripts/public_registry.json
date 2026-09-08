@@ -1,0 +1,316 @@
+{
+  "schema_version": 1,
+  "owner": "ArturSepp",
+  "history_since": "2026-08-01",
+  "release_policy": {
+    "github_release_required": false,
+    "main_may_be_ahead": true
+  },
+  "packages": [
+    {
+      "repo": "QuantInvestStrats",
+      "local_dir": "QuantInvestStrats",
+      "dist": "qis",
+      "import": "qis",
+      "rtd": "quantinveststrats",
+      "summary": "Performance analytics, portfolio backtesting, risk analysis, and factsheet reporting in Python",
+      "tagline": "performance analytics, backtesting, and factsheet reporting",
+      "core": [],
+      "extras": {},
+      "tier": "T2",
+      "topics": [
+        "python",
+        "quantitative-finance"
+      ],
+      "development_imports": [
+        {
+          "path": "src/qis/market_data/run_local/fx_rates_data_run.py",
+          "modules": [
+            "bbg_fetch"
+          ],
+          "reason": "Maintainer-only local data regeneration runner"
+        }
+      ]
+    },
+    {
+      "repo": "OptimalPortfolios",
+      "local_dir": "OptimalPortfolios",
+      "dist": "optimalportfolios",
+      "import": "optimalportfolios",
+      "rtd": "optimalportfolios",
+      "summary": "Production multi-asset portfolio construction and rolling backtesting in Python",
+      "tagline": "portfolio construction and rolling backtesting",
+      "core": [
+        "qis",
+        "factorlasso"
+      ],
+      "extras": {},
+      "tier": "T2",
+      "topics": [
+        "python",
+        "quantitative-finance"
+      ]
+    },
+    {
+      "repo": "factorlasso",
+      "local_dir": "FactorLasso",
+      "dist": "factorlasso",
+      "import": "factorlasso",
+      "rtd": "factorlasso",
+      "summary": "Sparse multi-output factor-model estimation with sign constraints, prior-centered shrinkage, data-driven grouped penalties, and consistent factor covariance assembly",
+      "tagline": "sparse factor-model estimation",
+      "core": [],
+      "extras": {},
+      "tier": "T2",
+      "topics": [
+        "python",
+        "quantitative-finance"
+      ]
+    },
+    {
+      "repo": "BloombergFetch",
+      "local_dir": "BloombergFetch",
+      "dist": "bbg-fetch",
+      "import": "bbg_fetch",
+      "release_external_sdk": {
+        "requirement": "blpapi",
+        "index_url": "https://blpapi.bloomberg.com/repository/releases/python/simple"
+      },
+      "rtd": "bloombergfetch",
+      "summary": "Bloomberg Desktop API request/response data in pandas DataFrames for quantitative research",
+      "tagline": "Bloomberg data in pandas DataFrames",
+      "core": [],
+      "extras": {},
+      "tier": "T1",
+      "topics": [
+        "python",
+        "quantitative-finance"
+      ]
+    },
+    {
+      "repo": "StochVolModels",
+      "local_dir": "StochVolModels",
+      "dist": "stochvolmodels",
+      "import": "stochvolmodels",
+      "rtd": "stochvolmodels",
+      "summary": "Fourier-transform pricing, Monte Carlo validation, and calibration of European options under stochastic-volatility models in Python",
+      "tagline": "stochastic-volatility pricing and calibration",
+      "core": [
+        "vanilla_option_pricers"
+      ],
+      "extras": {
+        "research": [
+          "qis",
+          "option_chain_analytics"
+        ]
+      },
+      "tier": "T2",
+      "topics": [
+        "python",
+        "quantitative-finance"
+      ],
+      "extra_url_keys": [
+        "JOSS paper"
+      ]
+    },
+    {
+      "repo": "TrendFollowingSystems",
+      "local_dir": "TrendFollowingSystems",
+      "dist": "trendfollowing",
+      "import": "trendfollowing",
+      "rtd": "trendfollowingsystems",
+      "summary": "Closed-form trend-following analytics, reference system implementations, and reproducible futures evidence in Python for quantitative researchers and practitioners",
+      "tagline": "closed-form trend-following analytics",
+      "core": [
+        "qis"
+      ],
+      "extras": {},
+      "tier": "T1",
+      "topics": [
+        "python",
+        "quantitative-finance"
+      ],
+      "extra_url_keys": [
+        "Paper"
+      ],
+      "development_imports": [
+        {
+          "path": "src/trendfollowing/run_local/tf_signal_screener_run.py",
+          "modules": [
+            "bbg_fetch"
+          ],
+          "reason": "Maintainer-only signal research runner"
+        },
+        {
+          "path": "src/trendfollowing/universe.py",
+          "function": "generate_data",
+          "modules": [
+            "bbg_fetch"
+          ],
+          "reason": "Guarded maintainer-only dataset regeneration function"
+        }
+      ]
+    },
+    {
+      "repo": "privateassets",
+      "local_dir": "PrivateAssets",
+      "dist": "privateassets",
+      "import": "privateassets",
+      "rtd": "privateassets",
+      "summary": "Multi-factor money-weighted PME for private-asset cash flows: risk-adjusted alpha and factor exposures",
+      "tagline": "multi-factor PME for private assets",
+      "core": [
+        "qis"
+      ],
+      "extras": {
+        "factors": [
+          "factorlasso"
+        ]
+      },
+      "tier": "T1",
+      "topics": [
+        "python",
+        "quantitative-finance",
+        "private-equity",
+        "private-credit",
+        "pme",
+        "direct-alpha",
+        "cash-flows"
+      ]
+    },
+    {
+      "repo": "GoalBasedAllocation",
+      "local_dir": "GoalBasedAllocation",
+      "dist": "goal-based-allocation",
+      "import": "goal_based_allocation",
+      "rtd": "goalbasedallocation",
+      "summary": "Semi-analytical dynamic mean-variance allocation and terminal-wealth risk under regime-switching jump-diffusions",
+      "tagline": "goal-based allocation under regime-switching jump-diffusions",
+      "core": [],
+      "extras": {},
+      "tier": "T1",
+      "topics": [
+        "python",
+        "quantitative-finance"
+      ],
+      "extra_url_keys": [
+        "Paper"
+      ]
+    },
+    {
+      "repo": "VanillaOptionPricers",
+      "local_dir": "VanillaOptionPricers",
+      "dist": "vanilla-option-pricers",
+      "import": "vanilla_option_pricers",
+      "rtd": "vanillaoptionpricers",
+      "summary": "Numba-vectorised Black-Scholes-Merton and Bachelier prices, Greeks, and implied-volatility fits over NumPy arrays for quantitative research pipelines",
+      "tagline": "Numba-vectorised BSM and Bachelier pricing",
+      "core": [],
+      "extras": {},
+      "tier": "T1",
+      "topics": [
+        "python",
+        "quantitative-finance"
+      ]
+    },
+    {
+      "repo": "OptionChainAnalytics",
+      "local_dir": "OptionChainAnalytics",
+      "dist": "option-chain-analytics",
+      "import": "option_chain_analytics",
+      "rtd": "optionchainanalytics",
+      "summary": "Point-in-time option-chain containers, feed normalisation, reconstruction, and queries for quantitative research",
+      "tagline": "point-in-time option-chain data and queries",
+      "core": [
+        "qis",
+        "vanilla_option_pricers"
+      ],
+      "extras": {
+        "bloomberg": [
+          "bbg_fetch"
+        ],
+        "all": [
+          "bbg_fetch"
+        ]
+      },
+      "tier": "T1",
+      "topics": [
+        "python",
+        "quantitative-finance"
+      ]
+    }
+  ],
+  "agent_core_version": "1.5",
+  "historical_release_gaps": {
+    "optimalportfolios": {
+      "7.1.0": {
+        "recorded": "2026-09-08",
+        "reason": "Published settings.yaml differs from all checked repository candidates; provenance unresolved",
+        "evidence": "packaged-source comparison against PyPI artifacts",
+        "status": "known-gap"
+      },
+      "6.21.1": {
+        "recorded": "2026-09-08",
+        "reason": "Published settings.yaml differs from all checked repository candidates; provenance unresolved",
+        "evidence": "packaged-source comparison against PyPI artifacts",
+        "status": "known-gap"
+      },
+      "6.21.2": {
+        "recorded": "2026-09-08",
+        "reason": "Published settings.yaml differs from all checked repository candidates; provenance unresolved",
+        "evidence": "packaged-source comparison against PyPI artifacts",
+        "status": "known-gap"
+      },
+      "6.21.3": {
+        "recorded": "2026-09-08",
+        "reason": "Published settings.yaml differs from all checked repository candidates; provenance unresolved",
+        "evidence": "packaged-source comparison against PyPI artifacts",
+        "status": "known-gap"
+      },
+      "6.21.4": {
+        "recorded": "2026-09-08",
+        "reason": "Published settings.yaml differs from all checked repository candidates; provenance unresolved",
+        "evidence": "packaged-source comparison against PyPI artifacts",
+        "status": "known-gap"
+      }
+    },
+    "qis": {
+      "5.9.3": {
+        "recorded": "2026-09-08",
+        "reason": "Published settings.yaml differs from all checked repository candidates; provenance unresolved",
+        "evidence": "packaged-source comparison against PyPI artifacts",
+        "status": "known-gap"
+      },
+      "5.11.1": {
+        "recorded": "2026-09-08",
+        "reason": "Published settings.yaml differs from all checked repository candidates; provenance unresolved",
+        "evidence": "packaged-source comparison against PyPI artifacts",
+        "status": "known-gap"
+      },
+      "5.11.2": {
+        "recorded": "2026-09-08",
+        "reason": "Published settings.yaml differs from all checked repository candidates; provenance unresolved",
+        "evidence": "packaged-source comparison against PyPI artifacts",
+        "status": "known-gap"
+      },
+      "5.11.3": {
+        "recorded": "2026-09-08",
+        "reason": "Published settings.yaml differs from all checked repository candidates; provenance unresolved",
+        "evidence": "packaged-source comparison against PyPI artifacts",
+        "status": "known-gap"
+      },
+      "5.15.0": {
+        "recorded": "2026-09-08",
+        "reason": "Multiple matching packaged-source commits; release commit not uniquely established",
+        "evidence": "packaged-source comparison against PyPI artifacts",
+        "status": "known-gap"
+      },
+      "5.18.0": {
+        "recorded": "2026-09-08",
+        "reason": "Multiple matching packaged-source commits; release commit not uniquely established",
+        "evidence": "packaged-source comparison against PyPI artifacts",
+        "status": "known-gap"
+      }
+    }
+  }
+}
