@@ -1,3 +1,4 @@
+# SHARED CI CORE v1.2 — profile — synced 2026-09-08 — template stats-v1
 name: refresh-stats
 
 on:
@@ -6,19 +7,28 @@ on:
   workflow_dispatch:        # lets you run it manually from the Actions tab
 
 permissions:
-  contents: write
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  MPLBACKEND: Agg
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: "3.12"
-
-      - run: pip install requests
 
       - name: Refresh stars/forks
         env:
@@ -30,4 +40,8 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add README.md
-          git diff --quiet --cached || (git commit -m "chore: refresh repo stats" && git push)
+          if ! git diff --quiet --cached; then
+            git commit -m "chore: refresh repo stats"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
