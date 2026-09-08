@@ -1,0 +1,916 @@
+{
+  "observed_at": "2026-09-08T06:23:32.417493+00:00",
+  "mode": "online",
+  "packages": [
+    {
+      "dist": "qis",
+      "checks": [
+        {
+          "check": "source_metadata",
+          "state": "pass",
+          "detail": "registry matches"
+        },
+        {
+          "check": "dependency_graph",
+          "state": "pass",
+          "detail": "declared and imported stack edges allowed"
+        },
+        {
+          "check": "hygiene",
+          "state": "pass",
+          "detail": "required source files present"
+        },
+        {
+          "check": "action_pins",
+          "state": "pass",
+          "detail": "external actions pinned to full SHA"
+        },
+        {
+          "check": "release_templates",
+          "state": "pass",
+          "detail": "generated release files match reviewed template content"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.10.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.11.0: matches published version"
+        },
+        {
+          "check": "historical_provenance",
+          "state": "known-gap",
+          "detail": "5.11.1: Published settings.yaml differs from all checked repository candidates; provenance unresolved"
+        },
+        {
+          "check": "historical_provenance",
+          "state": "known-gap",
+          "detail": "5.11.2: Published settings.yaml differs from all checked repository candidates; provenance unresolved"
+        },
+        {
+          "check": "historical_provenance",
+          "state": "known-gap",
+          "detail": "5.11.3: Published settings.yaml differs from all checked repository candidates; provenance unresolved"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.12.0: matches published version"
+        },
+        {
+          "check": "historical_provenance",
+          "state": "known-gap",
+          "detail": "5.15.0: Multiple matching packaged-source commits; release commit not uniquely established"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.16.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.17.0: matches published version"
+        },
+        {
+          "check": "historical_provenance",
+          "state": "known-gap",
+          "detail": "5.18.0: Multiple matching packaged-source commits; release commit not uniquely established"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.20.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.21.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.21.1: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.21.2: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.22.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.22.1: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.22.2: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.22.3: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.22.4: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.22.5: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.23.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.5.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.6.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.6.1: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.6.2: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.7.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.8.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.9.1: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.9.2: matches published version"
+        },
+        {
+          "check": "historical_provenance",
+          "state": "known-gap",
+          "detail": "5.9.3: Published settings.yaml differs from all checked repository candidates; provenance unresolved"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.9.4: matches published version"
+        },
+        {
+          "check": "development_state",
+          "state": "pass",
+          "detail": "main/source 5.23.0: published"
+        },
+        {
+          "check": "pypi_metadata",
+          "state": "pass",
+          "detail": "latest published summary and URL keys match"
+        },
+        {
+          "check": "github_about",
+          "state": "pass",
+          "detail": "description, homepage and required topics match"
+        }
+      ]
+    },
+    {
+      "dist": "optimalportfolios",
+      "checks": [
+        {
+          "check": "source_metadata",
+          "state": "pass",
+          "detail": "registry matches"
+        },
+        {
+          "check": "dependency_graph",
+          "state": "pass",
+          "detail": "declared and imported stack edges allowed"
+        },
+        {
+          "check": "hygiene",
+          "state": "pass",
+          "detail": "required source files present"
+        },
+        {
+          "check": "action_pins",
+          "state": "pass",
+          "detail": "external actions pinned to full SHA"
+        },
+        {
+          "check": "release_templates",
+          "state": "pass",
+          "detail": "generated release files match reviewed template content"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v6.10.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v6.11.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v6.12.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v6.13.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v6.14.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v6.15.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v6.16.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v6.17.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v6.18.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v6.19.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v6.21.0: matches published version"
+        },
+        {
+          "check": "historical_provenance",
+          "state": "known-gap",
+          "detail": "6.21.1: Published settings.yaml differs from all checked repository candidates; provenance unresolved"
+        },
+        {
+          "check": "historical_provenance",
+          "state": "known-gap",
+          "detail": "6.21.2: Published settings.yaml differs from all checked repository candidates; provenance unresolved"
+        },
+        {
+          "check": "historical_provenance",
+          "state": "known-gap",
+          "detail": "6.21.3: Published settings.yaml differs from all checked repository candidates; provenance unresolved"
+        },
+        {
+          "check": "historical_provenance",
+          "state": "known-gap",
+          "detail": "6.21.4: Published settings.yaml differs from all checked repository candidates; provenance unresolved"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v6.21.5: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v6.21.6: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v6.22.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v6.8.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v6.9.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v7.0.0: matches published version"
+        },
+        {
+          "check": "historical_provenance",
+          "state": "known-gap",
+          "detail": "7.1.0: Published settings.yaml differs from all checked repository candidates; provenance unresolved"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v7.2.0: matches published version"
+        },
+        {
+          "check": "development_state",
+          "state": "pass",
+          "detail": "main/source 7.2.0: published"
+        },
+        {
+          "check": "pypi_metadata",
+          "state": "pass",
+          "detail": "latest published summary and URL keys match"
+        },
+        {
+          "check": "github_about",
+          "state": "pass",
+          "detail": "description, homepage and required topics match"
+        }
+      ]
+    },
+    {
+      "dist": "factorlasso",
+      "checks": [
+        {
+          "check": "source_metadata",
+          "state": "pass",
+          "detail": "registry matches"
+        },
+        {
+          "check": "dependency_graph",
+          "state": "pass",
+          "detail": "declared and imported stack edges allowed"
+        },
+        {
+          "check": "hygiene",
+          "state": "pass",
+          "detail": "required source files present"
+        },
+        {
+          "check": "action_pins",
+          "state": "pass",
+          "detail": "external actions pinned to full SHA"
+        },
+        {
+          "check": "release_templates",
+          "state": "pass",
+          "detail": "generated release files match reviewed template content"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v0.12.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v0.13.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v0.14.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v0.15.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v0.16.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v0.17.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v0.18.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v0.18.1: matches published version"
+        },
+        {
+          "check": "development_state",
+          "state": "pass",
+          "detail": "main/source 0.18.1: published"
+        },
+        {
+          "check": "pypi_metadata",
+          "state": "pass",
+          "detail": "latest published summary and URL keys match"
+        },
+        {
+          "check": "github_about",
+          "state": "pass",
+          "detail": "description, homepage and required topics match"
+        }
+      ]
+    },
+    {
+      "dist": "bbg-fetch",
+      "checks": [
+        {
+          "check": "source_metadata",
+          "state": "pass",
+          "detail": "registry matches"
+        },
+        {
+          "check": "dependency_graph",
+          "state": "pass",
+          "detail": "declared and imported stack edges allowed"
+        },
+        {
+          "check": "hygiene",
+          "state": "pass",
+          "detail": "required source files present"
+        },
+        {
+          "check": "action_pins",
+          "state": "pass",
+          "detail": "external actions pinned to full SHA"
+        },
+        {
+          "check": "release_templates",
+          "state": "pass",
+          "detail": "generated release files match reviewed template content"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v3.0.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v3.1.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v3.2.0: matches published version"
+        },
+        {
+          "check": "development_state",
+          "state": "pass",
+          "detail": "main/source 3.2.0: published"
+        },
+        {
+          "check": "pypi_metadata",
+          "state": "pass",
+          "detail": "latest published summary and URL keys match"
+        },
+        {
+          "check": "github_about",
+          "state": "pass",
+          "detail": "description, homepage and required topics match"
+        }
+      ]
+    },
+    {
+      "dist": "stochvolmodels",
+      "checks": [
+        {
+          "check": "source_metadata",
+          "state": "pass",
+          "detail": "registry matches"
+        },
+        {
+          "check": "dependency_graph",
+          "state": "pass",
+          "detail": "declared and imported stack edges allowed"
+        },
+        {
+          "check": "hygiene",
+          "state": "pass",
+          "detail": "required source files present"
+        },
+        {
+          "check": "action_pins",
+          "state": "pass",
+          "detail": "external actions pinned to full SHA"
+        },
+        {
+          "check": "release_templates",
+          "state": "pass",
+          "detail": "generated release files match reviewed template content"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v1.3.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v1.4.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v2.0.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v2.1.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v2.2.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v2.3.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v2.4.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v2.4.1: matches published version"
+        },
+        {
+          "check": "development_state",
+          "state": "pass",
+          "detail": "main/source 2.4.1: published"
+        },
+        {
+          "check": "pypi_metadata",
+          "state": "pass",
+          "detail": "latest published summary and URL keys match"
+        },
+        {
+          "check": "github_about",
+          "state": "pass",
+          "detail": "description, homepage and required topics match"
+        }
+      ]
+    },
+    {
+      "dist": "trendfollowing",
+      "checks": [
+        {
+          "check": "source_metadata",
+          "state": "pass",
+          "detail": "registry matches"
+        },
+        {
+          "check": "dependency_graph",
+          "state": "pass",
+          "detail": "declared and imported stack edges allowed"
+        },
+        {
+          "check": "hygiene",
+          "state": "pass",
+          "detail": "required source files present"
+        },
+        {
+          "check": "action_pins",
+          "state": "pass",
+          "detail": "external actions pinned to full SHA"
+        },
+        {
+          "check": "release_templates",
+          "state": "pass",
+          "detail": "generated release files match reviewed template content"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v1.0.5: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v1.1.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v1.2.0: matches published version"
+        },
+        {
+          "check": "development_state",
+          "state": "pass",
+          "detail": "main/source 1.2.0: published"
+        },
+        {
+          "check": "pypi_metadata",
+          "state": "pass",
+          "detail": "latest published summary and URL keys match"
+        },
+        {
+          "check": "github_about",
+          "state": "pass",
+          "detail": "description, homepage and required topics match"
+        }
+      ]
+    },
+    {
+      "dist": "privateassets",
+      "checks": [
+        {
+          "check": "source_metadata",
+          "state": "pass",
+          "detail": "registry matches"
+        },
+        {
+          "check": "dependency_graph",
+          "state": "pass",
+          "detail": "declared and imported stack edges allowed"
+        },
+        {
+          "check": "hygiene",
+          "state": "pass",
+          "detail": "required source files present"
+        },
+        {
+          "check": "action_pins",
+          "state": "pass",
+          "detail": "external actions pinned to full SHA"
+        },
+        {
+          "check": "release_templates",
+          "state": "pass",
+          "detail": "generated release files match reviewed template content"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v0.6.2: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v0.7.0: matches published version"
+        },
+        {
+          "check": "development_state",
+          "state": "pass",
+          "detail": "main/source 0.7.0: published"
+        },
+        {
+          "check": "pypi_metadata",
+          "state": "pass",
+          "detail": "latest published summary and URL keys match"
+        },
+        {
+          "check": "github_about",
+          "state": "pass",
+          "detail": "description, homepage and required topics match"
+        }
+      ]
+    },
+    {
+      "dist": "goal-based-allocation",
+      "checks": [
+        {
+          "check": "source_metadata",
+          "state": "pass",
+          "detail": "registry matches"
+        },
+        {
+          "check": "dependency_graph",
+          "state": "pass",
+          "detail": "declared and imported stack edges allowed"
+        },
+        {
+          "check": "hygiene",
+          "state": "pass",
+          "detail": "required source files present"
+        },
+        {
+          "check": "action_pins",
+          "state": "pass",
+          "detail": "external actions pinned to full SHA"
+        },
+        {
+          "check": "release_templates",
+          "state": "pass",
+          "detail": "generated release files match reviewed template content"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v0.3.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v0.3.1: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v0.4.0: matches published version"
+        },
+        {
+          "check": "development_state",
+          "state": "pass",
+          "detail": "main/source 0.4.0: published"
+        },
+        {
+          "check": "pypi_metadata",
+          "state": "pass",
+          "detail": "latest published summary and URL keys match"
+        },
+        {
+          "check": "github_about",
+          "state": "pass",
+          "detail": "description, homepage and required topics match"
+        }
+      ]
+    },
+    {
+      "dist": "vanilla-option-pricers",
+      "checks": [
+        {
+          "check": "source_metadata",
+          "state": "pass",
+          "detail": "registry matches"
+        },
+        {
+          "check": "dependency_graph",
+          "state": "pass",
+          "detail": "declared and imported stack edges allowed"
+        },
+        {
+          "check": "hygiene",
+          "state": "pass",
+          "detail": "required source files present"
+        },
+        {
+          "check": "action_pins",
+          "state": "pass",
+          "detail": "external actions pinned to full SHA"
+        },
+        {
+          "check": "release_templates",
+          "state": "pass",
+          "detail": "generated release files match reviewed template content"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v1.3.1: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v2.0.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v2.1.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v2.2.0: matches published version"
+        },
+        {
+          "check": "development_state",
+          "state": "pass",
+          "detail": "main/source 2.2.0: published"
+        },
+        {
+          "check": "pypi_metadata",
+          "state": "pass",
+          "detail": "latest published summary and URL keys match"
+        },
+        {
+          "check": "github_about",
+          "state": "pass",
+          "detail": "description, homepage and required topics match"
+        }
+      ]
+    },
+    {
+      "dist": "option-chain-analytics",
+      "checks": [
+        {
+          "check": "source_metadata",
+          "state": "pass",
+          "detail": "registry matches"
+        },
+        {
+          "check": "dependency_graph",
+          "state": "pass",
+          "detail": "declared and imported stack edges allowed"
+        },
+        {
+          "check": "hygiene",
+          "state": "pass",
+          "detail": "required source files present"
+        },
+        {
+          "check": "action_pins",
+          "state": "pass",
+          "detail": "external actions pinned to full SHA"
+        },
+        {
+          "check": "release_templates",
+          "state": "pass",
+          "detail": "generated release files match reviewed template content"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v2.0.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v2.0.1: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v3.0.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v4.0.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.0.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.2.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.2.1: matches published version"
+        },
+        {
+          "check": "development_state",
+          "state": "pass",
+          "detail": "main/source 5.2.1: published"
+        },
+        {
+          "check": "pypi_metadata",
+          "state": "pass",
+          "detail": "latest published summary and URL keys match"
+        },
+        {
+          "check": "github_about",
+          "state": "pass",
+          "detail": "description, homepage and required topics match"
+        }
+      ]
+    }
+  ]
+}
