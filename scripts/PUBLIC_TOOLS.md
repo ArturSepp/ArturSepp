@@ -71,6 +71,10 @@ The helper accepts bounded release, prerelease, postrelease and `.devN` tags, in
 `v1.2.3.dev1`. CFF records the intended release date; the immutable PyPI upload timestamp is
 the independent publication evidence. Artifact checks include SPDX license expression,
 actual license files inside both archives, Python requirements and core dependencies.
+Archives must contain the source package and exclude local data runners, IDE files, caches,
+and environments. BloombergFetch's reviewed registry variance installs `blpapi` from
+Bloomberg's public SDK index after each environment sync and in the isolated wheel check;
+the tests remain terminal-free.
 
 `python scripts/build_stats.py --reuse-existing-counts` regenerates the profile table using
 its recorded metrics without any network requests. This is appropriate for a Docs-link or
