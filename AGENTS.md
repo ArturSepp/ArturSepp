@@ -11,3 +11,12 @@
 # AGENTS.md
 
 Guidance for AI coding agents working in the **ArturSepp** repository.
+
+## Agent-generated artifacts
+
+All agent-generated roadmaps, execution plans, audits, reports, handoffs, and other working
+outputs live under the repository-root `agents/` directory, which is local and ignored by Git.
+Never create `ROADMAP_*.md`, `Claude outputs/`, `Codex outputs/`, or similar agent-output
+artifacts at the repository root. Name feature roadmaps `agents/ROADMAP_<feature>.md`. An
+execution request names the file and stage. A stage is complete when its stated verification
+command passes; its out-of-scope list is binding.

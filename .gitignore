@@ -11,3 +11,6 @@ venv/
 github_key
 github_key.pub
 *.pem
+
+# Local agent roadmaps and working outputs
+/agents/
