@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-09-12T09:22:34.110056+00:00",
+  "observed_at": "2026-09-13T10:18:04.548003+00:00",
   "mode": "online",
   "packages": [
     {
@@ -188,7 +188,7 @@
         {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 5.25.0: prepared/unpublished; GitHub Release page optional"
+          "detail": "main/source 5.26.0: prepared/unpublished; GitHub Release page optional"
         },
         {
           "check": "pypi_metadata",
@@ -382,8 +382,8 @@
         },
         {
           "check": "hygiene",
-          "state": "pass",
-          "detail": "required source files present"
+          "state": "fail",
+          "detail": "agent core stamp differs from v1.5; agent core content differs from reviewed manifest"
         },
         {
           "check": "action_pins",
@@ -612,8 +612,8 @@
         },
         {
           "check": "hygiene",
-          "state": "pass",
-          "detail": "required source files present"
+          "state": "fail",
+          "detail": "agent core stamp differs from v1.5; agent core content differs from reviewed manifest"
         },
         {
           "check": "action_pins",
@@ -672,8 +672,8 @@
         },
         {
           "check": "hygiene",
-          "state": "pass",
-          "detail": "required source files present"
+          "state": "fail",
+          "detail": "agent core stamp differs from v1.5; agent core content differs from reviewed manifest"
         },
         {
           "check": "action_pins",
@@ -727,8 +727,8 @@
         },
         {
           "check": "hygiene",
-          "state": "pass",
-          "detail": "required source files present"
+          "state": "fail",
+          "detail": "agent core stamp differs from v1.5; agent core content differs from reviewed manifest"
         },
         {
           "check": "action_pins",
@@ -787,8 +787,8 @@
         },
         {
           "check": "hygiene",
-          "state": "pass",
-          "detail": "required source files present"
+          "state": "fail",
+          "detail": "agent core stamp differs from v1.5; agent core content differs from reviewed manifest"
         },
         {
           "check": "action_pins",
@@ -852,8 +852,8 @@
         },
         {
           "check": "hygiene",
-          "state": "pass",
-          "detail": "required source files present"
+          "state": "fail",
+          "detail": "agent core stamp differs from v1.5; agent core content differs from reviewed manifest"
         },
         {
           "check": "action_pins",
