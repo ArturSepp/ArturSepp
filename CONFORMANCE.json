@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-09-13T10:18:04.548003+00:00",
+  "observed_at": "2026-09-14T10:39:51.015746+00:00",
   "mode": "online",
   "packages": [
     {
@@ -27,8 +27,8 @@
         },
         {
           "check": "release_templates",
-          "state": "pass",
-          "detail": "generated release files match reviewed template content"
+          "state": "fail",
+          "detail": ".github/workflows/release.yml"
         },
         {
           "check": "published_tag",
@@ -138,6 +138,21 @@
         {
           "check": "published_tag",
           "state": "pass",
+          "detail": "v5.30.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.30.1: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.30.2: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
           "detail": "v5.5.0: matches published version"
         },
         {
@@ -188,7 +203,7 @@
         {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 5.26.0: prepared/unpublished; GitHub Release page optional"
+          "detail": "main/source 5.30.2: published"
         },
         {
           "check": "pypi_metadata",
@@ -351,9 +366,14 @@
           "detail": "v7.3.0: matches published version"
         },
         {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v7.6.0: matches published version"
+        },
+        {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 7.3.0: published"
+          "detail": "main/source 7.6.0: published"
         },
         {
           "check": "pypi_metadata",
@@ -382,8 +402,8 @@
         },
         {
           "check": "hygiene",
-          "state": "fail",
-          "detail": "agent core stamp differs from v1.5; agent core content differs from reviewed manifest"
+          "state": "pass",
+          "detail": "required source files present"
         },
         {
           "check": "action_pins",
@@ -612,8 +632,8 @@
         },
         {
           "check": "hygiene",
-          "state": "fail",
-          "detail": "agent core stamp differs from v1.5; agent core content differs from reviewed manifest"
+          "state": "pass",
+          "detail": "required source files present"
         },
         {
           "check": "action_pins",
@@ -672,8 +692,8 @@
         },
         {
           "check": "hygiene",
-          "state": "fail",
-          "detail": "agent core stamp differs from v1.5; agent core content differs from reviewed manifest"
+          "state": "pass",
+          "detail": "required source files present"
         },
         {
           "check": "action_pins",
@@ -727,8 +747,8 @@
         },
         {
           "check": "hygiene",
-          "state": "fail",
-          "detail": "agent core stamp differs from v1.5; agent core content differs from reviewed manifest"
+          "state": "pass",
+          "detail": "required source files present"
         },
         {
           "check": "action_pins",
@@ -787,8 +807,8 @@
         },
         {
           "check": "hygiene",
-          "state": "fail",
-          "detail": "agent core stamp differs from v1.5; agent core content differs from reviewed manifest"
+          "state": "pass",
+          "detail": "required source files present"
         },
         {
           "check": "action_pins",
@@ -852,8 +872,8 @@
         },
         {
           "check": "hygiene",
-          "state": "fail",
-          "detail": "agent core stamp differs from v1.5; agent core content differs from reviewed manifest"
+          "state": "pass",
+          "detail": "required source files present"
         },
         {
           "check": "action_pins",
