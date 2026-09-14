@@ -22,8 +22,14 @@ class RegistryTests(unittest.TestCase):
         self.assertIn("cash-flows", command)
         self.assertNotIn("--remove-topic", command)
 
+    def test_agent_manifest_matches_registry_version_and_repository_set(self):
+        registry = c.load_registry()
+        manifest = json.loads(c.AGENT_MANIFEST.read_text(encoding="utf-8"))
+        self.assertEqual(manifest["version"], registry["agent_core_version"])
+        self.assertEqual(set(manifest["sha256"]), {p["local_dir"] for p in registry["packages"]})
+
     def test_generated_content_changes_are_detected_with_unchanged_stamp(self):
-        block = "<!-- ===== SHARED AGENT CORE standalone \u2014 begin =====\nagent core v1.5. -->\nUse the public API.\n<!-- ===== SHARED AGENT CORE \u2014 end ===== -->"
+        block = "<!-- ===== SHARED AGENT CORE standalone \u2014 begin =====\nagent core v1.6. -->\nUse the public API.\n<!-- ===== SHARED AGENT CORE \u2014 end ===== -->"
         self.assertNotEqual(c.agent_block_digest(block), c.agent_block_digest(block.replace("public API", "private API")))
         package = c.load_registry()["packages"][0]
         with tempfile.TemporaryDirectory() as tmp:

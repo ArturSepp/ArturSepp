@@ -241,7 +241,7 @@
       ]
     }
   ],
-  "agent_core_version": "1.5",
+  "agent_core_version": "1.6",
   "historical_release_gaps": {
     "optimalportfolios": {
       "7.1.0": {

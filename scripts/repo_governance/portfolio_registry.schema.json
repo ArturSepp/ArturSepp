@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ArturSepp/ArturSepp/blob/main/scripts/repo_governance/portfolio_registry.schema.json",
+  "title": "ArturSepp local portfolio registry",
+  "type": "object",
+  "required": ["schema_version", "repositories_root", "external_environment_root", "repositories"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schema_version": {"const": 1},
+    "repositories_root": {"type": "string", "minLength": 1},
+    "external_environment_root": {"type": "string", "minLength": 1},
+    "repositories": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "directory", "visibility", "python_environment", "tasks"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1},
+          "directory": {"type": "string", "minLength": 1},
+          "visibility": {"enum": ["public-profile", "public-package", "private-package", "private-research"]},
+          "python_environment": {"type": "string", "pattern": "^[A-Za-z0-9_-]+$"},
+          "artifact_policy": {
+            "type": "object",
+            "properties": {
+              "roadmap_exclusions": {
+                "type": "array",
+                "items": {"type": "string", "minLength": 1},
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          },
+          "tasks": {
+            "type": "object",
+            "required": ["check", "test"],
+            "properties": {
+              "check": {"$ref": "#/$defs/task"},
+              "test": {"$ref": "#/$defs/task"},
+              "verify": {"$ref": "#/$defs/task"}
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "task": {
+      "type": "object",
+      "oneOf": [
+        {
+          "required": ["unsupported"],
+          "properties": {"unsupported": {"type": "string", "minLength": 1}},
+          "additionalProperties": false
+        },
+        {
+          "required": ["steps"],
+          "properties": {
+            "steps": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": ["name", "kind"],
+                "properties": {
+                  "name": {"type": "string", "minLength": 1},
+                  "kind": {"enum": ["module", "script", "code", "powershell_script"]},
+                  "module": {"type": "string"},
+                  "path": {"type": "string"},
+                  "code": {"type": "string"},
+                  "arguments": {"type": "array", "items": {"type": "string"}}
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

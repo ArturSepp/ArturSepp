@@ -9,6 +9,12 @@ Run the stdlib-only contract tests with `python -m unittest discover -s scripts/
 On the maintainer's Windows machine use `C:\Python\ArturSepp312\Scripts\python.exe`.
 Never create a Python environment in a OneDrive checkout.
 
+The Windows portfolio-wide command interface is documented in
+[`repo_governance/README.md`](repo_governance/README.md). Its registry covers the public profile,
+all ten public packages, and the three private checkouts while keeping public package metadata
+in `public_registry.json`. It provides uniform `check`, `test`, and `verify` tasks, C-local
+generated-state setup, agent-policy validation, and LaTeX builds.
+
 `python scripts/conformance.py --repos-root /path/to/clones --output /path/to/report`
 checks existing local sources without network access. `--online` adds public GitHub and PyPI
 observations; `--fail-on-drift` gives a nonzero exit on known defects. Unavailable APIs and

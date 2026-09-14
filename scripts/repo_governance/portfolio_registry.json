@@ -1,0 +1,158 @@
+{
+  "$schema": "portfolio_registry.schema.json",
+  "schema_version": 1,
+  "repositories_root": "../../..",
+  "external_environment_root": "C:/Python",
+  "repositories": [
+    {
+      "name": "ArturSepp",
+      "directory": "ArturSepp",
+      "visibility": "public-profile",
+      "python_environment": "ArturSepp312",
+      "tasks": {
+        "check": {"steps": [{"name": "Compile governance scripts", "kind": "module", "module": "compileall", "arguments": ["-q", "scripts"]}]},
+        "test": {"steps": [{"name": "Profile script tests", "kind": "module", "module": "unittest", "arguments": ["discover", "-s", "scripts/tests", "-p", "test_*.py"]}]},
+        "verify": {"steps": [{"name": "Portfolio policy", "kind": "powershell_script", "path": "scripts/repo_governance/Test-PortfolioPolicy.ps1", "arguments": []}]}
+      }
+    },
+    {
+      "name": "BloombergFetch",
+      "directory": "BloombergFetch",
+      "visibility": "public-package",
+      "python_environment": "BloombergFetch312",
+      "tasks": {
+        "check": {"steps": [{"name": "Ruff", "kind": "module", "module": "ruff", "arguments": ["check", "src/bbg_fetch", "tests", "examples"]}]},
+        "test": {"steps": [{"name": "Pytest", "kind": "module", "module": "pytest", "arguments": []}]}
+      }
+    },
+    {
+      "name": "FactorLasso",
+      "directory": "FactorLasso",
+      "visibility": "public-package",
+      "python_environment": "FactorLasso312",
+      "tasks": {
+        "check": {"steps": [{"name": "Ruff", "kind": "module", "module": "ruff", "arguments": ["check", "src/factorlasso", "tests"]}]},
+        "test": {"steps": [{"name": "Pytest", "kind": "module", "module": "pytest", "arguments": []}]}
+      }
+    },
+    {
+      "name": "FuturesStrats",
+      "directory": "FuturesStrats",
+      "visibility": "private-package",
+      "python_environment": "FuturesStrats312",
+      "tasks": {
+        "check": {"steps": [{"name": "Ruff", "kind": "module", "module": "ruff", "arguments": ["check", "src/futures_strats", "tests", "examples"]}]},
+        "test": {"steps": [{"name": "Pytest", "kind": "module", "module": "pytest", "arguments": []}]},
+        "verify": {"steps": [{"name": "Import smoke test", "kind": "code", "code": "import futures_strats; print(futures_strats.__version__)"}]}
+      }
+    },
+    {
+      "name": "GoalBasedAllocation",
+      "directory": "GoalBasedAllocation",
+      "visibility": "public-package",
+      "python_environment": "GoalBasedAllocation312",
+      "tasks": {
+        "check": {"steps": [{"name": "Ruff", "kind": "module", "module": "ruff", "arguments": ["check", "."]}]},
+        "test": {"steps": [{"name": "Pytest", "kind": "module", "module": "pytest", "arguments": ["-q"]}]}
+      }
+    },
+    {
+      "name": "OptimalPortfolios",
+      "directory": "OptimalPortfolios",
+      "visibility": "public-package",
+      "python_environment": "OptimalPortfolios312",
+      "tasks": {
+        "check": {"steps": [{"name": "Ruff", "kind": "module", "module": "ruff", "arguments": ["check", "src/optimalportfolios/"]}]},
+        "test": {"steps": [{"name": "Pytest", "kind": "module", "module": "pytest", "arguments": []}]}
+      }
+    },
+    {
+      "name": "OptionChainAnalytics",
+      "directory": "OptionChainAnalytics",
+      "visibility": "public-package",
+      "python_environment": "OptionChainAnalytics312",
+      "tasks": {
+        "check": {"steps": [{"name": "Ruff", "kind": "module", "module": "ruff", "arguments": ["check", "."]}]},
+        "test": {"steps": [{"name": "Pytest", "kind": "module", "module": "pytest", "arguments": ["-q"]}]}
+      }
+    },
+    {
+      "name": "PrivateAssets",
+      "directory": "PrivateAssets",
+      "visibility": "public-package",
+      "python_environment": "PrivateAssets312",
+      "tasks": {
+        "check": {"steps": [{"name": "Ruff", "kind": "module", "module": "ruff", "arguments": ["check", "src/privateassets", "tests", "examples", "docs/conf.py"]}]},
+        "test": {"steps": [{"name": "Pytest", "kind": "module", "module": "pytest", "arguments": []}]}
+      }
+    },
+    {
+      "name": "QuantInvestStrats",
+      "directory": "QuantInvestStrats",
+      "visibility": "public-package",
+      "python_environment": "QuantInvestStrats312",
+      "tasks": {
+        "check": {"steps": [{"name": "Ruff fatal errors", "kind": "module", "module": "ruff", "arguments": ["check", "--select", "E9,F63,F7,F82", "src/qis"]}]},
+        "test": {"steps": [{"name": "Pytest", "kind": "module", "module": "pytest", "arguments": []}]},
+        "verify": {"steps": [{"name": "Public API drift", "kind": "script", "path": "tools/sync_public_api.py", "arguments": ["--check"]}]}
+      }
+    },
+    {
+      "name": "Rosaa",
+      "directory": "Rosaa",
+      "visibility": "private-package",
+      "python_environment": "Rosaa312",
+      "artifact_policy": {
+        "roadmap_exclusions": [
+          "outputs",
+          "src/ramen/quant_model_mvp/rosaa/docs"
+        ]
+      },
+      "tasks": {
+        "check": {"steps": [{"name": "Compile source and CI scripts", "kind": "module", "module": "compileall", "arguments": ["-q", "src", ".github/scripts"]}]},
+        "test": {"steps": [{"name": "Common pytest suite", "kind": "module", "module": "pytest", "arguments": ["-q"]}]},
+        "verify": {"steps": [{"name": "Synthetic minimal mandate", "kind": "script", "path": ".github/scripts/run_minimal_mandate_ci.py", "arguments": []}]}
+      }
+    },
+    {
+      "name": "SigmaStrats",
+      "directory": "SigmaStrats",
+      "visibility": "private-research",
+      "python_environment": "SigmaStrats312",
+      "tasks": {
+        "check": {"steps": [{"name": "Compile Python sources", "kind": "module", "module": "compileall", "arguments": ["-q", "sigma_strats"]}]},
+        "test": {"unsupported": "No automated test interface is declared yet; complete the repository's T0 bootstrap before adding one."}
+      }
+    },
+    {
+      "name": "StochVolModels",
+      "directory": "StochVolModels",
+      "visibility": "public-package",
+      "python_environment": "StochVolModels312",
+      "tasks": {
+        "check": {"steps": [{"name": "Ruff invariants", "kind": "module", "module": "ruff", "arguments": ["check", "--select", "F,TID251,TID253,ICN", "src/stochvolmodels"]}]},
+        "test": {"steps": [{"name": "Fast pytest suite", "kind": "module", "module": "pytest", "arguments": ["-m", "not slow"]}]}
+      }
+    },
+    {
+      "name": "TrendFollowingSystems",
+      "directory": "TrendFollowingSystems",
+      "visibility": "public-package",
+      "python_environment": "TrendFollowingSystems312",
+      "tasks": {
+        "check": {"steps": [{"name": "Ruff", "kind": "module", "module": "ruff", "arguments": ["check", "src/trendfollowing/"]}]},
+        "test": {"steps": [{"name": "Pytest", "kind": "module", "module": "pytest", "arguments": []}]}
+      }
+    },
+    {
+      "name": "VanillaOptionPricers",
+      "directory": "VanillaOptionPricers",
+      "visibility": "public-package",
+      "python_environment": "VanillaOptionPricers312",
+      "tasks": {
+        "check": {"steps": [{"name": "Ruff", "kind": "module", "module": "ruff", "arguments": ["check", "src/vanilla_option_pricers/", "examples/"]}]},
+        "test": {"steps": [{"name": "Pytest", "kind": "module", "module": "pytest", "arguments": []}]}
+      }
+    }
+  ]
+}
