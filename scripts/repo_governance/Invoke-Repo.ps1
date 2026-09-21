@@ -7,11 +7,13 @@ param(
     [string]$Base = 'HEAD',
     [switch]$All,
     [switch]$DryRun,
-    [string]$RegistryPath = (Join-Path $PSScriptRoot 'portfolio_registry.json'),
+    [string]$RegistryPath,
     [string]$RepositoriesRoot
 )
 
 $ErrorActionPreference = 'Stop'
+# Resolve defaults in the script body; Windows PowerShell -File binds parameters earlier.
+if (-not $RegistryPath) { $RegistryPath = Join-Path $PSScriptRoot 'portfolio_registry.json' }
 if ($All -and $Repo) {
     throw 'Use either -All or -Repo, not both.'
 }
