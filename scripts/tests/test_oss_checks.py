@@ -86,6 +86,12 @@ class SnapshotTests(unittest.TestCase):
 
 
 class ContractTests(unittest.TestCase):
+    def test_rst_heading_is_not_a_merge_conflict(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "guide.rst").write_text("Example\n=======\n")
+            checks.source_checks(root, ["guide.rst"])
+
     def test_required_jobs_fail_closed(self):
         for status in ("skipped", "cancelled", "failure", "timed_out", None):
             needs = {} if status is None else {"docs": {"result": status}}

@@ -55,6 +55,15 @@ Read the displayed command and log path. Logs live under
 Missing tools or an offline dependency-cache miss require setup; a commit hook never installs
 dependencies or silently rewrites a lockfile. Existing numerical and coverage gates remain in CI.
 
+To preview coupled citation-version repairs without changing files:
+
+```powershell
+& "C:\Python\ArturSepp312\Scripts\python.exe" "$env:USERPROFILE\OneDrive\analytics\my_github\ArturSepp\scripts\repo_governance\sync_version_metadata.py" --repo .
+```
+
+Add `--write` only after reviewing that diff, then select the changed files in Desktop.
+The tool takes the version from `pyproject.toml`; it does not bump it or change release dates.
+
 For coupled files, explicitly select the complete change: for example the package version,
 `CITATION.cff`, and the README software citation. Use existing package producers for generated
 API lists and notebook mirrors; inspect their diff before selecting it. Never bypass a known
@@ -89,10 +98,17 @@ applicable component to succeed; a cancelled or unexpectedly skipped component f
 gate. Security auditing is required when dependency inputs change. The branch must be current
 with `main` before merging.
 
+Introduced references are checked on each pull request: confirmed 404/410 responses or missing
+static anchors fail the gate. Rate limits, timeouts and server errors are recorded as unavailable
+evidence for follow-up, rather than treated as proof of a defective edit.
+
 Broad external-link checks and live dependency compatibility run separately on schedules.
 A rate limit, website outage or new security advisory can therefore be identified as
 maintenance work. Genuine broken references and vulnerabilities must still be repaired.
 Strict HTML builds, tests, package boundaries, coverage and scientific regressions stay enforced.
+Production-source changes also run applicable consumer import checks from pinned consumer commits.
+Each consumer uses its reviewed lockfile, then installs the proposed package and verifies dependency
+consistency and import compatibility. Ordinary prose changes skip this conditional check.
 
 The shared repository publishes automatic statistics and conformance reports on the
 [`automation/reports` branch](https://github.com/ArturSepp/ArturSepp/tree/automation/reports).

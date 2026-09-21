@@ -31,7 +31,7 @@ foreach ($entry in $selected) {
     $hookDir = & git -C $root rev-parse --git-path hooks
     if (-not [IO.Path]::IsPathRooted($hookDir)) { $hookDir = Join-Path $root $hookDir }
     $existing = @(Get-ChildItem -LiteralPath $hookDir -File -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike '*.sample' })
-    if ($existing.Count) { throw "$($entry.name) has existing hooks; preserve and integrate them explicitly." }
+    if ($effective -ne ".githooks" -and $existing.Count) { throw "$($entry.name) has existing hooks; preserve and integrate them explicitly." }
     if (-not (Test-Path -LiteralPath (Join-Path $root '.githooks\pre-commit'))) { throw "Merge the reviewed tooling before installing hooks in $root" }
     & git -C $root config --local core.hooksPath .githooks
     if ($LASTEXITCODE) { throw "Hook installation failed: $root" }
