@@ -19,6 +19,8 @@ $syncDates = [System.Collections.Generic.HashSet[string]]::new()
 foreach ($package in $publicRegistry.packages) {
     $agentsPath = Join-Path (Join-Path $repositoriesRootPath $package.local_dir) 'AGENTS.md'
     $source = [IO.File]::ReadAllText((Resolve-Path -LiteralPath $agentsPath).Path)
+    # Match Python read_text() and Git source contents across Windows checkout line endings.
+    $source = $source.Replace("`r`n", "`n").Replace("`r", "`n")
     $matches = [regex]::Matches(
         $source,
         '<!-- ===== SHARED AGENT CORE .*?<!-- ===== SHARED AGENT CORE — end ===== -->',
