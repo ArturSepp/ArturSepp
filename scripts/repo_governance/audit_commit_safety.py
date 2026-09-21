@@ -1,4 +1,4 @@
-"""Read-only audit of the public stack's commit checker adoption and branch protection."""
+"""Read-only audit of public-stack commit checks and optional protection settings."""
 
 from __future__ import annotations
 
@@ -109,15 +109,8 @@ def main():
     )
     if args.require_hooks:
         passed = passed and all(row["hook_path"] == ".githooks" for row in rows)
-    if args.online:
-        passed = passed and all(
-            row["main_protected"]
-            and row["admins_enforced"]
-            and row["up_to_date_required"]
-            and row["pull_request_required"]
-            and "Required checks" in row["required_contexts"]
-            for row in rows
-        )
+    # Online protection metadata is informational. Direct Desktop commits to main
+    # are supported; remote required checks are an opt-in pull-request workflow.
     raise SystemExit(0 if passed else 1)
 
 

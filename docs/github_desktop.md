@@ -3,25 +3,26 @@
 *Author: [Artur Sepp](https://github.com/ArturSepp)*
 
 Use GitHub Desktop to save work normally. Automatic local checks give early feedback;
-the required checks on a pull request protect the published `main` branch.
+the full required checks run when you choose to open a pull request.
 This guide applies to the ten libraries in the [package directory](documentation_standard.md#package-directory),
 including [qis](https://github.com/ArturSepp/QuantInvestStrats)
 ([software citation](https://github.com/ArturSepp/QuantInvestStrats/blob/main/CITATION.cff)).
 
 ## Daily use
 
-1. Fetch the latest `main` and create a working branch in Desktop.
+1. Fetch the latest `main` in Desktop. Commit there directly, or create a working branch when you want a pull request.
 2. Select the files or lines you intend to commit. Press **Commit** normally.
 3. If the check fails, read its file/line and repair message, fix the issue, and select the
    repaired contents again. The check does not change or select files for you.
-4. Push the branch and open a pull request. Merge after **Required checks** passes.
+4. Push your commit. If you used a working branch, open a pull request and merge after **Required checks** passes.
 
-Saving a local commit does not itself run GitHub Actions. Actions run after a push or pull
-request. A failing working branch leaves `main` unchanged. The maintainer can merge their
-own passing pull requests; a second person's approval is not required.
+Saving a local commit does not itself run GitHub Actions. Direct pushes to `main` do not
+launch **Required checks**; pull requests and manual dispatches do. The maintainer can merge
+their own pull requests; a second person's approval is not required.
 
 GitHub Desktop can bypass local hooks for a work-in-progress commit. This does not bypass
-the remote required checks. Direct pushes to protected `main` are rejected.
+the remote required checks on a pull request. A direct `main` push is not CI-gated, so run
+the longer checks explicitly before publishing changes that warrant them.
 [Desktop hook documentation](https://docs.github.com/en/desktop/making-changes-in-a-branch/working-with-git-hooks-in-github-desktop)
 
 ## Install once on each Windows host
@@ -93,10 +94,10 @@ The same versioned documentation commands and preflight checker run in GitHub Ac
 
 ## Remote checks and maintenance
 
-**Required checks** always runs, including for documentation-only changes. It requires every
-applicable component to succeed; a cancelled or unexpectedly skipped component fails the
-gate. Security auditing is required when dependency inputs change. The branch must be current
-with `main` before merging.
+**Required checks** runs on pull requests, including documentation-only changes, and can be
+started manually. It requires every applicable component to succeed; a cancelled or
+unexpectedly skipped component fails the gate. Security auditing is required when dependency
+inputs change. Direct pushes to `main` do not run this workflow.
 
 Introduced references are checked on each pull request: confirmed 404/410 responses or missing
 static anchors fail the gate. Rate limits, timeouts and server errors are recorded as unavailable
@@ -112,7 +113,8 @@ consistency and import compatibility. Ordinary prose changes skip this condition
 
 The shared repository publishes automatic statistics and conformance reports on the
 [`automation/reports` branch](https://github.com/ArturSepp/ArturSepp/tree/automation/reports).
-Scheduled bots do not bypass `main` protection. Source changes continue through pull requests.
+Scheduled bots use their own branches. Pull requests remain available for changes needing a
+full remote validation pass before they reach `main`.
 
 ## Tooling maintenance
 
@@ -122,5 +124,5 @@ check inventory. Update the canonical source and package copies together, test t
 and review the adoption audit. A future tool release must be reviewed before changing its pin.
 
 To disable only the managed local hook, run the installer with `-Repo <repository> -Uninstall`.
-This leaves tracked files and remote branch protection intact. Integrate third-party hooks
+This leaves tracked files and remote workflow settings intact. Integrate third-party hooks
 explicitly instead of replacing an existing `core.hooksPath`.
