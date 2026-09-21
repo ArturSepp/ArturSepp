@@ -1,12 +1,14 @@
 [CmdletBinding()]
 param(
     [string]$RepoPath = (Get-Location).Path,
-    [string]$RegistryPath = (Join-Path $PSScriptRoot 'portfolio_registry.json'),
+    [string]$RegistryPath,
     [string]$RepositoriesRoot,
     [switch]$PassThru
 )
 
 $ErrorActionPreference = 'Stop'
+# Resolve defaults in the script body; Windows PowerShell -File binds parameters earlier.
+if (-not $RegistryPath) { $RegistryPath = Join-Path $PSScriptRoot 'portfolio_registry.json' }
 $registryFile = (Resolve-Path -LiteralPath $RegistryPath).Path
 $registry = Get-Content -LiteralPath $registryFile -Raw | ConvertFrom-Json
 $registryDirectory = Split-Path -Parent $registryFile
