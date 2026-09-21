@@ -19,15 +19,22 @@ class SnapshotTests(unittest.TestCase):
     def test_index_uses_staged_blob_and_preserves_space_in_path(self):
         record = b"100644 abc123 0\tfile with spaces.py\0"
         with patch.object(checks, "git", return_value=record):
-            self.assertEqual(checks.entries(Path(".")), [("100644", "abc123", "file with spaces.py")])
+            self.assertEqual(
+                checks.entries(Path(".")), [("100644", "abc123", "file with spaces.py")]
+            )
 
     def test_unmerged_index_is_rejected(self):
-        with patch.object(checks, "git", return_value=b"100644 abc123 2\tbroken.py\0"), self.assertRaises(checks.CheckFailure):
+        with (
+            patch.object(checks, "git", return_value=b"100644 abc123 2\tbroken.py\0"),
+            self.assertRaises(checks.CheckFailure),
+        ):
             checks.entries(Path("."))
 
     def test_tree_uses_committed_blob(self):
         with patch.object(checks, "git", return_value=b"100644 blob abc123\tcommitted.py\0"):
-            self.assertEqual(checks.entries(Path("."), "HEAD"), [("100644", "abc123", "committed.py")])
+            self.assertEqual(
+                checks.entries(Path("."), "HEAD"), [("100644", "abc123", "committed.py")]
+            )
 
     def test_staged_export_does_not_read_working_file_or_honour_export_ignore(self):
         content = b"def broken(:\n"
@@ -39,7 +46,9 @@ class SnapshotTests(unittest.TestCase):
             (root / "working" / "test contract.py").write_text("valid = True\n")
             (root / "snapshot").mkdir()
             with patch.object(checks.subprocess, "run", return_value=result):
-                checks.export(root / "working", [("100644", "abc123", "test contract.py")], root / "snapshot")
+                checks.export(
+                    root / "working", [("100644", "abc123", "test contract.py")], root / "snapshot"
+                )
             with self.assertRaises(checks.CheckFailure):
                 checks.source_checks(root / "snapshot", ["test contract.py"])
             checks.source_checks(root / "working", ["test contract.py"])
@@ -51,7 +60,9 @@ class SnapshotTests(unittest.TestCase):
             root = Path(temporary)
             (root / "answer.py").write_text("def broken(:\n")
             snapshot = root / "snapshot"
-            with patch.object(checks.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, raw, b"")):
+            with patch.object(
+                checks.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, raw, b"")
+            ):
                 checks.export(root, [("100644", "abc123", "answer.py")], snapshot)
             checks.source_checks(snapshot, ["answer.py"])
             with self.assertRaises(checks.CheckFailure):
@@ -69,7 +80,9 @@ class SnapshotTests(unittest.TestCase):
     def test_selection_fingerprint_changes_on_deletion_or_mode(self):
         items = [("100644", "abc", "file.py")]
         self.assertNotEqual(checks.fingerprint(items), checks.fingerprint([]))
-        self.assertNotEqual(checks.fingerprint(items), checks.fingerprint([("100755", "abc", "file.py")]))
+        self.assertNotEqual(
+            checks.fingerprint(items), checks.fingerprint([("100755", "abc", "file.py")])
+        )
 
 
 class ContractTests(unittest.TestCase):
@@ -81,7 +94,9 @@ class ContractTests(unittest.TestCase):
         checks.validate_gate({"docs": {"result": "success"}}, ["docs"])
 
     def test_only_declared_optional_job_can_skip(self):
-        checks.validate_gate({"ci": {"result": "success"}, "audit": {"result": "skipped"}}, ["ci"], ["audit"])
+        checks.validate_gate(
+            {"ci": {"result": "success"}, "audit": {"result": "skipped"}}, ["ci"], ["audit"]
+        )
         with self.assertRaises(checks.CheckFailure):
             checks.validate_gate({"ci": {"result": "success"}}, ["ci"], ["audit"])
 
@@ -120,7 +135,15 @@ class ContractTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             (root / "a.py").write_text("import os\nunknown_name\n")
-            findings = [{"filename": str(root / "a.py"), "location": {"row": n}, "code": "F821", "message": "bad"} for n in (1, 2)]
+            findings = [
+                {
+                    "filename": str(root / "a.py"),
+                    "location": {"row": n},
+                    "code": "F821",
+                    "message": "bad",
+                }
+                for n in (1, 2)
+            ]
             result = subprocess.CompletedProcess([], 1, json.dumps(findings).encode(), b"")
             config = {"lint_paths": ["*.py"], "lint_changed_lines": True}
             with patch.object(checks.subprocess, "run", return_value=result):

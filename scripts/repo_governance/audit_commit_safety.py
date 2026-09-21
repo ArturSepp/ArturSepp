@@ -50,7 +50,9 @@ def main():
             checks = protection.get("required_status_checks") or {}
             row["required_contexts"] = checks.get("contexts", [])
             row["up_to_date_required"] = checks.get("strict", False)
-            row["pull_request_required"] = protection.get("required_pull_request_reviews") is not None
+            row["pull_request_required"] = (
+                protection.get("required_pull_request_reviews") is not None
+            )
         rows.append(row)
     report = json.dumps({"checker_version": "1.0.0", "repositories": rows}, indent=2) + "\n"
     if args.output:
@@ -59,9 +61,14 @@ def main():
     print(report)
     passed = all(row["checker_matches"] and row["required_workflow"] for row in rows)
     if args.online:
-        passed = passed and all(row["main_protected"] and row["admins_enforced"]
-                                and row["up_to_date_required"] and row["pull_request_required"]
-                                and "Required checks" in row["required_contexts"] for row in rows)
+        passed = passed and all(
+            row["main_protected"]
+            and row["admins_enforced"]
+            and row["up_to_date_required"]
+            and row["pull_request_required"]
+            and "Required checks" in row["required_contexts"]
+            for row in rows
+        )
     raise SystemExit(0 if passed else 1)
 
 
