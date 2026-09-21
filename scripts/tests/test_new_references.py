@@ -30,6 +30,22 @@ class ReferenceTests(unittest.TestCase):
             module.added_urls(patch_text), ["https://example.org/A_(B)", "https://example.org/next"]
         )
 
+    def test_authorship_emphasis_and_rst_wrappers(self):
+        patch_text = (
+            "+*[Artur Sepp](https://github.com/ArturSepp)*\n"
+            "+**[guide](https://example.org/guide)**\n"
+            "+`https://example.org/code` and `RST <https://example.org/rst>`_\n"
+        )
+        self.assertEqual(
+            module.added_urls(patch_text),
+            [
+                "https://example.org/code",
+                "https://example.org/guide",
+                "https://example.org/rst",
+                "https://github.com/ArturSepp",
+            ],
+        )
+
     def test_repeated_not_found_blocks(self):
         error = HTTPError("https://example.org", 404, "missing", {}, None)
         with patch.object(module, "urlopen", side_effect=error), patch.object(module.time, "sleep"):
