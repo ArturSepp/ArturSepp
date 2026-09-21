@@ -20,16 +20,45 @@ def output(args):
     return result.stdout.strip() if result.returncode == 0 else None
 
 
+def consumer_targets(registry, package):
+    """Derive the smallest environment for every core or optional consumer edge."""
+    targets = []
+    for consumer in registry["packages"]:
+        extras = []
+        if package["import"] in consumer.get("core", []):
+            extras.append("")
+        extras.extend(
+            extra
+            for extra, dependencies in consumer.get("extras", {}).items()
+            if package["import"] in dependencies
+        )
+        if not extras:
+            continue
+        extra = min(extras, key=lambda name: (name == "all", len(name), name))
+        targets.append(
+            {
+                "repository": f"ArturSepp/{consumer['repo']}",
+                "module": consumer["import"],
+                "extra": extra,
+                "sdk": package["import"] == "bbg_fetch",
+            }
+        )
+    return targets
+
+
 def main():
     """Report local copies/hooks and optional live protection settings."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repos-root", type=Path, required=True)
     parser.add_argument("--online", action="store_true")
+    parser.add_argument("--require-hooks", action="store_true")
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     here = Path(__file__).resolve().parent
     registry = json.loads((here / "portfolio_registry.json").read_text())
     expected = digest(here / "oss_checks.py")
+    public = json.loads((here.parent / "public_registry.json").read_text())
+    packages = {item["local_dir"]: item for item in public["packages"]}
     rows = []
     for entry in registry["repositories"]:
         if entry["visibility"] != "public-package":
@@ -42,6 +71,15 @@ def main():
             "hook_path": output(["git", "-C", str(root), "config", "--get", "core.hooksPath"]),
             "required_workflow": (root / ".github/workflows/required.yml").is_file(),
         }
+        profile_path = root / ".github/oss-checks.json"
+        profile = json.loads(profile_path.read_text()) if profile_path.exists() else {}
+        actual_edges = [
+            {key: value for key, value in edge.items() if key != "commit"}
+            for edge in profile.get("consumers", [])
+        ]
+        row["consumer_graph_matches"] = actual_edges == consumer_targets(
+            public, packages[entry["directory"]]
+        )
         if args.online:
             raw = output(["gh", "api", f"repos/ArturSepp/{entry['name']}/branches/main/protection"])
             protection = json.loads(raw) if raw else {}
@@ -59,7 +97,12 @@ def main():
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(report, encoding="utf-8")
     print(report)
-    passed = all(row["checker_matches"] and row["required_workflow"] for row in rows)
+    passed = all(
+        row["checker_matches"] and row["required_workflow"] and row["consumer_graph_matches"]
+        for row in rows
+    )
+    if args.require_hooks:
+        passed = passed and all(row["hook_path"] == ".githooks" for row in rows)
     if args.online:
         passed = passed and all(
             row["main_protected"]
