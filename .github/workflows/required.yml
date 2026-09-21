@@ -1,0 +1,25 @@
+name: Required checks
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  required:
+    name: Required checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: "3.12"
+      - name: Install pinned verification tools
+        run: python -m pip install -r scripts/repo_governance/check-requirements.txt
+      - name: Exercise governance and commit-safety contracts
+        run: python -m unittest discover -s scripts/tests -v
+      - name: Lint commit-safety implementation
+        run: python -m ruff check --select E9,F63,F7,F82 scripts/repo_governance/oss_checks.py scripts/tests/test_oss_checks.py

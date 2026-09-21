@@ -25,6 +25,8 @@ jobs:
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: "3.12"
+      - name: Install pinned governance test tools
+        run: python -m pip install -r scripts/repo_governance/check-requirements.txt
       - name: Validate checker and release tooling contracts
         run: python -m unittest discover -s scripts/tests -v
       - name: Collect public sources and all tags
@@ -41,6 +43,7 @@ jobs:
           if-no-files-found: error
           retention-days: 30
   record:
+    concurrency: public-generated-reports
     needs: collect
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
@@ -59,11 +62,16 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin automation/reports || true
+          if git show-ref --verify --quiet refs/remotes/origin/automation/reports; then
+            git switch -C automation/reports origin/automation/reports
+          else
+            git switch -c automation/reports
+          fi
           cp report/CONFORMANCE.json CONFORMANCE.json
           cp report/CONFORMANCE.md CONFORMANCE.md
           git add -- CONFORMANCE.json CONFORMANCE.md
           if ! git diff --quiet --cached; then
             git commit -m "chore: refresh public conformance report"
-            git pull --rebase origin main
-            git push origin HEAD:main
+            git push origin HEAD:automation/reports
           fi

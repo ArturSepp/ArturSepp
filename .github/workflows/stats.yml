@@ -19,6 +19,7 @@ env:
 
 jobs:
   build:
+    concurrency: public-generated-reports
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -35,13 +36,21 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/build_stats.py
 
-      - name: Commit changes
+      - name: Publish statistics to the report branch
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          cp README.md "$RUNNER_TEMP/statistics-readme.md"
+          git restore -- README.md
+          git fetch origin automation/reports || true
+          if git show-ref --verify --quiet refs/remotes/origin/automation/reports; then
+            git switch -C automation/reports origin/automation/reports
+          else
+            git switch -c automation/reports
+          fi
+          cp "$RUNNER_TEMP/statistics-readme.md" README.md
           git add README.md
           if ! git diff --quiet --cached; then
             git commit -m "chore: refresh repo stats"
-            git pull --rebase origin main
-            git push origin HEAD:main
+            git push origin HEAD:automation/reports
           fi

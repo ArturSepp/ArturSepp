@@ -12,15 +12,23 @@ $registry = Get-Content -LiteralPath $registryFile -Raw | ConvertFrom-Json
 $registryDirectory = Split-Path -Parent $registryFile
 
 if (-not $RepositoriesRoot) {
-    $RepositoriesRoot = Join-Path $registryDirectory $registry.repositories_root
+    $sharedGit = & git -C $registryDirectory rev-parse --path-format=absolute --git-common-dir
+    if ($LASTEXITCODE -eq 0 -and (Split-Path -Leaf $sharedGit) -eq '.git') {
+        $RepositoriesRoot = Split-Path -Parent (Split-Path -Parent $sharedGit)
+    } else {
+        $RepositoriesRoot = Join-Path $registryDirectory $registry.repositories_root
+    }
 }
 $repositoriesRootPath = (Resolve-Path -LiteralPath $RepositoriesRoot).Path
 $candidatePath = (Resolve-Path -LiteralPath $RepoPath).Path.TrimEnd('\')
 
+$commonGit = & git -C $candidatePath rev-parse --path-format=absolute --git-common-dir
+$durableRoot = if ($LASTEXITCODE -eq 0) { Split-Path -Parent $commonGit } else { $candidatePath }
+
 $matches = @(
     foreach ($repository in $registry.repositories) {
         $root = (Resolve-Path -LiteralPath (Join-Path $repositoriesRootPath $repository.directory)).Path.TrimEnd('\')
-        if ($candidatePath -eq $root -or $candidatePath.StartsWith($root + '\', [StringComparison]::OrdinalIgnoreCase)) {
+        if ($durableRoot -eq $root -or $candidatePath -eq $root -or $candidatePath.StartsWith($root + '\', [StringComparison]::OrdinalIgnoreCase)) {
             [pscustomobject]@{ Entry = $repository; Root = $root }
         }
     }
@@ -30,7 +38,7 @@ if ($matches.Count -ne 1) {
 }
 
 $repository = $matches[0].Entry
-$repositoryRoot = $matches[0].Root
+$repositoryRoot = (& git -C $candidatePath rev-parse --show-toplevel).Trim()
 $pythonRoot = if ($env:PORTFOLIO_PYTHON_ROOT) { $env:PORTFOLIO_PYTHON_ROOT } else { $registry.external_environment_root }
 $environmentRoot = [IO.Path]::GetFullPath((Join-Path $pythonRoot $repository.python_environment))
 $python = Join-Path $environmentRoot 'Scripts\python.exe'
