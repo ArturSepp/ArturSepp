@@ -98,6 +98,10 @@ applicable component to succeed; a cancelled or unexpectedly skipped component f
 gate. Security auditing is required when dependency inputs change. The branch must be current
 with `main` before merging.
 
+Introduced references are checked on each pull request: confirmed 404/410 responses or missing
+static anchors fail the gate. Rate limits, timeouts and server errors are recorded as unavailable
+evidence for follow-up, rather than treated as proof of a defective edit.
+
 Broad external-link checks and live dependency compatibility run separately on schedules.
 A rate limit, website outage or new security advisory can therefore be identified as
 maintenance work. Genuine broken references and vulnerabilities must still be repaired.

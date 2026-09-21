@@ -70,6 +70,9 @@ def main():
             "checker_matches": checker.exists() and digest(checker) == expected,
             "hook_path": output(["git", "-C", str(root), "config", "--get", "core.hooksPath"]),
             "required_workflow": (root / ".github/workflows/required.yml").is_file(),
+            "reference_checker_matches": (root / ".github/check_new_references.py").exists()
+            and digest(root / ".github/check_new_references.py")
+            == digest(here / "check_new_references.py"),
         }
         profile_path = root / ".github/oss-checks.json"
         profile = json.loads(profile_path.read_text()) if profile_path.exists() else {}
@@ -98,7 +101,10 @@ def main():
         args.output.write_text(report, encoding="utf-8")
     print(report)
     passed = all(
-        row["checker_matches"] and row["required_workflow"] and row["consumer_graph_matches"]
+        row["checker_matches"]
+        and row["reference_checker_matches"]
+        and row["required_workflow"]
+        and row["consumer_graph_matches"]
         for row in rows
     )
     if args.require_hooks:
