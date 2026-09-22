@@ -296,7 +296,7 @@ for build commands, docstring conventions, and numerical contracts.
 |---|---|---|
 | [QuantInvestStrats (qis)](https://github.com/ArturSepp/QuantInvestStrats) | [AGENTS.md](https://github.com/ArturSepp/QuantInvestStrats/blob/main/AGENTS.md) | [QIS supplement](https://github.com/ArturSepp/QuantInvestStrats/blob/main/docs/documentation_standard.md) |
 | [OptimalPortfolios](https://github.com/ArturSepp/OptimalPortfolios) | [AGENTS.md](https://github.com/ArturSepp/OptimalPortfolios/blob/main/AGENTS.md) | [OP supplement](https://github.com/ArturSepp/OptimalPortfolios/blob/main/docs/documentation_standard.md) |
-| [FactorLasso](https://github.com/ArturSepp/factorlasso) | [AGENTS.md](https://github.com/ArturSepp/factorlasso/blob/main/AGENTS.md) | Local instructions apply. |
+| [FactorLasso](https://github.com/ArturSepp/factorlasso) | [AGENTS.md](https://github.com/ArturSepp/factorlasso/blob/main/AGENTS.md) | [FactorLasso supplement](https://github.com/ArturSepp/factorlasso/blob/main/docs/documentation_standard.md) |
 | [BloombergFetch](https://github.com/ArturSepp/BloombergFetch) | [AGENTS.md](https://github.com/ArturSepp/BloombergFetch/blob/main/AGENTS.md) | Local instructions apply. |
 | [StochVolModels](https://github.com/ArturSepp/StochVolModels) | [AGENTS.md](https://github.com/ArturSepp/StochVolModels/blob/main/AGENTS.md) | Local instructions apply. |
 | [TrendFollowingSystems](https://github.com/ArturSepp/TrendFollowingSystems) | [AGENTS.md](https://github.com/ArturSepp/TrendFollowingSystems/blob/main/AGENTS.md) | Local instructions apply. |

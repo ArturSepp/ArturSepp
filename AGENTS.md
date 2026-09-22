@@ -16,6 +16,17 @@
 
 Guidance for AI coding agents working in the **ArturSepp** repository.
 
+## OSS documentation standard
+
+- The canonical authoring guide is [docs/documentation_standard.md](docs/documentation_standard.md).
+  It owns shared article structure, attribution and dates, Markdown mathematics, references,
+  figure provenance, navigation, and review requirements for the public Python stack.
+- Each package's AGENTS.md links to this guide. QIS and OP retain supplements for their
+  local tooling and numerical contracts. Change common rules here, preserve local exceptions,
+  and keep the package links current.
+- Keep shared documentation links outside the generated SHARED AGENT CORE blocks.
+  Linking this guide does not certify migration or review of an existing package's pages.
+
 ## Agent-generated artifacts
 
 All agent-generated roadmaps, execution plans, audits, reports, handoffs, and other working

@@ -15,6 +15,10 @@ For publications, speaking, and full background → [artursepp.com](https://artu
 
 ---
 
+For contributors: [OSS documentation authoring standard](docs/documentation_standard.md)
+covers article templates, authorship, equations, references, and reproducible analytics
+across the ten packages.
+
 ## Python Packages
 
 Over 20 years of building quantitative models — across equity, credit and rates derivatives on the sell-side, a systematic CTA, market-neutral crypto/DeFi, and now multi-asset private banking — one pattern holds: volatility regimes migrate across asset classes, and models that feel robust fail at the worst moment. These ten open-source packages are my working answer, spanning the full quant workflow from market data — prices, fundamentals and point-in-time option chains — to signal generation, factor modelling, and portfolio construction, through to performance measurement of private assets.

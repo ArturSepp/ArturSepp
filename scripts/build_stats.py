@@ -26,7 +26,10 @@ from pathlib import Path
 
 OWNER = "ArturSepp"
 USER_AGENT = "ArturSepp-profile-stats/1.0 (+https://github.com/ArturSepp/ArturSepp)"
-REGISTRY = json.loads(Path(__file__).with_name("public_registry.json").read_text(encoding="utf-8"))
+SCRIPT_DIR = Path(__file__).resolve().parent
+REPOSITORY_ROOT = SCRIPT_DIR.parent
+README_PATH = REPOSITORY_ROOT / "README.md"
+REGISTRY = json.loads((SCRIPT_DIR / "public_registry.json").read_text(encoding="utf-8"))
 DOCS = {p["dist"]: f"https://{p['rtd']}.readthedocs.io" for p in REGISTRY["packages"]}
 
 # repo -> pepy/PyPI distribution slug, in the display order defined by GROUPS.
@@ -200,7 +203,7 @@ def main() -> None:
     parser.add_argument("--reuse-existing-counts", action="store_true",
                         help="Regenerate formatting using recorded metrics; do not fetch or claim a refresh")
     args = parser.parse_args()
-    with open("README.md", encoding="utf-8") as f:
+    with README_PATH.open(encoding="utf-8") as f:
         readme = f.read()
     if args.reuse_existing_counts:
         counts, downloads = existing_metrics(readme)
@@ -213,7 +216,7 @@ def main() -> None:
     readme = replace_block(readme, "TOTALS", totals)
     readme = replace_block(readme, "STATS", f"\n{table}\n")
 
-    with open("README.md", "w", encoding="utf-8", newline="\n") as f:
+    with README_PATH.open("w", encoding="utf-8", newline="\n") as f:
         f.write(readme)
 
 

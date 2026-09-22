@@ -1,6 +1,7 @@
 """Contract tests for graph errors, release history and unavailable external data."""
 import io
 import json
+import os
 import subprocess
 import sys
 import tempfile
@@ -60,6 +61,25 @@ class RegistryTests(unittest.TestCase):
         totals, table = build_stats.build_blocks(counts, downloads)
         self.assertEqual(table.count("[Docs]"), 10)
         self.assertEqual(build_stats.existing_metrics(table), (counts, downloads))
+
+    def test_profile_refresh_is_independent_of_working_directory(self):
+        source = build_stats.README_PATH.read_text(encoding="utf-8")
+        original_cwd = Path.cwd()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            readme = root / "README.md"
+            readme.write_text(source, encoding="utf-8")
+            elsewhere = root / "elsewhere"
+            elsewhere.mkdir()
+            try:
+                os.chdir(elsewhere)
+                with mock.patch.object(build_stats, "README_PATH", readme), \
+                     mock.patch.object(sys, "argv", ["build_stats.py", "--reuse-existing-counts"]):
+                    build_stats.main()
+            finally:
+                os.chdir(original_cwd)
+            self.assertEqual(build_stats.existing_metrics(readme.read_text(encoding="utf-8")),
+                             build_stats.existing_metrics(source))
 
     def test_profile_download_request_identifies_itself_to_pepy(self):
         response = io.BytesIO(b"<svg><text>22k</text></svg>")
