@@ -1,5 +1,4 @@
 """Contract tests for graph errors, release history and unavailable external data."""
-import io
 import json
 import os
 import subprocess
@@ -55,14 +54,18 @@ class RegistryTests(unittest.TestCase):
             self.assertIn(sync + "\n          uv pip install --python .venv " + index, workflow)
         self.assertNotIn(index, c.render_release_template("release.yml", packages[0]))
 
-    def test_profile_offline_render_preserves_recorded_counts(self):
+    def test_profile_table_uses_live_metrics_for_each_package(self):
         readme = (Path(c.__file__).parent.parent / "README.md").read_text(encoding="utf-8")
-        counts, downloads = build_stats.existing_metrics(readme)
-        totals, table = build_stats.build_blocks(counts, downloads)
+        table = build_stats.build_table()
         self.assertEqual(table.count("[Docs]"), 10)
-        self.assertEqual(build_stats.existing_metrics(table), (counts, downloads))
+        self.assertEqual(readme, build_stats.replace_table(readme, table))
+        for repo, slug in build_stats.REPOS.items():
+            self.assertIn(f"img.shields.io/github/stars/ArturSepp/{repo}", table)
+            self.assertIn(f"img.shields.io/github/forks/ArturSepp/{repo}", table)
+            self.assertIn(f"static.pepy.tech/personalized-badge/{slug}?period=month", table)
+            self.assertIn(f"static.pepy.tech/personalized-badge/{slug}?period=total", table)
 
-    def test_profile_refresh_is_independent_of_working_directory(self):
+    def test_profile_render_is_independent_of_working_directory(self):
         source = build_stats.README_PATH.read_text(encoding="utf-8")
         original_cwd = Path.cwd()
         with tempfile.TemporaryDirectory() as tmp:
@@ -74,20 +77,11 @@ class RegistryTests(unittest.TestCase):
             try:
                 os.chdir(elsewhere)
                 with mock.patch.object(build_stats, "README_PATH", readme), \
-                     mock.patch.object(sys, "argv", ["build_stats.py", "--reuse-existing-counts"]):
+                     mock.patch.object(sys, "argv", ["build_stats.py"]):
                     build_stats.main()
             finally:
                 os.chdir(original_cwd)
-            self.assertEqual(build_stats.existing_metrics(readme.read_text(encoding="utf-8")),
-                             build_stats.existing_metrics(source))
-
-    def test_profile_download_request_identifies_itself_to_pepy(self):
-        response = io.BytesIO(b"<svg><text>22k</text></svg>")
-        with mock.patch.object(build_stats.urllib.request, "urlopen", return_value=response) as urlopen:
-            self.assertEqual(build_stats.fetch_download_count("qis", "month"), "22k")
-        request = urlopen.call_args.args[0]
-        self.assertEqual(request.get_header("User-agent"), build_stats.USER_AGENT)
-        self.assertEqual(request.get_header("Accept"), "image/svg+xml")
+            self.assertEqual(readme.read_text(encoding="utf-8"), source)
 
     def test_svm_release_gates_upload_and_optional_page_on_tagged_windows_regressions(self):
         packages = c.load_registry()["packages"]
