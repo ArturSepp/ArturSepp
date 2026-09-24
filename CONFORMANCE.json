@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-09-23T10:00:03.521399+00:00",
+  "observed_at": "2026-09-24T10:02:15.059165+00:00",
   "mode": "online",
   "packages": [
     {
@@ -473,7 +473,7 @@
         {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 0.20.0.dev2: prepared/unpublished; GitHub Release page optional"
+          "detail": "main/source 0.20.0.dev3: prepared/unpublished; GitHub Release page optional"
         },
         {
           "check": "pypi_metadata",
