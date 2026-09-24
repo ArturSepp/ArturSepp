@@ -85,9 +85,10 @@ StochVolModels preserves its CI platform split: tagged fast tests run on Linux, 
 Windows Python 3.12 numerical regression job checks the same validated commit with its
 locked test dependencies. Both must pass before uploading or creating an optional release page.
 
-`python scripts/build_stats.py --reuse-existing-counts` regenerates the profile table using
-its recorded metrics without any network requests. This is appropriate for a Docs-link or
-layout-only change when a statistics provider is unavailable; it does not claim new counts.
+`python scripts/build_stats.py` regenerates the profile table without network requests.
+GitHub and Pepy badges supply current counts when the README is viewed. Run
+`python scripts/build_stats.py --check` to verify that the committed table matches its
+package metadata.
 
 Trusted Publishing setup is documented by [PyPI](https://docs.pypi.org/trusted-publishers/adding-a-publisher/).
 The publisher action is pinned to [PyPA v1.14.2](https://github.com/pypa/gh-action-pypi-publish/commit/dc37677b2e1c63e2034f94d8a5b11f265b73ba33),
