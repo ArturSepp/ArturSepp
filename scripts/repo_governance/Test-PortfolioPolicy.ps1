@@ -17,10 +17,14 @@ function Test-RelativePathExcluded {
         [Parameter(Mandatory)]
         [string]$RelativePath,
         [Parameter(Mandatory)]
-        [string[]]$Prefixes
+        [string[]]$Prefixes,
+        [bool]$PaperAgents = $false
     )
 
     $normalizedPath = $RelativePath.Replace('\', '/').Trim('/')
+    if ($PaperAgents -and $normalizedPath -match '(?i)^papers/[^/]+/agents(?:/|$)') {
+        return $true
+    }
     foreach ($prefix in $Prefixes) {
         $normalizedPrefix = $prefix.Replace('\', '/').Trim('/')
         if (
@@ -80,8 +84,9 @@ foreach ($repository in $registry.repositories) {
         $violations.Add("$($repository.name): CLAUDE.md does not point to AGENTS.md")
     }
 
+    $paperAgents = $null -ne $repository.artifact_policy -and $repository.artifact_policy.paper_agents -eq $true
     $artifactExclusions = @('agents', '.git')
-    if ($null -ne $repository.artifact_policy) {
+    if ($null -ne $repository.artifact_policy.roadmap_exclusions) {
         $artifactExclusions += @($repository.artifact_policy.roadmap_exclusions)
     }
     $repositoryItems = @(Get-ChildItem -LiteralPath $repositoryRoot -Recurse -Force -ErrorAction SilentlyContinue)
@@ -90,7 +95,7 @@ foreach ($repository in $registry.repositories) {
             Where-Object { -not $_.PSIsContainer -and $_.Name -match '(?i)ROADMAP.*\.md$' } |
             Where-Object {
                 $relativePath = [IO.Path]::GetRelativePath($repositoryRoot, $_.FullName)
-                -not (Test-RelativePathExcluded -RelativePath $relativePath -Prefixes $artifactExclusions)
+                -not (Test-RelativePathExcluded -RelativePath $relativePath -Prefixes $artifactExclusions -PaperAgents $paperAgents)
             }
     )
     foreach ($roadmap in $misplacedRoadmaps) {
@@ -107,7 +112,7 @@ foreach ($repository in $registry.repositories) {
             } |
             Where-Object {
                 $relativePath = [IO.Path]::GetRelativePath($repositoryRoot, $_.FullName)
-                -not (Test-RelativePathExcluded -RelativePath $relativePath -Prefixes $artifactExclusions)
+                -not (Test-RelativePathExcluded -RelativePath $relativePath -Prefixes $artifactExclusions -PaperAgents $paperAgents)
             }
     )
     foreach ($directory in $misplacedOutputDirectories) {
@@ -120,6 +125,14 @@ foreach ($repository in $registry.repositories) {
         check-ignore -v -- 'agents/.agent-artifact-probe' 2>$null
     if ($LASTEXITCODE -ne 0 -or $ignoreSource -notmatch '(?i)(^|[/\\])\.gitignore:') {
         $violations.Add("$($repository.name): repository-root agents/ is not ignored by .gitignore")
+    }
+
+    if ($paperAgents) {
+        $paperIgnore = & git -c "safe.directory=$safeDirectory" --no-optional-locks -C $repositoryRoot `
+            check-ignore -v -- 'papers/policy_probe/agents/ROADMAP_probe.md' 2>$null
+        if ($LASTEXITCODE -ne 0 -or $paperIgnore -notmatch '(?i)(^|[/\\])\.gitignore:') {
+            $violations.Add("$($repository.name): per-paper agents/ is not protected by .gitignore")
+        }
     }
 
     foreach ($localName in '.venv', 'venv', '.tox', '.nox') {

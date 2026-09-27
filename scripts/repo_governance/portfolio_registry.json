@@ -30,6 +30,7 @@
       "directory": "FactorLasso",
       "visibility": "public-package",
       "python_environment": "FactorLasso312",
+      "artifact_policy": {"paper_agents": true},
       "tasks": {
         "check": {"steps": [{"name": "Ruff", "kind": "module", "module": "ruff", "arguments": ["check", "src/factorlasso", "tests"]}]},
         "test": {"steps": [{"name": "Pytest", "kind": "module", "module": "pytest", "arguments": []}]}
@@ -51,6 +52,9 @@
       "directory": "GoalBasedAllocation",
       "visibility": "public-package",
       "python_environment": "GoalBasedAllocation312",
+      "artifact_policy": {
+        "paper_agents": true
+      },
       "tasks": {
         "check": {"steps": [{"name": "Ruff", "kind": "module", "module": "ruff", "arguments": ["check", "."]}]},
         "test": {"steps": [{"name": "Pytest", "kind": "module", "module": "pytest", "arguments": ["-q"]}]}
@@ -61,6 +65,7 @@
       "directory": "OptimalPortfolios",
       "visibility": "public-package",
       "python_environment": "OptimalPortfolios312",
+      "artifact_policy": {"paper_agents": true},
       "tasks": {
         "check": {"steps": [{"name": "Ruff", "kind": "module", "module": "ruff", "arguments": ["check", "src/optimalportfolios/"]}]},
         "test": {"steps": [{"name": "Pytest", "kind": "module", "module": "pytest", "arguments": []}]}
@@ -81,6 +86,9 @@
       "directory": "PrivateAssets",
       "visibility": "public-package",
       "python_environment": "PrivateAssets312",
+      "artifact_policy": {
+        "paper_agents": true
+      },
       "tasks": {
         "check": {"steps": [{"name": "Ruff", "kind": "module", "module": "ruff", "arguments": ["check", "src/privateassets", "tests", "examples", "docs/conf.py"]}]},
         "test": {"steps": [{"name": "Pytest", "kind": "module", "module": "pytest", "arguments": []}]}
@@ -139,6 +147,7 @@
       "directory": "TrendFollowingSystems",
       "visibility": "public-package",
       "python_environment": "TrendFollowingSystems312",
+      "artifact_policy": {"paper_agents": true},
       "tasks": {
         "check": {"steps": [{"name": "Ruff", "kind": "module", "module": "ruff", "arguments": ["check", "src/trendfollowing/"]}]},
         "test": {"steps": [{"name": "Pytest", "kind": "module", "module": "pytest", "arguments": []}]}

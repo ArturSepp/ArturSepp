@@ -23,6 +23,7 @@
           "artifact_policy": {
             "type": "object",
             "properties": {
+              "paper_agents": {"type": "boolean"},
               "roadmap_exclusions": {
                 "type": "array",
                 "items": {"type": "string", "minLength": 1},
