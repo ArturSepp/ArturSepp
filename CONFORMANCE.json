@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-09-29T11:23:12.272141+00:00",
+  "observed_at": "2026-09-30T11:10:54.794701+00:00",
   "mode": "online",
   "packages": [
     {
@@ -168,6 +168,11 @@
         {
           "check": "published_tag",
           "state": "pass",
+          "detail": "v5.32.1: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
           "detail": "v5.5.0: matches published version"
         },
         {
@@ -218,7 +223,7 @@
         {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 5.32.0: published"
+          "detail": "main/source 5.32.1: published"
         },
         {
           "check": "pypi_metadata",
