@@ -99,6 +99,8 @@ $env:MYPY_CACHE_DIR = $paths.MypyCache
 $env:MPLCONFIGDIR = $paths.MatplotlibCache
 $env:PYTEST_DEBUG_TEMPROOT = $paths.PytestDebugTemp
 $env:COVERAGE_FILE = $paths.Coverage
+# optimalportfolios.local_path.get_output_path() otherwise defaults to <checkout>/outputs.
+$env:OPTIMALPORTFOLIOS_OUTPUT_PATH = $paths.Outputs
 $env:TEMP = $paths.Temp
 $env:TMP = $paths.Temp
 $env:MPLBACKEND = 'Agg'

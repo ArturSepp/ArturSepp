@@ -24,7 +24,9 @@ SigmaStrats lacks an automated test interface.
 `Enter-AgentRepo.ps1` selects `C:\Python\<environment>\Scripts\python.exe`, rejects environments
 inside OneDrive, and routes Python, pytest, Ruff, mypy, coverage, build, output, and temporary state
 below `%LOCALAPPDATA%\AgentWork\<machine>\<repository>`. It can also be dot-sourced before a manual
-repository-specific command.
+repository-specific command. It sets `OPTIMALPORTFOLIOS_OUTPUT_PATH` to that directory's
+`outputs` folder, so `optimalportfolios.local_path.get_output_path()` writes there and not into
+the OneDrive checkout.
 
 Run the governance checks with:
 
