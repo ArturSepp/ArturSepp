@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-10-03T10:25:38.961871+00:00",
+  "observed_at": "2026-10-04T11:08:03.271180+00:00",
   "mode": "online",
   "packages": [
     {
@@ -408,6 +408,11 @@
         {
           "check": "published_tag",
           "state": "pass",
+          "detail": "v7.11.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
           "detail": "v7.2.0: matches published version"
         },
         {
@@ -438,7 +443,7 @@
         {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 7.10.2: published"
+          "detail": "main/source 7.11.0: published"
         },
         {
           "check": "pypi_metadata",
@@ -556,9 +561,14 @@
           "detail": "v1.0.0: matches published version"
         },
         {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v1.0.1: matches published version"
+        },
+        {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 1.0.0: published"
+          "detail": "main/source 1.0.1: published"
         },
         {
           "check": "pypi_metadata",
@@ -657,8 +667,8 @@
         },
         {
           "check": "release_templates",
-          "state": "pass",
-          "detail": "generated release files match reviewed template content"
+          "state": "fail",
+          "detail": ".github/workflows/release.yml"
         },
         {
           "check": "published_tag",
@@ -927,8 +937,8 @@
         },
         {
           "check": "release_templates",
-          "state": "pass",
-          "detail": "generated release files match reviewed template content"
+          "state": "fail",
+          "detail": ".github/workflows/release.yml"
         },
         {
           "check": "published_tag",
