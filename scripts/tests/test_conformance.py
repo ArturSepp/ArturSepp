@@ -93,6 +93,8 @@ class RegistryTests(unittest.TestCase):
         self.assertIn("ref: ${{ needs.validate.outputs.sha }}", numerical)
         self.assertIn("uv sync --locked --group test", numerical)
         self.assertIn("uv run --no-sync pytest -m slow -v", numerical)
+        # Slow documentation examples run per case on Linux in ci.yml; serially they exceed the Windows timeout.
+        self.assertIn("--ignore=src/stochvolmodels/tests/test_docs_examples.py", numerical)
         self.assertNotIn("id-token:", numerical)
         self.assertIn("needs: [validate, windows-numerical]\n", workflow)
         self.assertIn("needs: [validate, windows-numerical, publish]\n", workflow)
