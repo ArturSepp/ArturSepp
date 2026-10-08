@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-10-07T11:47:52.033663+00:00",
+  "observed_at": "2026-10-08T12:03:18.718256+00:00",
   "mode": "online",
   "packages": [
     {
@@ -423,6 +423,11 @@
         {
           "check": "published_tag",
           "state": "pass",
+          "detail": "v7.11.2: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
           "detail": "v7.2.0: matches published version"
         },
         {
@@ -453,7 +458,7 @@
         {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 7.11.1: published"
+          "detail": "main/source 7.11.2: published"
         },
         {
           "check": "pypi_metadata",
@@ -738,7 +743,7 @@
         {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 2.4.1: published"
+          "detail": "main/source 2.4.2: prepared/unpublished; GitHub Release page optional"
         },
         {
           "check": "pypi_metadata",
@@ -861,9 +866,14 @@
           "detail": "v0.7.0: matches published version"
         },
         {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v0.7.1: matches published version"
+        },
+        {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 0.7.0: published"
+          "detail": "main/source 0.7.1: published"
         },
         {
           "check": "pypi_metadata",
