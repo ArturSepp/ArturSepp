@@ -1,6 +1,6 @@
 # Public package conformance
 
-Observed: 2026-10-08T12:03:18.718256+00:00 · mode: online
+Observed: 2026-10-09T11:54:56.168827+00:00 · mode: online
 
 GitHub Release pages are optional. Unpublished source versions are preparation states.
 
@@ -10,7 +10,7 @@ GitHub Release pages are optional. Unpublished source versions are preparation s
 | optimalportfolios | 37 | 0 | 5 | 0 | historical_provenance: 6.21.1: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.2: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.3: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.4: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 7.1.0: Published settings.yaml differs from all checked repository candidates; provenance unresolved |
 | factorlasso | 25 | 1 | 0 | 0 | release_templates: .github/workflows/release.yml |
 | bbg-fetch | 11 | 1 | 0 | 0 | release_templates: .github/workflows/release.yml |
-| stochvolmodels | 15 | 1 | 0 | 0 | release_templates: .github/workflows/release.yml |
+| stochvolmodels | 16 | 1 | 0 | 0 | release_templates: .github/workflows/release.yml |
 | trendfollowing | 12 | 1 | 0 | 0 | release_templates: .github/workflows/release.yml |
 | privateassets | 10 | 1 | 0 | 0 | release_templates: .github/workflows/release.yml |
 | goal-based-allocation | 12 | 1 | 0 | 0 | release_templates: .github/workflows/release.yml |
