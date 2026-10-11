@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-10-10T11:11:29.828695+00:00",
+  "observed_at": "2026-10-11T11:25:07.399665+00:00",
   "mode": "online",
   "packages": [
     {
@@ -28,37 +28,12 @@
         {
           "check": "release_templates",
           "state": "fail",
-          "detail": ".github/workflows/release.yml"
+          "detail": ".github/workflows/release.yml, .github/scripts/release_guard.py"
         },
         {
           "check": "published_tag",
           "state": "pass",
           "detail": "v5.10.0: matches published version"
-        },
-        {
-          "check": "published_tag",
-          "state": "pass",
-          "detail": "v5.11.0: matches published version"
-        },
-        {
-          "check": "historical_provenance",
-          "state": "known-gap",
-          "detail": "5.11.1: Published settings.yaml differs from all checked repository candidates; provenance unresolved"
-        },
-        {
-          "check": "historical_provenance",
-          "state": "known-gap",
-          "detail": "5.11.2: Published settings.yaml differs from all checked repository candidates; provenance unresolved"
-        },
-        {
-          "check": "historical_provenance",
-          "state": "known-gap",
-          "detail": "5.11.3: Published settings.yaml differs from all checked repository candidates; provenance unresolved"
-        },
-        {
-          "check": "published_tag",
-          "state": "pass",
-          "detail": "v5.12.0: matches published version"
         },
         {
           "check": "historical_provenance",
@@ -193,57 +168,12 @@
         {
           "check": "published_tag",
           "state": "pass",
-          "detail": "v5.5.0: matches published version"
-        },
-        {
-          "check": "published_tag",
-          "state": "pass",
-          "detail": "v5.6.0: matches published version"
-        },
-        {
-          "check": "published_tag",
-          "state": "pass",
-          "detail": "v5.6.1: matches published version"
-        },
-        {
-          "check": "published_tag",
-          "state": "pass",
-          "detail": "v5.6.2: matches published version"
-        },
-        {
-          "check": "published_tag",
-          "state": "pass",
-          "detail": "v5.7.0: matches published version"
-        },
-        {
-          "check": "published_tag",
-          "state": "pass",
-          "detail": "v5.8.0: matches published version"
-        },
-        {
-          "check": "published_tag",
-          "state": "pass",
-          "detail": "v5.9.1: matches published version"
-        },
-        {
-          "check": "published_tag",
-          "state": "pass",
-          "detail": "v5.9.2: matches published version"
-        },
-        {
-          "check": "historical_provenance",
-          "state": "known-gap",
-          "detail": "5.9.3: Published settings.yaml differs from all checked repository candidates; provenance unresolved"
-        },
-        {
-          "check": "published_tag",
-          "state": "pass",
-          "detail": "v5.9.4: matches published version"
+          "detail": "v5.36.0: matches published version"
         },
         {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 5.36.0: prepared/unpublished; GitHub Release page optional"
+          "detail": "main/source 5.36.0: published"
         },
         {
           "check": "pypi_metadata",
