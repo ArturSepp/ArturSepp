@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-10-14T10:14:28.856883+00:00",
+  "observed_at": "2026-10-15T09:55:37.065677+00:00",
   "mode": "online",
   "packages": [
     {
@@ -393,7 +393,7 @@
         {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 7.20.0: prepared/unpublished; GitHub Release page optional"
+          "detail": "main/source 7.21.0.dev4: prepared/unpublished; GitHub Release page optional"
         },
         {
           "check": "pypi_metadata",
@@ -526,9 +526,14 @@
           "detail": "v1.0.3: matches published version"
         },
         {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v1.0.4: matches published version"
+        },
+        {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 1.0.3: published"
+          "detail": "main/source 1.0.4: published"
         },
         {
           "check": "pypi_metadata",
@@ -681,9 +686,14 @@
           "detail": "v2.4.2: matches published version"
         },
         {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v2.5.0: matches published version"
+        },
+        {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 2.4.2: published"
+          "detail": "main/source 2.5.0: published"
         },
         {
           "check": "pypi_metadata",
@@ -813,7 +823,7 @@
         {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 0.7.1: published"
+          "detail": "main/source 0.8.0: prepared/unpublished; GitHub Release page optional"
         },
         {
           "check": "pypi_metadata",
@@ -1036,9 +1046,14 @@
           "detail": "v5.2.2: matches published version"
         },
         {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.3.0: matches published version"
+        },
+        {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 5.2.2: published"
+          "detail": "main/source 5.3.0: published"
         },
         {
           "check": "pypi_metadata",
