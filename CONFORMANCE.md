@@ -1,13 +1,13 @@
 # Public package conformance
 
-Observed: 2026-10-15T09:55:37.065677+00:00 · mode: online
+Observed: 2026-10-16T09:50:31.845371+00:00 · mode: online
 
 GitHub Release pages are optional. Unpublished source versions are preparation states.
 
 | Package | Pass | Fail | Known gap | Unknown | Findings |
 |---|---:|---:|---:|---:|---|
-| qis | 34 | 1 | 2 | 0 | release_templates: .github/workflows/release.yml, .github/scripts/release_guard.py; historical_provenance: 5.15.0: Multiple matching packaged-source commits; release commit not uniquely established; historical_provenance: 5.18.0: Multiple matching packaged-source commits; release commit not uniquely established |
-| optimalportfolios | 37 | 0 | 5 | 0 | historical_provenance: 6.21.1: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.2: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.3: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.4: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 7.1.0: Published settings.yaml differs from all checked repository candidates; provenance unresolved |
+| qis | 35 | 1 | 2 | 0 | release_templates: .github/workflows/release.yml, .github/scripts/release_guard.py; historical_provenance: 5.15.0: Multiple matching packaged-source commits; release commit not uniquely established; historical_provenance: 5.18.0: Multiple matching packaged-source commits; release commit not uniquely established |
+| optimalportfolios | 37 | 1 | 5 | 0 | release_templates: .github/workflows/release.yml, .github/scripts/release_guard.py; historical_provenance: 6.21.1: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.2: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.3: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.4: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 7.1.0: Published settings.yaml differs from all checked repository candidates; provenance unresolved |
 | factorlasso | 26 | 1 | 0 | 0 | release_templates: .github/workflows/release.yml |
 | bbg-fetch | 11 | 1 | 0 | 0 | release_templates: .github/workflows/release.yml |
 | stochvolmodels | 17 | 1 | 0 | 0 | release_templates: .github/workflows/release.yml |
