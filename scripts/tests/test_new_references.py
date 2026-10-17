@@ -69,6 +69,26 @@ class ReferenceTests(unittest.TestCase):
         ):
             self.assertEqual(module.inspect_url("https://example.org#missing")["status"], "broken")
 
+    def test_github_canonical_heading_alias_is_host_and_fragment_specific(self):
+        """Recognize GitHub's canonical fragment only against its own prefixed ID."""
+        cases = [
+            ("https://github.com/owner/repo/blob/main/guide.md#method", "ok"),
+            ("https://github.com/owner/repo/blob/main/guide.md#missing", "broken"),
+            ("https://example.org/guide#method", "broken"),
+            ("https://github.com.example.org/guide#method", "broken"),
+        ]
+        with (
+            patch.object(
+                module, "urlopen", side_effect=lambda *a, **k: Response(
+                    b'<a id="user-content-method" href="#method">Method</a>'
+                )
+            ),
+            patch.object(module.time, "sleep"),
+        ):
+            for url, expected in cases:
+                with self.subTest(url=url):
+                    self.assertEqual(module.inspect_url(url)["status"], expected)
+
     def test_a_successful_retry_is_not_reported_as_broken(self):
         error = HTTPError("https://example.org", 404, "missing", {}, None)
         with (
