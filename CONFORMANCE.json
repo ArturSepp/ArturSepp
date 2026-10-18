@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-10-17T09:22:08.530657+00:00",
+  "observed_at": "2026-10-18T09:38:44.924585+00:00",
   "mode": "online",
   "packages": [
     {
@@ -196,9 +196,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github",
-          "state": "unknown",
-          "detail": "HTTP Error 403: rate limit exceeded"
+          "check": "github_about",
+          "state": "pass",
+          "detail": "description, homepage and required topics match"
         }
       ]
     },
@@ -383,6 +383,11 @@
         {
           "check": "published_tag",
           "state": "pass",
+          "detail": "v7.22.1: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
           "detail": "v7.3.0: matches published version"
         },
         {
@@ -408,7 +413,7 @@
         {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 7.22.0.dev1: prepared/unpublished; GitHub Release page optional"
+          "detail": "main/source 7.22.1: published"
         },
         {
           "check": "pypi_metadata",
@@ -416,9 +421,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github",
-          "state": "unknown",
-          "detail": "HTTP Error 403: rate limit exceeded"
+          "check": "github_about",
+          "state": "pass",
+          "detail": "description, homepage and required topics match"
         }
       ]
     },
@@ -556,9 +561,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github",
-          "state": "unknown",
-          "detail": "HTTP Error 403: rate limit exceeded"
+          "check": "github_about",
+          "state": "pass",
+          "detail": "description, homepage and required topics match"
         }
       ]
     },
@@ -621,9 +626,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github",
-          "state": "unknown",
-          "detail": "HTTP Error 403: rate limit exceeded"
+          "check": "github_about",
+          "state": "pass",
+          "detail": "description, homepage and required topics match"
         }
       ]
     },
@@ -716,9 +721,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github",
-          "state": "unknown",
-          "detail": "HTTP Error 403: rate limit exceeded"
+          "check": "github_about",
+          "state": "pass",
+          "detail": "description, homepage and required topics match"
         }
       ]
     },
