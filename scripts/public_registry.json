@@ -38,7 +38,7 @@
       "dist": "tradablefactors",
       "import": "tradablefactors",
       "rtd": "tradablefactors",
-      "summary": "Tradable factor models, GLS premia, capital market assumptions and factor covariance estimation",
+      "summary": "Tradable factor construction, GLS premia, capital market assumptions and factor covariance estimation",
       "tagline": "factor-model construction, estimation and GLS analytics",
       "core": ["qis", "factorlasso"],
       "extras": {},
@@ -53,9 +53,23 @@
       "rtd": "optimalportfolios",
       "summary": "Production multi-asset portfolio construction and rolling backtesting in Python",
       "tagline": "portfolio construction and rolling backtesting",
-      "core": [
-        "qis",
-        "factorlasso"
+      "core": ["qis"],
+      "development_imports": [
+        {
+          "path": "src/optimalportfolios/tests/factor_integration_test.py",
+          "modules": ["tradablefactors", "factorlasso"],
+          "reason": "Explicit composed-environment integration tests"
+        },
+        {
+          "path": "src/optimalportfolios/tests/documentation_analytics_covariance_comparison_test.py",
+          "modules": ["factorlasso"],
+          "reason": "Offline documentation comparison in the composed environment"
+        },
+        {
+          "path": "src/optimalportfolios/alphas/signals/run_local/signals_run.py",
+          "modules": ["tradablefactors", "factorlasso"],
+          "reason": "Explicit local composed example, excluded from the library distribution"
+        }
       ],
       "extras": {},
       "tier": "T2",
