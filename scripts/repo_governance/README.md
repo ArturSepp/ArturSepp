@@ -44,3 +44,30 @@ default; `-Write` regenerates the manifest after a deliberate shared-core update
 Build LaTeX through `Build-AgentLatex.ps1 -MainTex <path>`. Auxiliary files and the default PDF
 stay on C:. `-Publish` copies the final PDF beside the source and refuses to overwrite it;
 `-ForcePublish` is the explicit overwrite operation.
+
+## Retained roadmap exceptions
+
+The six exact OP file paths in artifact_policy.roadmap_exclusions preserve existing
+workspace contracts reviewed on 15 October 2026:
+
+- papers/equity_factors/ROADMAP_equity_factors.md is the execution contract explicitly
+  required at that location by the study's local AGENTS.md.
+- The two WBS presentations/ roadmaps are referenced by the existing deck. Its local
+  AGENTS.md protects the presentation currently being edited by the user.
+- Three matching WBS roadmaps in the dated 27 and 28 September draft archives remain with
+  their self-contained historical decks, as required by papers/AGENTS.md.
+
+These are file-specific retention exceptions, not permission for new agent outputs in
+those folders. New paper working records belong in each paper's agents/. The policy
+regression test exercises the actual registry and rejects neighbouring new roadmaps,
+new draft folders and unrelated papers. No publication or ignore-rule exception is added.
+
+The two exact FactorLasso exclusions under
+papers/exposure_budget_floor_2026/submission/Downloads retain imported roadmap source
+files in a self-contained submission bundle. The paper's local AGENTS.md requires the
+preserved inputs and packages to remain self-contained and its archived records to remain
+unchanged. These imported documents identify a different canonical working location;
+they are retained source material, not new execution records for that paper.
+Their bytes are preserved. The registry regression rejects neighbouring new roadmaps
+and an identically named pointer in another folder. New paper working records still
+belong in agents/; this adds no public tracking or distribution permission.

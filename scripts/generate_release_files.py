@@ -12,7 +12,8 @@ def main() -> None:
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
     failures = []
-    for package in load_registry()["packages"]:
+    packages = load_registry()["packages"]
+    for package in packages:
         root = args.repos_root / package["local_dir"]
         if not (root / "pyproject.toml").is_file():
             raise SystemExit(f"Missing package checkout: {root}")
@@ -29,7 +30,8 @@ def main() -> None:
                 target.write_text(content, encoding="utf-8", newline="\n")
     if failures:
         raise SystemExit("Generated release files differ:\n" + "\n".join(failures))
-    print("Release-v1 files " + ("verified" if args.check else "generated") + " for 10 packages")
+    print("Release-v1 files " + ("verified" if args.check else "generated")
+          + f" for {len(packages)} packages")
 
 
 if __name__ == "__main__":

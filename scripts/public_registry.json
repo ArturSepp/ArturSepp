@@ -33,6 +33,19 @@
       ]
     },
     {
+      "repo": "tradablefactors",
+      "local_dir": "Matf",
+      "dist": "tradablefactors",
+      "import": "tradablefactors",
+      "rtd": "tradablefactors",
+      "summary": "Tradable factor models, GLS premia, capital market assumptions and factor covariance estimation",
+      "tagline": "factor-model construction, estimation and GLS analytics",
+      "core": ["qis", "factorlasso"],
+      "extras": {},
+      "tier": "T2",
+      "topics": ["python", "quantitative-finance", "factor-models"]
+    },
+    {
       "repo": "OptimalPortfolios",
       "local_dir": "OptimalPortfolios",
       "dist": "optimalportfolios",

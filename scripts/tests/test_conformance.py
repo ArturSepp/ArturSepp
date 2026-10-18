@@ -17,7 +17,9 @@ import build_stats
 class RegistryTests(unittest.TestCase):
     def test_approved_graph_and_additive_about_updates(self):
         registry = c.load_registry()
-        self.assertEqual(len(registry["packages"]), 10)
+        self.assertEqual(len(registry["packages"]), 11)
+        tf = next(p for p in registry["packages"] if p["import"] == "tradablefactors")
+        self.assertEqual(tf["core"], ["qis", "factorlasso"])
         command = next(x for x in about.commands(registry) if "ArturSepp/privateassets" in x)
         self.assertIn("cash-flows", command)
         self.assertNotIn("--remove-topic", command)
