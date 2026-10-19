@@ -27,7 +27,7 @@ concurrency:
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   MPLBACKEND: Agg
-  RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+{{PROJECT_ENV}}  RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
 
 jobs:
   validate:
@@ -54,7 +54,7 @@ jobs:
         run: |
           uv sync --locked --group test
 {{PROJECT_SDK}}          uv run --no-sync pytest{{PYTEST_ARGS}}
-      - name: Build the tagged documentation with warnings as errors
+{{PROJECT_EXTRA_TESTS}}      - name: Build the tagged documentation with warnings as errors
         run: |
           uv sync --locked --extra docs
 {{PROJECT_SDK}}          uv run --no-sync python -m sphinx -E -W --keep-going -b html docs "$RUNNER_TEMP/release-docs"

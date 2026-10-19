@@ -15,6 +15,8 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
+import license_policy
+
 REGISTRY = Path(__file__).with_name("public_registry.json")
 AGENT_MANIFEST = Path(__file__).with_name("agent_core_manifest.json")
 URL_KEYS = {"Homepage", "Documentation", "Repository", "Changelog", "Issues"}
@@ -110,8 +112,13 @@ def render_release_template(name: str, package: dict) -> str:
     """Render reviewed registry variances identically for generation and checking."""
     content = (Path(__file__).with_name("templates") / name).read_text(encoding="utf-8")
     profile = package.get("release_test_profile")
-    if profile not in (None, "windows-numerical"):
+    if profile not in (None, "windows-numerical", "op-riskbudget"):
         raise ValueError(f"Unknown release test profile: {profile}")
+    if profile == "op-riskbudget" and package["import"] != "optimalportfolios":
+        raise ValueError("The riskbudget release profile belongs to optimalportfolios")
+    timezone = package.get("release_timezone")
+    if timezone not in (None, "Europe/Zurich"):
+        raise ValueError(f"Unreviewed release timezone: {timezone}")
     numerical = profile == "windows-numerical"
     replacements = {
         "PYTEST_ARGS": ' -m "not slow"' if numerical else "",
@@ -121,6 +128,10 @@ def render_release_template(name: str, package: dict) -> str:
         "PUBLISH_NEEDS": "[validate, windows-numerical]" if numerical else "validate",
         "RELEASE_NEEDS": "[validate, windows-numerical, publish]" if numerical else "[validate, publish]",
         "RELEASE_GATE": " && needs.windows-numerical.result == 'success'" if numerical else "",
+        "PROJECT_ENV": "  TZ: Europe/Zurich\n" if timezone else "",
+        "PROJECT_EXTRA_TESTS": (
+            Path(__file__).with_name("templates") / "release_op_riskbudget.yml"
+        ).read_text(encoding="utf-8") if profile == "op-riskbudget" else "",
     }
     for key, value in replacements.items():
         content = content.replace("{{" + key + "}}", value)
@@ -313,6 +324,10 @@ def write_reports(report: dict, output: Path) -> None:
         counts = [sum(c["state"] == state for c in checks) for state in ("pass", "fail", "known-gap", "unknown")]
         notes = "; ".join(f"{c['check']}: {c['detail']}" for c in checks if c["state"] != "pass") or "checked contracts pass"
         lines.append(f"| {package['dist']} | {counts[0]} | {counts[1]} | {counts[2]} | {counts[3]} | {notes.replace('|', '/').replace(chr(10), ' ')} |")
+    if "runtime_license" in report:
+        licence = report["runtime_license"]
+        lines += ["", f"Recorded runtime licence review: **{licence['state']}** — {licence['detail']}"]
+        lines.extend(f"- {item}" for item in licence.get("receipt", {}).get("qualifications", []))
     lines += ["", "This report checks the implemented contracts only; it does not certify numerical correctness, live docs, or release artifact provenance.", ""]
     (output / "CONFORMANCE.md").write_text("\n".join(lines), encoding="utf-8")
 
@@ -324,7 +339,13 @@ def main() -> int:
     parser.add_argument("--output", type=Path, default=Path("."))
     parser.add_argument("--online", action="store_true")
     parser.add_argument("--fail-on-drift", action="store_true")
+    parser.add_argument("--license-inspect", type=Path, help="Saved runtime-only pip inspect JSON")
+    parser.add_argument("--license-review", type=Path, help="Independently reviewed exact-runtime evidence JSON")
+    parser.add_argument("--license-site", type=Path, help="Matching installation's site-packages directory")
     args = parser.parse_args()
+    licence_inputs = (args.license_inspect, args.license_review, args.license_site)
+    if any(licence_inputs) and not all(licence_inputs):
+        parser.error("--license-inspect, --license-review and --license-site must be supplied together")
     registry = load_registry()
     report = {"observed_at": dt.datetime.now(dt.timezone.utc).isoformat(), "mode": "online" if args.online else "offline", "packages": []}
     for package in registry["packages"]:
@@ -339,12 +360,21 @@ def main() -> int:
         except (OSError, ValueError, KeyError, subprocess.SubprocessError) as error:
             checks = [finding("source", "unknown", str(error))]
         report["packages"].append({"dist": package["dist"], "checks": checks})
+    licence = finding("recorded_runtime_license", "unknown", "No runtime evidence supplied; source metadata checks do not establish a runtime licence claim.")
+    if all(licence_inputs):
+        try:
+            receipt = license_policy.check_files(*licence_inputs)
+            licence = finding("recorded_runtime_license", "pass", f"{receipt['runtime_count']} packages in the exact reviewed runtime; explicit compiler/vendor qualifications retained.")
+            licence["receipt"] = receipt
+        except (OSError, ValueError, KeyError, TypeError) as error:
+            licence = finding("recorded_runtime_license", "fail", str(error))
+    report["runtime_license"] = licence
     write_reports(report, args.output)
     failures = sum(c["state"] == "fail" for p in report["packages"] for c in p["checks"])
     unknowns = sum(c["state"] == "unknown" for p in report["packages"] for c in p["checks"])
     known = sum(c["state"] == "known-gap" for p in report["packages"] for c in p["checks"])
     print(f"{len(report['packages'])} packages checked; {failures} failed contracts; {known} known gaps; {unknowns} unknown; reports in {args.output}")
-    return int(args.fail_on_drift and failures > 0)
+    return int(licence["state"] == "fail" or (args.fail_on_drift and failures > 0))
 
 
 if __name__ == "__main__":

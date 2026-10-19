@@ -10,9 +10,15 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repos-root", type=Path, required=True)
     parser.add_argument("--check", action="store_true")
+    parser.add_argument("--package", help="Select one registered distribution; otherwise select all")
+    parser.add_argument("--workflow-only", action="store_true", help="Leave package-specific release helpers untouched")
     args = parser.parse_args()
     failures = []
     packages = load_registry()["packages"]
+    if args.package:
+        packages = [package for package in packages if package["dist"] == args.package]
+        if not packages:
+            parser.error(f"Unknown distribution: {args.package}")
     for package in packages:
         root = args.repos_root / package["local_dir"]
         if not (root / "pyproject.toml").is_file():
@@ -20,6 +26,8 @@ def main() -> None:
         for template, relative in (("release.yml", ".github/workflows/release.yml"),
                                    ("release_guard.py", ".github/scripts/release_guard.py"),
                                    ("publish_tag.py", ".github/scripts/publish_tag.py")):
+            if args.workflow_only and template != "release.yml":
+                continue
             content = render_release_template(template, package)
             target = root / relative
             if args.check:

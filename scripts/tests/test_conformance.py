@@ -12,6 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import conformance as c
 import update_github_about as about
 import build_stats
+import generate_release_files
 
 
 class RegistryTests(unittest.TestCase):
@@ -107,6 +108,58 @@ class RegistryTests(unittest.TestCase):
         for other in packages:
             if other["import"] != "stochvolmodels":
                 self.assertNotIn("windows-numerical", c.render_release_template("release.yml", other))
+
+    def test_op_release_preserves_timezone_and_requires_explicit_backend_lane(self):
+        packages = c.load_registry()["packages"]
+        package = next(p for p in packages if p["import"] == "optimalportfolios")
+        workflow = c.render_release_template("release.yml", package)
+        self.assertIn("  TZ: Europe/Zurich\n", workflow)
+        self.assertIn("uv sync --locked --group test --extra riskbudget", workflow)
+        self.assertIn('OP_REQUIRE_RISKBUDGET: "1"', workflow)
+        self.assertIn('pytest -m "riskbudget and not factor_integration"', workflow)
+        self.assertLess(workflow.index("uv run --no-sync pytest\n"), workflow.index("--extra riskbudget"))
+        self.assertLess(workflow.index("--extra riskbudget"), workflow.index("Build the tagged documentation"))
+        self.assertIn("    needs: validate\n", workflow)
+        for other in packages:
+            if other["import"] != "optimalportfolios":
+                rendered = c.render_release_template("release.yml", other)
+                self.assertNotIn("riskbudget", rendered)
+                self.assertNotIn("\n  TZ: Europe/Zurich\n", rendered)
+
+    def test_op_backend_release_guard_rejects_empty_failed_errored_or_skipped_results(self):
+        package = next(p for p in c.load_registry()["packages"] if p["import"] == "optimalportfolios")
+        workflow = c.render_release_template("release.yml", package)
+        line = next(line for line in workflow.splitlines() if "xml.etree.ElementTree" in line)
+        code = line.split('python -c "', 1)[1].removesuffix('"')
+        with tempfile.TemporaryDirectory() as temporary:
+            target = Path(temporary) / "riskbudget.xml"
+            for inner, expected in (("", 1), ("<testcase><failure/></testcase>", 1),
+                                    ("<testcase><error/></testcase>", 1),
+                                    ("<testcase><skipped/></testcase>", 1), ("<testcase/>", 0)):
+                target.write_text("<testsuites><testsuite>" + inner + "</testsuite></testsuites>", encoding="utf-8")
+                result = subprocess.run([sys.executable, "-c", code],
+                                        env=dict(os.environ, RUNNER_TEMP=temporary), capture_output=True)
+                self.assertEqual(result.returncode, expected, result.stderr)
+
+    def test_selected_workflow_generation_preserves_helpers_and_other_repositories(self):
+        package = next(p for p in c.load_registry()["packages"] if p["import"] == "optimalportfolios")
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            target = root / package["local_dir"]
+            (target / ".github/scripts").mkdir(parents=True)
+            (target / "pyproject.toml").write_text("[project]\nname='optimalportfolios'\n")
+            helper = target / ".github/scripts/release_guard.py"
+            helper.write_text("# Existing package-specific helper\n")
+            arguments = ["generate_release_files.py", "--repos-root", str(root),
+                         "--package", "optimalportfolios", "--workflow-only"]
+            with mock.patch.object(sys, "argv", arguments), mock.patch("builtins.print"):
+                generate_release_files.main()
+            self.assertEqual(helper.read_text(), "# Existing package-specific helper\n")
+            self.assertEqual((target / ".github/workflows/release.yml").read_text(encoding="utf-8"),
+                             c.render_release_template("release.yml", package))
+            self.assertEqual(list(root.iterdir()), [target])
+            with mock.patch.object(sys, "argv", arguments + ["--check"]), mock.patch("builtins.print"):
+                generate_release_files.main()
 
     def test_cycle_rejected(self):
         registry = c.load_registry()

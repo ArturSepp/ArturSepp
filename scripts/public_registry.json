@@ -50,6 +50,8 @@
       "local_dir": "OptimalPortfolios",
       "dist": "optimalportfolios",
       "import": "optimalportfolios",
+      "release_test_profile": "op-riskbudget",
+      "release_timezone": "Europe/Zurich",
       "rtd": "optimalportfolios",
       "summary": "Production multi-asset portfolio construction and rolling backtesting in Python",
       "tagline": "portfolio construction and rolling backtesting",

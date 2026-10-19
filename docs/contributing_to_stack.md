@@ -22,12 +22,15 @@ agreeing the scope. Package contribution rules, licences and governance remain a
 |---|---|---|---|---|
 | qis | Simulation, realised holdings, performance/risk analytics and reporting | [QIS-1 to QIS-3](https://github.com/ArturSepp/QuantInvestStrats/blob/main/CONTRIBUTING.md#starter-tasks) | [CITATION.cff](https://github.com/ArturSepp/QuantInvestStrats/blob/main/CITATION.cff) | MIT |
 | optimalportfolios | Allocation, constraints, rolling decisions and stack integration | [OP-1 to OP-3](https://github.com/ArturSepp/OptimalPortfolios/blob/main/CONTRIBUTING.md#starter-tasks) | [CITATION.cff](https://github.com/ArturSepp/OptimalPortfolios/blob/main/CITATION.cff) | MIT |
-| factorlasso | Sparse estimation, estimator cross-validation and factor covariance | [FL-1 to FL-3](https://github.com/ArturSepp/factorlasso/blob/main/CONTRIBUTING.md#starter-tasks) | [CITATION.cff](https://github.com/ArturSepp/factorlasso/blob/main/CITATION.cff) | GPL-3.0-or-later |
+| factorlasso | Sparse estimation, estimator cross-validation and factor covariance | [FL-1 to FL-3](https://github.com/ArturSepp/factorlasso/blob/main/CONTRIBUTING.md#starter-tasks) | [CITATION.cff](https://github.com/ArturSepp/factorlasso/blob/main/CITATION.cff) | MIT from [1.0.4.post1](https://pypi.org/project/factorlasso/1.0.4.post1/) |
 
 ArturSepp owns shared practices and adoption measurement. QIS does not import OP or FactorLasso;
-OP consumes both. Generic estimation belongs in FactorLasso. Do not copy numerical routines
-between packages or introduce dependencies to complete a documentation task. Keep the GPL
-boundary visible when proposing reuse of FactorLasso code.
+OP consumes QIS and accepts supplied alphas and covariance. TradableFactors consumes QIS and
+FactorLasso; generic estimation belongs in FactorLasso. Do not copy numerical routines between
+packages or introduce dependencies to complete a documentation task. Historical FactorLasso
+GPL releases retain their grants; use the verified MIT release for the current factor stack.
+First-party MIT does not relicense dependencies or optional backends: preserve their full
+notices and the [recorded runtime qualifications](../scripts/PUBLIC_TOOLS.md#recorded-runtime-licence-review).
 
 ## Setup and a first check
 
@@ -133,7 +136,7 @@ render inspection do not establish newcomer success.
 | Owner | Owns / first task | Starter proposals | Licence | Citation |
 |---|---|---|---|---|
 | [VanillaOptionPricers](https://github.com/ArturSepp/VanillaOptionPricers) | Price vanilla options and invert implied volatility | [VOP-1 to VOP-3](https://github.com/ArturSepp/VanillaOptionPricers/blob/main/CONTRIBUTING.md#starter-tasks) | MIT | [CITATION.cff](https://github.com/ArturSepp/VanillaOptionPricers/blob/main/CITATION.cff) |
-| [TrendFollowingSystems](https://github.com/ArturSepp/TrendFollowingSystems) | Compare closed-form trend-following risk/return | [TF-1 to TF-3](https://github.com/ArturSepp/TrendFollowingSystems/blob/main/CONTRIBUTING.md#starter-tasks) | GPL-3.0-or-later | [CITATION.cff](https://github.com/ArturSepp/TrendFollowingSystems/blob/main/CITATION.cff) |
+| [TrendFollowingSystems](https://github.com/ArturSepp/TrendFollowingSystems) | Compare closed-form trend-following risk/return | [TF-1 to TF-3](https://github.com/ArturSepp/TrendFollowingSystems/blob/main/CONTRIBUTING.md#starter-tasks) | MIT from [1.3.1.post1](https://pypi.org/project/trendfollowing/1.3.1.post1/) | [CITATION.cff](https://github.com/ArturSepp/TrendFollowingSystems/blob/main/CITATION.cff) |
 | [PrivateAssets](https://github.com/ArturSepp/PrivateAssets) | Evaluate cashflows with public-market equivalents | [PA-1 to PA-3](https://github.com/ArturSepp/PrivateAssets/blob/main/CONTRIBUTING.md#starter-tasks) | MIT | [CITATION.cff](https://github.com/ArturSepp/PrivateAssets/blob/main/CITATION.cff) |
 | [GoalBasedAllocation](https://github.com/ArturSepp/GoalBasedAllocation) | Explore a goal-based allocation under regime switching | [GBA-1 to GBA-3](https://github.com/ArturSepp/GoalBasedAllocation/blob/main/CONTRIBUTING.md#starter-tasks) | MIT | [CITATION.cff](https://github.com/ArturSepp/GoalBasedAllocation/blob/main/CITATION.cff) |
 | [StochVolModels](https://github.com/ArturSepp/StochVolModels) | Price a fixed LogSV model | [SVM-1 to SVM-3](https://github.com/ArturSepp/StochVolModels/blob/main/CONTRIBUTING.md#starter-tasks) | MIT | [CITATION.cff](https://github.com/ArturSepp/StochVolModels/blob/main/CITATION.cff) |
