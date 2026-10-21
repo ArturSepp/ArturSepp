@@ -3,7 +3,7 @@ import argparse
 import json
 import subprocess
 
-from conformance import load_registry
+from conformance import documentation_url, load_registry
 
 
 def commands(registry: dict) -> list[list[str]]:
@@ -12,7 +12,7 @@ def commands(registry: dict) -> list[list[str]]:
     for package in registry["packages"]:
         command = ["gh", "repo", "edit", f"{registry['owner']}/{package['repo']}",
                    "--description", package["summary"], "--homepage",
-                   f"https://{package['rtd']}.readthedocs.io"]
+                   documentation_url(package)]
         for topic in package["topics"]:
             command += ["--add-topic", topic]
         result.append(command)

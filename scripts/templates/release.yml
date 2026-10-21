@@ -50,7 +50,7 @@ jobs:
         run: |
           cp .github/scripts/release_guard.py "$RUNNER_TEMP/release_guard.py"
           python "$RUNNER_TEMP/release_guard.py" checkout --tag "$RELEASE_TAG"
-      - name: Run the tagged source test suite
+{{PROJECT_NAVIGATION}}      - name: Run the tagged source test suite
         run: |
           uv sync --locked --group test
 {{PROJECT_SDK}}          uv run --no-sync pytest{{PYTEST_ARGS}}

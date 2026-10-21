@@ -17,10 +17,64 @@ import build_stats
 class RegistryTests(unittest.TestCase):
     def test_approved_graph_and_additive_about_updates(self):
         registry = c.load_registry()
-        self.assertEqual(len(registry["packages"]), 10)
+        self.assertEqual(len(registry["packages"]), 11)
+        fm = next(p for p in registry["packages"] if p["import"] == "factormodels")
+        self.assertEqual(fm["core"], ["qis", "factorlasso"])
         command = next(x for x in about.commands(registry) if "ArturSepp/privateassets" in x)
         self.assertIn("cash-flows", command)
         self.assertNotIn("--remove-topic", command)
+
+    def test_documentation_override_and_existing_rtd_defaults(self):
+        packages = c.load_registry()["packages"]
+        fm = next(p for p in packages if p["import"] == "factormodels")
+        expected = "https://github.com/ArturSepp/FactorModels/blob/main/docs/index.md"
+        self.assertEqual(c.documentation_url(fm), expected)
+        for package in packages:
+            if package["import"] != "factormodels":
+                self.assertEqual(c.documentation_url(package),
+                                 f"https://{package['rtd']}.readthedocs.io")
+        self.assertEqual(build_stats.DOCS[fm["dist"]], expected)
+        command = next(x for x in about.commands({"owner": "ArturSepp", "packages": [fm]}))
+        self.assertEqual(command[command.index("--homepage") + 1], expected)
+
+    def test_invalid_documentation_override_rejected(self):
+        for value in ("", "/docs/index.md", "http://example.org/docs", 7):
+            with self.subTest(value=value), tempfile.TemporaryDirectory() as temporary:
+                registry = c.load_registry()
+                registry["packages"][0]["documentation_url"] = value
+                path = Path(temporary) / "registry.json"
+                path.write_text(json.dumps(registry), encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, "documentation_url"):
+                    c.load_registry(path)
+
+    def test_documentation_override_drives_source_and_remote_checks(self):
+        registry = c.load_registry()
+        package = next(p for p in registry["packages"] if p["import"] == "factormodels")
+        expected = "https://github.com/ArturSepp/FactorModels/blob/main/docs/index.md"
+        urls = dict.fromkeys(c.URL_KEYS, "https://example.org")
+        urls["Documentation"] = expected
+        def fetch(url):
+            if "pypi.org" in url:
+                return {"releases": {}, "info": {"summary": package["summary"], "project_urls": urls}}
+            return {"description": package["summary"], "homepage": urls["Documentation"],
+                    "topics": package["topics"]}
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source = (f"[project]\nname={json.dumps(package['dist'])}\nversion='0.1.0'\n"
+                      f"description={json.dumps(package['summary'])}\n[project.urls]\n")
+            source += "".join(f"{key}={json.dumps(value)}\n" for key, value in urls.items())
+            (root / "pyproject.toml").write_text(source, encoding="utf-8")
+            with mock.patch.object(c, "git", return_value=""), \
+                 mock.patch.object(c, "generated_release_drift", return_value=[]):
+                checks = c.offline_checks(root, package, registry)
+            self.assertEqual(next(x for x in checks if x["check"] == "source_metadata")["state"], "pass")
+            checks = c.network_checks(root, package, registry, fetch=fetch)
+            for name in ("pypi_metadata", "github_about"):
+                self.assertEqual(next(x for x in checks if x["check"] == name)["state"], "pass")
+            urls["Documentation"] = "https://tradablefactors.readthedocs.io"
+            checks = c.network_checks(root, package, registry, fetch=fetch)
+            for name in ("pypi_metadata", "github_about"):
+                self.assertEqual(next(x for x in checks if x["check"] == name)["state"], "fail")
 
     def test_agent_manifest_matches_registry_version_and_repository_set(self):
         registry = c.load_registry()
@@ -54,10 +108,29 @@ class RegistryTests(unittest.TestCase):
             self.assertIn(sync + "\n          uv pip install --python .venv " + index, workflow)
         self.assertNotIn(index, c.render_release_template("release.yml", packages[0]))
 
+    def test_factormodels_navigation_gate_is_scoped_and_precedes_release_builds(self):
+        packages = c.load_registry()["packages"]
+        package = next(p for p in packages if p["import"] == "factormodels")
+        workflow = c.render_release_template("release.yml", package)
+        command = "python tools/check_navigation_refs.py --require-current-source"
+        self.assertEqual(workflow.count(command), 1)
+        self.assertLess(workflow.index(command), workflow.index("uv sync --locked"))
+        self.assertLess(workflow.index("checkout --tag"), workflow.index(command))
+        self.assertIn("id-token: write", workflow)
+        self.assertIn("skip-existing: false", workflow)
+        self.assertIn("environment:\n      name: pypi", workflow)
+        for other in packages:
+            if other["import"] != "factormodels":
+                self.assertNotIn(command, c.render_release_template("release.yml", other))
+        with self.assertRaisesRegex(ValueError, "belongs to factormodels"):
+            c.render_release_template("release.yml", dict(packages[0], release_navigation_check=True))
+
     def test_profile_table_uses_live_metrics_for_each_package(self):
         readme = (Path(c.__file__).parent.parent / "README.md").read_text(encoding="utf-8")
         table = build_stats.build_table()
-        self.assertEqual(table.count("[Docs]"), 10)
+        self.assertEqual(table.count("[Docs]"), len(c.load_registry()["packages"]))
+        self.assertEqual(set(build_stats.REPOS),
+                         {p["repo"] for p in c.load_registry()["packages"]})
         self.assertEqual(readme, build_stats.replace_table(readme, table))
         for repo, slug in build_stats.REPOS.items():
             self.assertIn(f"img.shields.io/github/stars/ArturSepp/{repo}", table)

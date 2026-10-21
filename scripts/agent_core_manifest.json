@@ -2,6 +2,7 @@
   "version": "1.6",
   "date": "2026-09-13",
   "sha256": {
+    "FactorModels": "d7b2e13bb1811ed5ab6aed2b18ad77c152c196594ce0d112ca14e86c494b8b82",
     "QuantInvestStrats": "7dd33ab5607fcb422c7594fff9ebb4631209b8c33ac4cf4c9df01e869a0f43d8",
     "OptimalPortfolios": "6c1aa7a5ab459842b88ef14eb4cf9add53727bcb1db477f6e438b2cb87a9fe7b",
     "FactorLasso": "e6cadfe2369a09e065fa68529a16c1aba091a82a0b353245581ef73a3e07eb64",
