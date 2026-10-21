@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-10-20T10:05:41.416819+00:00",
+  "observed_at": "2026-10-21T10:09:21.776539+00:00",
   "mode": "online",
   "packages": [
     {
@@ -188,7 +188,7 @@
         {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 5.41.0: prepared/unpublished; GitHub Release page optional"
+          "detail": "main/source 5.42.0: prepared/unpublished; GitHub Release page optional"
         },
         {
           "check": "pypi_metadata",
@@ -212,8 +212,8 @@
         },
         {
           "check": "dependency_graph",
-          "state": "pass",
-          "detail": "declared and imported stack edges allowed"
+          "state": "fail",
+          "detail": "core dependency edges differ from approved registry"
         },
         {
           "check": "hygiene",
@@ -413,7 +413,7 @@
         {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 7.22.1: published"
+          "detail": "main/source 8.0.0.dev1: prepared/unpublished; GitHub Release page optional"
         },
         {
           "check": "pypi_metadata",
