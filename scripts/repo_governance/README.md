@@ -21,6 +21,10 @@ the exact external-interpreter commands. `verify` runs the registered `check`, `
 additional repository verification steps. Unsupported phases are explicit skips; currently only
 SigmaStrats lacks an automated test interface.
 
+A single-repository command or commit hook does not require other registered checkouts to
+exist on this machine. Selecting a missing checkout still fails; the portfolio-wide policy
+check continues to report missing repositories.
+
 `Enter-AgentRepo.ps1` selects `C:\Python\<environment>\Scripts\python.exe`, rejects environments
 inside OneDrive, and routes Python, pytest, Ruff, mypy, coverage, build, output, and temporary state
 below `%LOCALAPPDATA%\AgentWork\<machine>\<repository>`. It can also be dot-sourced before a manual
