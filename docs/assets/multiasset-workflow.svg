@@ -28,7 +28,7 @@
   <path class="edge" d="M560 159 L680 68"/>
   <path class="edge" d="M560 176 H680"/>
   <path class="edge" d="M220 190 C380 270 500 301 680 301"/>
-  <text class="edge-label" x="620" y="83"><tspan x="620">risk and return</tspan><tspan x="620" dy="17">inputs</tspan></text>
+  <text class="edge-label" x="606" y="82"><tspan x="606">risk and return</tspan><tspan x="606" dy="17">inputs</tspan></text>
   <text class="edge-label" x="620" y="164">factor histories</text>
 
   <g>
