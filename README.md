@@ -17,11 +17,11 @@ For publications, speaking, and full background → [artursepp.com](https://artu
 
 For contributors: [OSS documentation authoring standard](docs/documentation_standard.md)
 covers article templates, authorship, equations, references, and reproducible analytics
-across the ten packages.
+across the packages.
 
 ## Python Packages
 
-Over 20 years of building quantitative models — across equity, credit and rates derivatives on the sell-side, a systematic CTA, market-neutral crypto/DeFi, and now multi-asset private banking — one pattern holds: volatility regimes migrate across asset classes, and models that feel robust fail at the worst moment. These ten open-source packages are my working answer, spanning the full quant workflow from market data — prices, fundamentals and point-in-time option chains — to signal generation, factor modelling, and portfolio construction, through to performance measurement of private assets.
+Over 20 years of building quantitative models — across equity, credit and rates derivatives on the sell-side, a systematic CTA, market-neutral crypto/DeFi, and now multi-asset private banking — one pattern holds: volatility regimes migrate across asset classes, and models that feel robust fail at the worst moment. These open-source packages are my working answer, spanning the full quant workflow from market data — prices, fundamentals and point-in-time option chains — to signal generation, factor modelling, and portfolio construction, through to performance measurement of private assets.
 
 Developed alongside my published research, these packages provide runnable implementations of the methods described in the papers.
 
@@ -34,9 +34,9 @@ New to the ecosystem? Start with `qis` for analytics and reporting, `optimalport
 |---------|---------|:-------:|:-----:|:-----:|:-----------------:|:---------------:|
 | **Portfolio Construction, Factor Models, Backtest Reporting** | | | | | | |
 | [QuantInvestStrats](https://github.com/ArturSepp/QuantInvestStrats) (qis) · [Docs](https://quantinveststrats.readthedocs.io) | Performance analytics, backtesting and factsheets | [![](https://img.shields.io/pypi/v/qis?style=flat-square&label=&color=blue)](https://pypi.org/project/qis/) | [![Stars](https://img.shields.io/github/stars/ArturSepp/QuantInvestStrats?style=flat-square&label=)](https://github.com/ArturSepp/QuantInvestStrats/stargazers) | [![Forks](https://img.shields.io/github/forks/ArturSepp/QuantInvestStrats?style=flat-square&label=)](https://github.com/ArturSepp/QuantInvestStrats/network/members) | [![Monthly downloads](https://static.pepy.tech/personalized-badge/qis?period=month&units=international_system&left_text=)](https://pepy.tech/project/qis) | [![Total downloads](https://static.pepy.tech/personalized-badge/qis?period=total&units=international_system&left_text=)](https://pepy.tech/project/qis) |
-| [FactorModels](https://github.com/ArturSepp/FactorModels) (factormodels) · [Docs](https://github.com/ArturSepp/FactorModels/blob/main/docs/index.md) | Factor construction, GLS premia and covariance estimation | [![](https://img.shields.io/pypi/v/factormodels?style=flat-square&label=&color=blue)](https://pypi.org/project/factormodels/) | [![Stars](https://img.shields.io/github/stars/ArturSepp/FactorModels?style=flat-square&label=)](https://github.com/ArturSepp/FactorModels/stargazers) | [![Forks](https://img.shields.io/github/forks/ArturSepp/FactorModels?style=flat-square&label=)](https://github.com/ArturSepp/FactorModels/network/members) | [![Monthly downloads](https://static.pepy.tech/personalized-badge/factormodels?period=month&units=international_system&left_text=)](https://pepy.tech/project/factormodels) | [![Total downloads](https://static.pepy.tech/personalized-badge/factormodels?period=total&units=international_system&left_text=)](https://pepy.tech/project/factormodels) |
 | [OptimalPortfolios](https://github.com/ArturSepp/OptimalPortfolios) (optimalportfolios) · [Docs](https://optimalportfolios.readthedocs.io) | Portfolio optimisation and rolling backtests | [![](https://img.shields.io/pypi/v/optimalportfolios?style=flat-square&label=&color=blue)](https://pypi.org/project/optimalportfolios/) | [![Stars](https://img.shields.io/github/stars/ArturSepp/OptimalPortfolios?style=flat-square&label=)](https://github.com/ArturSepp/OptimalPortfolios/stargazers) | [![Forks](https://img.shields.io/github/forks/ArturSepp/OptimalPortfolios?style=flat-square&label=)](https://github.com/ArturSepp/OptimalPortfolios/network/members) | [![Monthly downloads](https://static.pepy.tech/personalized-badge/optimalportfolios?period=month&units=international_system&left_text=)](https://pepy.tech/project/optimalportfolios) | [![Total downloads](https://static.pepy.tech/personalized-badge/optimalportfolios?period=total&units=international_system&left_text=)](https://pepy.tech/project/optimalportfolios) |
-| [factorlasso](https://github.com/ArturSepp/factorlasso) (factorlasso) · [Docs](https://factorlasso.readthedocs.io) | Sparse factor models with sign-constrained LASSO | [![](https://img.shields.io/pypi/v/factorlasso?style=flat-square&label=&color=blue)](https://pypi.org/project/factorlasso/) | [![Stars](https://img.shields.io/github/stars/ArturSepp/factorlasso?style=flat-square&label=)](https://github.com/ArturSepp/factorlasso/stargazers) | [![Forks](https://img.shields.io/github/forks/ArturSepp/factorlasso?style=flat-square&label=)](https://github.com/ArturSepp/factorlasso/network/members) | [![Monthly downloads](https://static.pepy.tech/personalized-badge/factorlasso?period=month&units=international_system&left_text=)](https://pepy.tech/project/factorlasso) | [![Total downloads](https://static.pepy.tech/personalized-badge/factorlasso?period=total&units=international_system&left_text=)](https://pepy.tech/project/factorlasso) |
+| [factorlasso](https://github.com/ArturSepp/factorlasso) (factorlasso) · [Docs](https://factorlasso.readthedocs.io) | Sparse loading estimation and factor covariance | [![](https://img.shields.io/pypi/v/factorlasso?style=flat-square&label=&color=blue)](https://pypi.org/project/factorlasso/) | [![Stars](https://img.shields.io/github/stars/ArturSepp/factorlasso?style=flat-square&label=)](https://github.com/ArturSepp/factorlasso/stargazers) | [![Forks](https://img.shields.io/github/forks/ArturSepp/factorlasso?style=flat-square&label=)](https://github.com/ArturSepp/factorlasso/network/members) | [![Monthly downloads](https://static.pepy.tech/personalized-badge/factorlasso?period=month&units=international_system&left_text=)](https://pepy.tech/project/factorlasso) | [![Total downloads](https://static.pepy.tech/personalized-badge/factorlasso?period=total&units=international_system&left_text=)](https://pepy.tech/project/factorlasso) |
+| [FactorModels](https://github.com/ArturSepp/FactorModels) (factormodels) · [Docs](https://github.com/ArturSepp/FactorModels/blob/main/docs/index.md) | Factor construction, point-in-time risk and GLS premia | [![](https://img.shields.io/pypi/v/factormodels?style=flat-square&label=&color=blue)](https://pypi.org/project/factormodels/) | [![Stars](https://img.shields.io/github/stars/ArturSepp/FactorModels?style=flat-square&label=)](https://github.com/ArturSepp/FactorModels/stargazers) | [![Forks](https://img.shields.io/github/forks/ArturSepp/FactorModels?style=flat-square&label=)](https://github.com/ArturSepp/FactorModels/network/members) | [![Monthly downloads](https://static.pepy.tech/personalized-badge/factormodels?period=month&units=international_system&left_text=)](https://pepy.tech/project/factormodels) | [![Total downloads](https://static.pepy.tech/personalized-badge/factormodels?period=total&units=international_system&left_text=)](https://pepy.tech/project/factormodels) |
 | **Volatility and Option Modelling** | | | | | | |
 | [StochVolModels](https://github.com/ArturSepp/StochVolModels) (stochvolmodels) · [Docs](https://stochvolmodels.readthedocs.io) | Stochastic volatility pricing and calibration | [![](https://img.shields.io/pypi/v/stochvolmodels?style=flat-square&label=&color=blue)](https://pypi.org/project/stochvolmodels/) | [![Stars](https://img.shields.io/github/stars/ArturSepp/StochVolModels?style=flat-square&label=)](https://github.com/ArturSepp/StochVolModels/stargazers) | [![Forks](https://img.shields.io/github/forks/ArturSepp/StochVolModels?style=flat-square&label=)](https://github.com/ArturSepp/StochVolModels/network/members) | [![Monthly downloads](https://static.pepy.tech/personalized-badge/stochvolmodels?period=month&units=international_system&left_text=)](https://pepy.tech/project/stochvolmodels) | [![Total downloads](https://static.pepy.tech/personalized-badge/stochvolmodels?period=total&units=international_system&left_text=)](https://pepy.tech/project/stochvolmodels) |
 | [OptionChainAnalytics](https://github.com/ArturSepp/OptionChainAnalytics) (option-chain-analytics) · [Docs](https://optionchainanalytics.readthedocs.io) | Point-in-time option-chain data and queries | [![](https://img.shields.io/pypi/v/option-chain-analytics?style=flat-square&label=&color=blue)](https://pypi.org/project/option-chain-analytics/) | [![Stars](https://img.shields.io/github/stars/ArturSepp/OptionChainAnalytics?style=flat-square&label=)](https://github.com/ArturSepp/OptionChainAnalytics/stargazers) | [![Forks](https://img.shields.io/github/forks/ArturSepp/OptionChainAnalytics?style=flat-square&label=)](https://github.com/ArturSepp/OptionChainAnalytics/network/members) | [![Monthly downloads](https://static.pepy.tech/personalized-badge/option-chain-analytics?period=month&units=international_system&left_text=)](https://pepy.tech/project/option-chain-analytics) | [![Total downloads](https://static.pepy.tech/personalized-badge/option-chain-analytics?period=total&units=international_system&left_text=)](https://pepy.tech/project/option-chain-analytics) |
@@ -54,40 +54,56 @@ Stars, forks, downloads and versions are shown with live badges.
 
 ---
 
-## One Research Workflow
+<a id="one-research-workflow"></a>
 
-The packages compose into a single research workflow — market data → analytics and reporting → factor models → portfolio construction — with an options branch where vanilla pricing and point-in-time chains feed stochastic volatility modelling:
+## Research Workflows
+
+The packages support two complementary research workflows. Arrows show supplied inputs, results or analytics; they do not imply a package import dependency.
+
+### 1. Multiasset portfolio optimisation and strategies
+
+`factormodels` defines and constructs the financial factor model, calls `factorlasso` to estimate loadings and covariance, and exposes completed model outputs for downstream use.
+
+```mermaid
+block-beta
+    columns 5
+    space:2 fl["factorlasso<br/>statistical estimation"] space op["optimalportfolios<br/>portfolio optimisation"]
+    space:5
+    qis["qis<br/>returns and analytics"] space fm["factormodels<br/>factor construction and risk"] space pa["privateassets<br/>private-asset PME"]
+    space:5
+    space:4 tf["trendfollowing<br/>trend-following systems"]
+
+    fl --> fm
+    qis --> fm
+    fm -- "risk and return inputs" --> op
+    fm -- "factor histories" --> pa
+    qis --> tf
+```
+
+`optimalportfolios` consumes supplied covariance and return inputs. `privateassets` can use constructed factor histories and estimates fund exposures from cash flows and NAVs. `trendfollowing` uses QIS directly for strategy analytics. QIS also provides risk analysis, backtesting and reporting across the workflow. See the [FM handoff to OP and QIS](https://github.com/ArturSepp/FactorModels/blob/main/docs/integration.md) and [private-asset workflow](https://github.com/ArturSepp/privateassets#why-privateassets).
+
+[`goal-based-allocation`](https://github.com/ArturSepp/GoalBasedAllocation) is a standalone research library within the broader ecosystem.
+
+### 2. Option valuation and volatility modelling
+
+Vanilla pricing, point-in-time option chains and QIS analytics feed stochastic volatility valuation and calibration.
 
 ```mermaid
 flowchart LR
-    fl["`**factorlasso**
-    factor models & covariances`"]
-    qis["`**qis**
-    analytics & reporting`"]
     oca["`**option-chain-analytics**
     point-in-time option chains`"]
     vop["`**vanilla-option-pricers**
     BSM & Bachelier pricing`"]
-    bbg["`**bbg-fetch**
-    Bloomberg data`"] --> qis
-    bbg ~~~ fl
-    bbg ~~~ oca
-    bbg ~~~ vop
-    fl --> op["`**optimalportfolios**
-    portfolio construction & backtesting`"]
-    qis --> op
-    fl --> pa["`**privateassets**
-    private-asset PME`"]
-    qis --> pa
-    qis --> tf["`**trendfollowing**
-    trend-following systems`"]
-    oca --> svm["`**stochvolmodels**
+    qis["`**qis**
+    analytics & reporting`"]
+    svm["`**stochvolmodels**
     stochastic volatility models`"]
+    oca --> svm
     vop --> svm
     qis --> svm
 ```
 
-[`goal-based-allocation`](https://github.com/ArturSepp/GoalBasedAllocation) is a standalone research library within the broader ecosystem.
+**Optional market data.** [`bbg-fetch`](https://github.com/ArturSepp/BloombergFetch) supplies Bloomberg market data for either workflow. The stack is data-provider independent: packages accept supplied data, and `bbg-fetch` is optional throughout.
 
 ---
 
@@ -95,7 +111,7 @@ flowchart LR
 
 ### Portfolio Construction, Factor Models, Backtest Reporting
 
-`factorlasso` estimates the sparse factor model and the factor covariance; `optimalportfolios` consumes them — together with the `qis` analytics engine — for portfolio construction and backtesting.
+`qis` supplies shared analytics; `factormodels` constructs the financial factor model and coordinates statistical estimation through `factorlasso`. `optimalportfolios` consumes prepared risk and return inputs for portfolio construction.
 
 #### [QuantInvestStrats](https://github.com/ArturSepp/QuantInvestStrats) (`qis`)
 `qis` provides Python tools for financial-data visualisation, performance reporting, and quantitative-strategy analysis. It is the analytics and reporting engine behind `optimalportfolios`, `trendfollowing` and `option-chain-analytics`.
@@ -133,6 +149,19 @@ pip install factorlasso
 - Hierarchical Clustering Group LASSO (HCGL) and Factor-Clustering Group LASSO (FCGL) with auto-discovered groups
 - NaN-aware estimation for variables with different history lengths
 - Consistent factor covariance assembly (Σ_y = β Σ_x β' + D), scikit-learn compatible API (fit / predict / score)
+
+#### [FactorModels](https://github.com/ArturSepp/FactorModels) (`factormodels`)
+Multiasset factor construction and point-in-time risk models built on `qis` and `factorlasso`, with GLS factor premia and capital market assumption diagnostics.
+
+```bash
+pip install factormodels
+```
+
+**Features:**
+- Factor definitions and construction from tradable baskets, tracked indices and observed levels
+- Completed model snapshots with labelled loadings, factor, residual and asset covariance, information cutoffs and provenance
+- GLS factor premia inferred from supplied forecasts, with uncertainty and capital market assumption diagnostics
+- Prepared outputs for portfolio optimisation and export to QIS risk analytics; see the [completed model guide](https://github.com/ArturSepp/FactorModels/blob/main/docs/completed_model.md)
 
 ---
 
@@ -223,7 +252,7 @@ pip install privateassets
 ### Data
 
 #### [BloombergFetch](https://github.com/ArturSepp/BloombergFetch) (`bbg-fetch`)
-`bbg-fetch` retrieves Bloomberg prices, implied volatilities, option chains, and fundamentals into pandas DataFrames through `blpapi`.
+`bbg-fetch` retrieves Bloomberg prices, implied volatilities, option chains, and fundamentals into pandas DataFrames through `blpapi`. It is an optional data source for the provider-independent analytics stack.
 
 ```bash
 pip install bbg-fetch
