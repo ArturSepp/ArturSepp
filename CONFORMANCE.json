@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-10-21T10:09:21.776539+00:00",
+  "observed_at": "2026-10-22T10:11:53.180385+00:00",
   "mode": "online",
   "packages": [
     {
@@ -12,8 +12,8 @@
         },
         {
           "check": "dependency_graph",
-          "state": "pass",
-          "detail": "declared and imported stack edges allowed"
+          "state": "fail",
+          "detail": "missing import bans: factormodels"
         },
         {
           "check": "hygiene",
@@ -203,6 +203,61 @@
       ]
     },
     {
+      "dist": "factormodels",
+      "checks": [
+        {
+          "check": "source_metadata",
+          "state": "pass",
+          "detail": "registry matches"
+        },
+        {
+          "check": "dependency_graph",
+          "state": "pass",
+          "detail": "declared and imported stack edges allowed"
+        },
+        {
+          "check": "hygiene",
+          "state": "pass",
+          "detail": "required source files present"
+        },
+        {
+          "check": "action_pins",
+          "state": "pass",
+          "detail": "external actions pinned to full SHA"
+        },
+        {
+          "check": "release_templates",
+          "state": "pass",
+          "detail": "generated release files match reviewed template content"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v0.1.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v0.1.1: matches published version"
+        },
+        {
+          "check": "development_state",
+          "state": "pass",
+          "detail": "main/source 0.1.1: published"
+        },
+        {
+          "check": "pypi_metadata",
+          "state": "pass",
+          "detail": "latest published summary and URL keys match"
+        },
+        {
+          "check": "github_about",
+          "state": "pass",
+          "detail": "description, homepage and required topics match"
+        }
+      ]
+    },
+    {
       "dist": "optimalportfolios",
       "checks": [
         {
@@ -213,7 +268,7 @@
         {
           "check": "dependency_graph",
           "state": "fail",
-          "detail": "core dependency edges differ from approved registry"
+          "detail": "core dependency edges differ from approved registry; src/optimalportfolios/alphas/signals/run_local/signals_run.py:121: forbidden import factormodels; src/optimalportfolios/tests/factor_integration_test.py:42: forbidden import factormodels; src/optimalportfolios/tests/factor_integration_test.py:99: forbidden import factormodels; src/optimalportfolios/tests/factor_integration_test.py:139: forbidden import factormodels; src/optimalportfolios/tests/factor_integration_test.py:161: forbidden import factormodels; src/optimalportfolios/tests/factor_integration_test.py:199: forbidden import factormodels"
         },
         {
           "check": "hygiene",
@@ -411,9 +466,14 @@
           "detail": "v7.9.1: matches published version"
         },
         {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v8.0.0: matches published version"
+        },
+        {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 8.0.0.dev1: prepared/unpublished; GitHub Release page optional"
+          "detail": "main/source 8.0.0: published"
         },
         {
           "check": "pypi_metadata",
@@ -556,9 +616,14 @@
           "detail": "v1.0.4.post1: matches published version"
         },
         {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v1.0.5: matches published version"
+        },
+        {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 1.0.5.dev1: prepared/unpublished; GitHub Release page optional"
+          "detail": "main/source 1.0.5: published"
         },
         {
           "check": "pypi_metadata",
@@ -582,8 +647,8 @@
         },
         {
           "check": "dependency_graph",
-          "state": "pass",
-          "detail": "declared and imported stack edges allowed"
+          "state": "fail",
+          "detail": "missing import bans: factormodels"
         },
         {
           "check": "hygiene",
@@ -621,9 +686,14 @@
           "detail": "v3.2.1: matches published version"
         },
         {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v3.2.2: matches published version"
+        },
+        {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 3.2.1: published"
+          "detail": "main/source 3.2.2: published"
         },
         {
           "check": "pypi_metadata",
@@ -647,8 +717,8 @@
         },
         {
           "check": "dependency_graph",
-          "state": "pass",
-          "detail": "declared and imported stack edges allowed"
+          "state": "fail",
+          "detail": "missing import bans: factormodels"
         },
         {
           "check": "hygiene",
@@ -716,9 +786,14 @@
           "detail": "v2.5.0: matches published version"
         },
         {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v2.6.0: matches published version"
+        },
+        {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 2.5.0: published"
+          "detail": "main/source 2.6.0: published"
         },
         {
           "check": "pypi_metadata",
@@ -742,8 +817,8 @@
         },
         {
           "check": "dependency_graph",
-          "state": "pass",
-          "detail": "declared and imported stack edges allowed"
+          "state": "fail",
+          "detail": "missing import bans: factormodels"
         },
         {
           "check": "hygiene",
@@ -791,9 +866,14 @@
           "detail": "v1.3.1.post1: matches published version"
         },
         {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v1.4.0: matches published version"
+        },
+        {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 1.3.1.post1: published"
+          "detail": "main/source 1.4.0: published"
         },
         {
           "check": "pypi_metadata",
@@ -817,8 +897,8 @@
         },
         {
           "check": "dependency_graph",
-          "state": "pass",
-          "detail": "declared and imported stack edges allowed"
+          "state": "fail",
+          "detail": "missing import bans: factormodels"
         },
         {
           "check": "hygiene",
@@ -877,8 +957,8 @@
         },
         {
           "check": "dependency_graph",
-          "state": "pass",
-          "detail": "declared and imported stack edges allowed"
+          "state": "fail",
+          "detail": "missing import bans: factormodels"
         },
         {
           "check": "hygiene",
@@ -921,9 +1001,19 @@
           "detail": "v0.4.2: matches published version"
         },
         {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v0.5.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v0.5.1: matches published version"
+        },
+        {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 0.4.2: published"
+          "detail": "main/source 0.5.1: published"
         },
         {
           "check": "pypi_metadata",
@@ -947,8 +1037,8 @@
         },
         {
           "check": "dependency_graph",
-          "state": "pass",
-          "detail": "declared and imported stack edges allowed"
+          "state": "fail",
+          "detail": "missing import bans: factormodels"
         },
         {
           "check": "hygiene",
@@ -1017,8 +1107,8 @@
         },
         {
           "check": "dependency_graph",
-          "state": "pass",
-          "detail": "declared and imported stack edges allowed"
+          "state": "fail",
+          "detail": "missing import bans: factormodels"
         },
         {
           "check": "hygiene",
@@ -1081,9 +1171,14 @@
           "detail": "v5.3.0: matches published version"
         },
         {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v6.0.0: matches published version"
+        },
+        {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 5.3.0: published"
+          "detail": "main/source 6.0.0: published"
         },
         {
           "check": "pypi_metadata",
