@@ -67,14 +67,17 @@ The packages support two complementary research workflows. Arrows show supplied 
 ```mermaid
 block-beta
     columns 5
-    space:5
+    %% Invisible margin blocks keep GitHub's toolbar and zoom controls clear of labels.
+    space:4 topMargin["&nbsp;<br/>&nbsp;<br/>&nbsp;"]
     space:2 fl["factorlasso<br/>statistical estimation"] space op["optimalportfolios<br/>portfolio optimisation"]
     space:5
     qis["qis<br/>returns and analytics"] space fm["factormodels<br/>factor construction and risk"] space pa["privateassets<br/>private-asset PME"]
     space:5
     space:4 tf["trendfollowing<br/>trend-following systems"]
-    space:5
-    space:5
+    space:4 bottomMargin["&nbsp;<br/>&nbsp;<br/>&nbsp;<br/>&nbsp;<br/>&nbsp;<br/>&nbsp;<br/>&nbsp;<br/>&nbsp;"]
+
+    style topMargin fill:none,stroke:none
+    style bottomMargin fill:none,stroke:none
 
     fl --> fm
     qis --> fm
