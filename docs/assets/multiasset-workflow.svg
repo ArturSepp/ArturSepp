@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="350" viewBox="0 0 900 350" role="img" aria-labelledby="title description">
+  <title id="title">Multiasset portfolio optimisation and strategies</title>
+  <desc id="description">QIS feeds FactorModels and TrendFollowingSystems independently. FactorLasso sits above FactorModels and supplies statistical estimation. FactorModels supplies risk and return inputs to OptimalPortfolios and factor histories to privateassets. OptimalPortfolios, privateassets and TrendFollowingSystems occupy the final column.</desc>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; fill: #24292f; text-anchor: middle; }
+    .box { fill: #f0edfc; stroke: #9987c9; stroke-width: 1.4; }
+    .name { font-size: 16px; font-weight: 600; }
+    .detail { font-size: 13px; }
+    .edge-label { font-size: 13px; }
+    .edge { fill: none; stroke: #57606a; stroke-width: 1.6; marker-end: url(#arrow); }
+    .arrow { fill: #57606a; }
+    @media (prefers-color-scheme: dark) {
+      text { fill: #e6edf3; }
+      .box { fill: #28243c; stroke: #a99bd4; }
+      .edge { stroke: #b1bac4; }
+      .arrow { fill: #b1bac4; }
+    }
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path class="arrow" d="M0 0 L8 4 L0 8 Z"/>
+    </marker>
+  </defs>
+
+  <!-- Supplied inputs and analytics; these arrows are not import dependencies. -->
+  <path class="edge" d="M220 176 H340"/>
+  <path class="edge" d="M450 77 V145"/>
+  <path class="edge" d="M560 159 L680 68"/>
+  <path class="edge" d="M560 176 H680"/>
+  <path class="edge" d="M220 190 C380 270 500 301 680 301"/>
+  <text class="edge-label" x="606" y="82"><tspan x="606">risk and return</tspan><tspan x="606" dy="17">inputs</tspan></text>
+  <text class="edge-label" x="620" y="164">factor histories</text>
+
+  <g>
+    <rect class="box" x="20" y="145" width="200" height="62" rx="5"/>
+    <text class="name" x="120" y="171">qis</text>
+    <text class="detail" x="120" y="191">returns and analytics</text>
+  </g>
+  <g>
+    <rect class="box" x="340" y="15" width="220" height="62" rx="5"/>
+    <text class="name" x="450" y="41">factorlasso</text>
+    <text class="detail" x="450" y="61">statistical estimation</text>
+  </g>
+  <g>
+    <rect class="box" x="340" y="145" width="220" height="62" rx="5"/>
+    <text class="name" x="450" y="171">factormodels</text>
+    <text class="detail" x="450" y="191">factor construction and risk</text>
+  </g>
+  <g>
+    <rect class="box" x="680" y="15" width="200" height="62" rx="5"/>
+    <text class="name" x="780" y="41">optimalportfolios</text>
+    <text class="detail" x="780" y="61">portfolio optimisation</text>
+  </g>
+  <g>
+    <rect class="box" x="680" y="145" width="200" height="62" rx="5"/>
+    <text class="name" x="780" y="171">privateassets</text>
+    <text class="detail" x="780" y="191">private-asset PME</text>
+  </g>
+  <g>
+    <rect class="box" x="680" y="270" width="200" height="62" rx="5"/>
+    <text class="name" x="780" y="296">trendfollowing</text>
+    <text class="detail" x="780" y="316">trend-following systems</text>
+  </g>
+</svg>

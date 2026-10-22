@@ -64,21 +64,7 @@ The packages support two complementary research workflows. Arrows show supplied 
 
 `factormodels` defines and constructs the financial factor model, calls `factorlasso` to estimate loadings and covariance, and exposes completed model outputs for downstream use.
 
-```mermaid
-block-beta
-    columns 5
-    space:2 fl["factorlasso<br/>statistical estimation"] space op["optimalportfolios<br/>portfolio optimisation"]
-    space:5
-    qis["qis<br/>returns and analytics"] space fm["factormodels<br/>factor construction and risk"] space pa["privateassets<br/>private-asset PME"]
-    space:5
-    space:4 tf["trendfollowing<br/>trend-following systems"]
-
-    fl --> fm
-    qis --> fm
-    fm -- "risk and return inputs" --> op
-    fm -- "factor histories" --> pa
-    qis --> tf
-```
+![Multiasset workflow: QIS feeds FM and, through a separate arrow, TF. FL sits above FM and supplies statistical estimation. FM supplies risk and return inputs to OP and factor histories to privateassets. OP, privateassets and TF occupy the final column.](docs/assets/multiasset-workflow.svg)
 
 `optimalportfolios` consumes supplied covariance and return inputs. `privateassets` can use constructed factor histories and estimates fund exposures from cash flows and NAVs. `trendfollowing` uses QIS directly for strategy analytics. QIS also provides risk analysis, backtesting and reporting across the workflow. See the [FM handoff to OP and QIS](https://github.com/ArturSepp/FactorModels/blob/main/docs/integration.md) and [private-asset workflow](https://github.com/ArturSepp/privateassets#why-privateassets).
 
