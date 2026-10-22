@@ -19,9 +19,9 @@ DOCS = {p["dist"]: documentation_url(p) for p in REGISTRY["packages"]}
 
 REPOS = {
     "QuantInvestStrats": "qis",
-    "FactorModels": "factormodels",
     "OptimalPortfolios": "optimalportfolios",
     "factorlasso": "factorlasso",
+    "FactorModels": "factormodels",
     "StochVolModels": "stochvolmodels",
     "OptionChainAnalytics": "option-chain-analytics",
     "VanillaOptionPricers": "vanilla-option-pricers",
@@ -33,9 +33,9 @@ REPOS = {
 
 CONCEPTS = {
     "QuantInvestStrats": "Performance analytics, backtesting and factsheets",
-    "FactorModels": "Factor construction, GLS premia and covariance estimation",
+    "FactorModels": "Factor construction, point-in-time risk and GLS premia",
     "OptimalPortfolios": "Portfolio optimisation and rolling backtests",
-    "factorlasso": "Sparse factor models with sign-constrained LASSO",
+    "factorlasso": "Sparse loading estimation and factor covariance",
     "StochVolModels": "Stochastic volatility pricing and calibration",
     "VanillaOptionPricers": "Vectorised BSM and Bachelier pricing",
     "OptionChainAnalytics": "Point-in-time option-chain data and queries",
@@ -47,7 +47,7 @@ CONCEPTS = {
 
 GROUPS = {
     "Portfolio Construction, Factor Models, Backtest Reporting":
-        ["QuantInvestStrats", "FactorModels", "OptimalPortfolios", "factorlasso"],
+        ["QuantInvestStrats", "OptimalPortfolios", "factorlasso", "FactorModels"],
     "Volatility and Option Modelling":
         ["StochVolModels", "OptionChainAnalytics", "VanillaOptionPricers"],
     "Dynamic Trading Strategies":
