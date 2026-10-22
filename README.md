@@ -70,7 +70,7 @@ The packages support two complementary research workflows. Arrows show supplied 
 
 Vanilla pricing, point-in-time option chains and QIS analytics feed stochastic volatility valuation and calibration.
 
-![Option valuation workflow: option-chain-analytics, vanilla-option-pricers and QIS each feed stochvolmodels.](docs/assets/options-workflow.svg?v=20261022-qis)
+![Option valuation workflow: option-chain-analytics, vanilla-option-pricers and QIS each feed stochvolmodels.](docs/assets/options-workflow.svg?v=20261022-qis-size)
 
 **Optional market data:** [`bbg-fetch`](https://github.com/ArturSepp/BloombergFetch) supplies Bloomberg market data for either workflow. The stack is data-provider independent: packages accept supplied data, and `bbg-fetch` is optional throughout.
 
