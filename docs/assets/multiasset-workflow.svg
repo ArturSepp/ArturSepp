@@ -24,7 +24,7 @@
 
   <!-- Supplied inputs and analytics; these arrows are not import dependencies. -->
   <path class="edge" d="M220 176 H340"/>
-  <path class="edge" d="M450 77 V145"/>
+  <path class="edge" d="M450 115 V145"/>
   <path class="edge" d="M560 159 L680 68"/>
   <path class="edge" d="M560 176 H680"/>
   <path class="edge" d="M220 190 C380 270 500 301 680 301"/>
@@ -32,19 +32,19 @@
   <text class="edge-label" x="620" y="164">factor histories</text>
 
   <g>
-    <rect class="box" x="20" y="145" width="200" height="62" rx="5"/>
-    <text class="name" x="120" y="171">qis</text>
-    <text class="detail" x="120" y="191">returns and analytics</text>
+    <rect class="box" x="20" y="126" width="200" height="100" rx="5"/>
+    <text class="name" x="120" y="151">qis</text>
+    <text class="detail" x="120" y="171"><tspan x="120">analytics for risk-adjusted</tspan><tspan x="120" dy="18">returns and signals,</tspan><tspan x="120" dy="18">backtesting, reporting</tspan></text>
   </g>
   <g>
-    <rect class="box" x="340" y="15" width="220" height="62" rx="5"/>
+    <rect class="box" x="340" y="15" width="220" height="100" rx="5"/>
     <text class="name" x="450" y="41">factorlasso</text>
-    <text class="detail" x="450" y="61">statistical estimation</text>
+    <text class="detail" x="450" y="61"><tspan x="450">statistical estimation of</tspan><tspan x="450" dy="18">factor models with</tspan><tspan x="450" dy="18">sparsity and clustering</tspan></text>
   </g>
   <g>
     <rect class="box" x="340" y="145" width="220" height="62" rx="5"/>
     <text class="name" x="450" y="171">factormodels</text>
-    <text class="detail" x="450" y="191">factor construction and risk</text>
+    <text class="detail" x="450" y="191">factor models construction</text>
   </g>
   <g>
     <rect class="box" x="680" y="15" width="200" height="62" rx="5"/>

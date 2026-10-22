@@ -52,7 +52,7 @@ GROUPS = {
         ["StochVolModels", "OptionChainAnalytics", "VanillaOptionPricers"],
     "Dynamic Trading Strategies":
         ["TrendFollowingSystems", "GoalBasedAllocation"],
-    "Illiquid Private Markets":
+    "Illiquid Private Assets":
         ["privateassets"],
     "Data":
         ["BloombergFetch"],

@@ -44,7 +44,7 @@ New to the ecosystem? Start with `qis` for analytics and reporting, `optimalport
 | **Dynamic Trading Strategies** | | | | | | |
 | [TrendFollowingSystems](https://github.com/ArturSepp/TrendFollowingSystems) (trendfollowing) · [Docs](https://trendfollowingsystems.readthedocs.io) | Closed-form trend-following analytics | [![](https://img.shields.io/pypi/v/trendfollowing?style=flat-square&label=&color=blue)](https://pypi.org/project/trendfollowing/) | [![Stars](https://img.shields.io/github/stars/ArturSepp/TrendFollowingSystems?style=flat-square&label=)](https://github.com/ArturSepp/TrendFollowingSystems/stargazers) | [![Forks](https://img.shields.io/github/forks/ArturSepp/TrendFollowingSystems?style=flat-square&label=)](https://github.com/ArturSepp/TrendFollowingSystems/network/members) | [![Monthly downloads](https://static.pepy.tech/personalized-badge/trendfollowing?period=month&units=international_system&left_text=)](https://pepy.tech/project/trendfollowing) | [![Total downloads](https://static.pepy.tech/personalized-badge/trendfollowing?period=total&units=international_system&left_text=)](https://pepy.tech/project/trendfollowing) |
 | [GoalBasedAllocation](https://github.com/ArturSepp/GoalBasedAllocation) (goal-based-allocation) · [Docs](https://goalbasedallocation.readthedocs.io) | Goal-based allocation with wealth floors | [![](https://img.shields.io/pypi/v/goal-based-allocation?style=flat-square&label=&color=blue)](https://pypi.org/project/goal-based-allocation/) | [![Stars](https://img.shields.io/github/stars/ArturSepp/GoalBasedAllocation?style=flat-square&label=)](https://github.com/ArturSepp/GoalBasedAllocation/stargazers) | [![Forks](https://img.shields.io/github/forks/ArturSepp/GoalBasedAllocation?style=flat-square&label=)](https://github.com/ArturSepp/GoalBasedAllocation/network/members) | [![Monthly downloads](https://static.pepy.tech/personalized-badge/goal-based-allocation?period=month&units=international_system&left_text=)](https://pepy.tech/project/goal-based-allocation) | [![Total downloads](https://static.pepy.tech/personalized-badge/goal-based-allocation?period=total&units=international_system&left_text=)](https://pepy.tech/project/goal-based-allocation) |
-| **Illiquid Private Markets** | | | | | | |
+| **Illiquid Private Assets** | | | | | | |
 | [privateassets](https://github.com/ArturSepp/privateassets) (privateassets) · [Docs](https://privateassets.readthedocs.io) | Multi-factor PME for private assets | [![](https://img.shields.io/pypi/v/privateassets?style=flat-square&label=&color=blue)](https://pypi.org/project/privateassets/) | [![Stars](https://img.shields.io/github/stars/ArturSepp/privateassets?style=flat-square&label=)](https://github.com/ArturSepp/privateassets/stargazers) | [![Forks](https://img.shields.io/github/forks/ArturSepp/privateassets?style=flat-square&label=)](https://github.com/ArturSepp/privateassets/network/members) | [![Monthly downloads](https://static.pepy.tech/personalized-badge/privateassets?period=month&units=international_system&left_text=)](https://pepy.tech/project/privateassets) | [![Total downloads](https://static.pepy.tech/personalized-badge/privateassets?period=total&units=international_system&left_text=)](https://pepy.tech/project/privateassets) |
 | **Data** | | | | | | |
 | [BloombergFetch](https://github.com/ArturSepp/BloombergFetch) (bbg-fetch) · [Docs](https://bloombergfetch.readthedocs.io) | Bloomberg data in pandas DataFrames | [![](https://img.shields.io/pypi/v/bbg-fetch?style=flat-square&label=&color=blue)](https://pypi.org/project/bbg-fetch/) | [![Stars](https://img.shields.io/github/stars/ArturSepp/BloombergFetch?style=flat-square&label=)](https://github.com/ArturSepp/BloombergFetch/stargazers) | [![Forks](https://img.shields.io/github/forks/ArturSepp/BloombergFetch?style=flat-square&label=)](https://github.com/ArturSepp/BloombergFetch/network/members) | [![Monthly downloads](https://static.pepy.tech/personalized-badge/bbg-fetch?period=month&units=international_system&left_text=)](https://pepy.tech/project/bbg-fetch) | [![Total downloads](https://static.pepy.tech/personalized-badge/bbg-fetch?period=total&units=international_system&left_text=)](https://pepy.tech/project/bbg-fetch) |
@@ -62,34 +62,19 @@ The packages support two complementary research workflows. Arrows show supplied 
 
 ### 1. Multiasset portfolio optimisation and strategies
 
-`factormodels` defines and constructs the financial factor model, calls `factorlasso` to estimate loadings and covariance, and exposes completed model outputs for downstream use.
+`factormodels` defines and constructs the financial factor model, calls `factorlasso` to estimate loadings and covariance, and exposes completed model outputs for downstream use. `optimalportfolios` consumes supplied covariance and return inputs. `privateassets` can use constructed factor histories and estimates fund exposures from cash flows and NAVs. `trendfollowing` uses QIS directly for strategy analytics. QIS also provides risk analysis, backtesting and reporting across the workflow. See the [FM handoff to OP and QIS](https://github.com/ArturSepp/FactorModels/blob/main/docs/integration.md) and [private-asset workflow](https://github.com/ArturSepp/privateassets#why-privateassets).
 
 ![Multiasset workflow: QIS feeds FM and, through a separate arrow, TF. FL sits above FM and supplies statistical estimation. FM supplies risk and return inputs to OP and factor histories to privateassets. OP, privateassets and TF occupy the final column.](docs/assets/multiasset-workflow.svg)
-
-`optimalportfolios` consumes supplied covariance and return inputs. `privateassets` can use constructed factor histories and estimates fund exposures from cash flows and NAVs. `trendfollowing` uses QIS directly for strategy analytics. QIS also provides risk analysis, backtesting and reporting across the workflow. See the [FM handoff to OP and QIS](https://github.com/ArturSepp/FactorModels/blob/main/docs/integration.md) and [private-asset workflow](https://github.com/ArturSepp/privateassets#why-privateassets).
-
-[`goal-based-allocation`](https://github.com/ArturSepp/GoalBasedAllocation) is a standalone research library within the broader ecosystem.
 
 ### 2. Option valuation and volatility modelling
 
 Vanilla pricing, point-in-time option chains and QIS analytics feed stochastic volatility valuation and calibration.
 
-```mermaid
-flowchart LR
-    oca["`**option-chain-analytics**
-    point-in-time option chains`"]
-    vop["`**vanilla-option-pricers**
-    BSM & Bachelier pricing`"]
-    qis["`**qis**
-    analytics & reporting`"]
-    svm["`**stochvolmodels**
-    stochastic volatility models`"]
-    oca --> svm
-    vop --> svm
-    qis --> svm
-```
+![Option valuation workflow: option-chain-analytics, vanilla-option-pricers and QIS each feed stochvolmodels.](docs/assets/options-workflow.svg)
 
-**Optional market data.** [`bbg-fetch`](https://github.com/ArturSepp/BloombergFetch) supplies Bloomberg market data for either workflow. The stack is data-provider independent: packages accept supplied data, and `bbg-fetch` is optional throughout.
+**Optional market data:** [`bbg-fetch`](https://github.com/ArturSepp/BloombergFetch) supplies Bloomberg market data for either workflow. The stack is data-provider independent: packages accept supplied data, and `bbg-fetch` is optional throughout.
+
+[`goal-based-allocation`](https://github.com/ArturSepp/GoalBasedAllocation) is a standalone research library within the broader ecosystem.
 
 ---
 
@@ -219,7 +204,9 @@ pip install goal-based-allocation
 
 ---
 
-### Illiquid Private Markets
+<a id="illiquid-private-markets"></a>
+
+### Illiquid Private Assets
 
 #### [privateassets](https://github.com/ArturSepp/privateassets) (`privateassets`)
 Multi-factor, money-weighted PME for private-asset cash flows: generalises Direct Alpha, KS-PME and GPME from a single benchmark to a tradable multi-factor deflator, with the classical measures shipped alongside for comparison on the same cash flows.
