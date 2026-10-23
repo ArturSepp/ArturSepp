@@ -32,6 +32,7 @@ Regenerate an existing package's `.github/stack-policy.json` from the registry w
 Repeat `--package` to select another package; selection is mandatory and no other checkout is
 changed. Add `--check` to verify the generated policy without writing. The generator does not
 create policies for repositories that use a different boundary-check interface.
+
 ### Recorded runtime licence review
 
 The focused `license_policy.py` assertion checks a saved **runtime-only** `pip inspect`

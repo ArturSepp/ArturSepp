@@ -139,7 +139,7 @@
       "name": "Rosaa",
       "directory": "Rosaa",
       "visibility": "private-package",
-      "python_environment": "RosaaFactorModels011312",
+      "python_environment": "Rosaa312",
       "artifact_policy": {
         "roadmap_exclusions": [
           "outputs",

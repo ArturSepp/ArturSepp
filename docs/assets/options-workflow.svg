@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420" role="img" aria-labelledby="title description">
+  <title id="title">Option valuation and volatility modelling</title>
+  <desc id="description">OptionChainAnalytics supplies point-in-time option chains, VanillaOptionPricers supplies BSM and Bachelier pricing, and QIS supplies analytics for risk-adjusted returns and signals, backtesting, reporting. Each package feeds StochVolModels through its own arrow.</desc>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; fill: #24292f; text-anchor: middle; }
+    .box { fill: #f0edfc; stroke: #9987c9; stroke-width: 1.4; }
+    .name { font-size: 16px; font-weight: 600; }
+    .detail { font-size: 13px; }
+    .edge { fill: none; stroke: #57606a; stroke-width: 1.6; marker-end: url(#arrow); }
+    .arrow { fill: #57606a; }
+    @media (prefers-color-scheme: dark) {
+      text { fill: #e6edf3; }
+      .box { fill: #28243c; stroke: #a99bd4; }
+      .edge { stroke: #b1bac4; }
+      .arrow { fill: #b1bac4; }
+    }
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path class="arrow" d="M0 0 L8 4 L0 8 Z"/>
+    </marker>
+  </defs>
+
+  <!-- Preserve the three existing inputs to StochVolModels. -->
+  <path class="edge" d="M380 60 C475 60 475 194 570 194"/>
+  <path class="edge" d="M380 210 H570"/>
+  <path class="edge" d="M380 360 C475 360 475 226 570 226"/>
+
+  <g>
+    <rect class="box" x="150" y="10" width="230" height="100" rx="5"/>
+    <text class="name" x="265" y="55">option-chain-analytics</text>
+    <text class="detail" x="265" y="75">point-in-time option chains</text>
+  </g>
+  <g>
+    <rect class="box" x="150" y="160" width="230" height="100" rx="5"/>
+    <text class="name" x="265" y="205">vanilla-option-pricers</text>
+    <text class="detail" x="265" y="225">BSM &amp; Bachelier pricing</text>
+  </g>
+  <g>
+    <rect class="box" x="150" y="310" width="230" height="100" rx="5"/>
+    <text class="name" x="265" y="335">qis</text>
+    <text class="detail" x="265" y="355"><tspan x="265">analytics for risk-adjusted</tspan><tspan x="265" dy="18">returns and signals,</tspan><tspan x="265" dy="18">backtesting, reporting</tspan></text>
+  </g>
+  <g>
+    <rect class="box" x="570" y="160" width="230" height="100" rx="5"/>
+    <text class="name" x="685" y="205">stochvolmodels</text>
+    <text class="detail" x="685" y="225">stochastic volatility models</text>
+  </g>
+</svg>
