@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-10-23T05:33:26.212386+00:00",
+  "observed_at": "2026-10-23T06:15:52.922760+00:00",
   "packages": {
     "qis": {
       "source": "https://pepy.tech/projects/qis",
@@ -53,8 +53,8 @@
     },
     "bbg-fetch": {
       "source": "https://pepy.tech/projects/bbg-fetch",
-      "month": 1505,
-      "total": 42374
+      "month": 1825,
+      "total": 42718
     }
   }
 }
