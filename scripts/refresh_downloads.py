@@ -72,13 +72,13 @@ def fetch_counts(slug: str) -> dict:
             time.sleep(2 ** attempt)
 
 
-def badge(value: str, title: str) -> str:
+def badge(value: str, title: str, color: str = "#4c1") -> str:
     width = 16 + 7 * len(value)
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="20" '
         f'role="img" aria-label="{escape(title, quote=True)}">\n'
         f'<title>{escape(title)}</title>\n'
-        f'<rect width="{width}" height="20" rx="3" fill="#4c1"/>\n'
+        f'<rect width="{width}" height="20" rx="3" fill="{color}"/>\n'
         f'<text x="{width / 2:g}" y="14" fill="#fff" text-anchor="middle" '
         f'font-family="DejaVu Sans Mono,monospace" font-size="11">{escape(value)}</text>\n'
         '</svg>\n'
@@ -98,7 +98,8 @@ def refresh(output: Path) -> dict:
     for slug, counts in packages.items():
         total = counts["total"]
         value = str(total) if total < 1000 else f"{(total + 500) // 1000}K"
-        files[f"{slug}-total.svg"] = badge(value, f"{slug}: {total:,} downloads (all time); {stamp}")
+        files[f"{slug}-total.svg"] = badge(
+            value, f"{slug}: {total:,} downloads (all time); {stamp}", color="#7E57C2")
     output.mkdir(parents=True, exist_ok=True)
     for name, content in files.items():
         (output / name).write_text(content, encoding="utf-8", newline="\n")
