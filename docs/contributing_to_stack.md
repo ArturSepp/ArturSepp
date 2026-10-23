@@ -127,9 +127,10 @@ activity. Do not infer contributor retention from downloads, stars or raw commit
 
 ## Additional package entry points
 
-The original nine QIS/OP/FactorLasso proposals above remain the Q3 pilot. These seven
+The original nine QIS/OP/FactorLasso proposals above remain the Q3 pilot. Six additional
 package guides add three bounded proposals each, using their existing issue forms and
-contribution rules. All 21 are proposals, not assigned issues or confirmed bugs. Human
+contribution rules. All 18 are proposals, not assigned issues or confirmed bugs. PrivateAssets
+links to its contribution scope and review requirements. Human
 verification of the original Q1 and Q3 pilots remains pending; automated checks and local
 render inspection do not establish newcomer success.
 
@@ -137,7 +138,7 @@ render inspection do not establish newcomer success.
 |---|---|---|---|---|
 | [VanillaOptionPricers](https://github.com/ArturSepp/VanillaOptionPricers) | Price vanilla options and invert implied volatility | [VOP-1 to VOP-3](https://github.com/ArturSepp/VanillaOptionPricers/blob/main/CONTRIBUTING.md#starter-tasks) | MIT | [CITATION.cff](https://github.com/ArturSepp/VanillaOptionPricers/blob/main/CITATION.cff) |
 | [TrendFollowingSystems](https://github.com/ArturSepp/TrendFollowingSystems) | Compare closed-form trend-following risk/return | [TF-1 to TF-3](https://github.com/ArturSepp/TrendFollowingSystems/blob/main/CONTRIBUTING.md#starter-tasks) | MIT from [1.3.1.post1](https://pypi.org/project/trendfollowing/1.3.1.post1/) | [CITATION.cff](https://github.com/ArturSepp/TrendFollowingSystems/blob/main/CITATION.cff) |
-| [PrivateAssets](https://github.com/ArturSepp/PrivateAssets) | Evaluate cashflows with public-market equivalents | [PA-1 to PA-3](https://github.com/ArturSepp/PrivateAssets/blob/main/CONTRIBUTING.md#starter-tasks) | MIT | [CITATION.cff](https://github.com/ArturSepp/PrivateAssets/blob/main/CITATION.cff) |
+| [PrivateAssets](https://github.com/ArturSepp/PrivateAssets) | Evaluate cashflows with public-market equivalents | [Contribution scope](https://github.com/ArturSepp/PrivateAssets/blob/main/CONTRIBUTING.md#scope) | MIT | [CITATION.cff](https://github.com/ArturSepp/PrivateAssets/blob/main/CITATION.cff) |
 | [GoalBasedAllocation](https://github.com/ArturSepp/GoalBasedAllocation) | Explore a goal-based allocation under regime switching | [GBA-1 to GBA-3](https://github.com/ArturSepp/GoalBasedAllocation/blob/main/CONTRIBUTING.md#starter-tasks) | MIT | [CITATION.cff](https://github.com/ArturSepp/GoalBasedAllocation/blob/main/CITATION.cff) |
 | [StochVolModels](https://github.com/ArturSepp/StochVolModels) | Price a fixed LogSV model | [SVM-1 to SVM-3](https://github.com/ArturSepp/StochVolModels/blob/main/CONTRIBUTING.md#starter-tasks) | MIT | [CITATION.cff](https://github.com/ArturSepp/StochVolModels/blob/main/CITATION.cff) |
 | [OptionChainAnalytics](https://github.com/ArturSepp/OptionChainAnalytics) | Reconstruct and query a synthetic option chain | [OCA-1 to OCA-3](https://github.com/ArturSepp/OptionChainAnalytics/blob/main/CONTRIBUTING.md#starter-tasks) | MIT | [CITATION.cff](https://github.com/ArturSepp/OptionChainAnalytics/blob/main/CITATION.cff) |
