@@ -27,6 +27,51 @@ The reviewed `agent_core_manifest.json` hashes the entire generated agent block.
 files are compared with their reviewed templates, so edits retaining a current stamp fail.
 Historical provenance gaps stay visible as `known-gap`, independently of new missing-tag failures.
 
+Regenerate an existing package's `.github/stack-policy.json` from the registry with
+`python scripts/generate_stack_policy.py --repos-root /path/to/checkouts --package factorlasso`.
+Repeat `--package` to select another package; selection is mandatory and no other checkout is
+changed. Add `--check` to verify the generated policy without writing. The generator does not
+create policies for repositories that use a different boundary-check interface.
+
+### Recorded runtime licence review
+
+The focused `license_policy.py` assertion checks a saved **runtime-only** `pip inspect`
+inventory against an independently reviewed package/version record and that installation's
+complete notice files and selected native-binary hashes. The review supplies exact licence
+metadata, full notice paths/digests, interpreted terms, platform and qualifications. Capture
+the inventory before adding test tools; only seeded `pip` is excluded. This is the bounded
+assertion used for the MIT transition, not a general SPDX scanner or an all-platform audit.
+
+```powershell
+& C:\Python\ArturSepp312\Scripts\python.exe scripts/license_policy.py `
+  --inspect C:\evidence\base-inspect.json --review C:\evidence\base-reviewed.json `
+  --site C:\external-env\Lib\site-packages --output C:\evidence\licence-result.json
+```
+
+Use the actual external evidence/environment paths. The saved inventory and installed
+notices must belong to the same recorded resolution. A pass establishes that record, not
+the state of later test-tool installations or every version allowed by dependency ranges.
+Unknown packages, versions, licence metadata, unresolved reviews and changed/missing full
+notices fail. A plain mandatory GPL/AGPL/LGPL identity fails; a manually reviewed genuine
+alternative or compiler-runtime exception is not rejected by a GPL substring search.
+The independent review remains responsible for interpreting those terms, including
+compound expressions, source rights and unrecorded bundled components.
+
+MIT applies to cleared first-party source. The reviewed Windows numerical runtime retains
+NumPy/SciPy's `GPL-3.0-or-later WITH GCC-exception-3.1`, Microsoft redistributable terms,
+Numba's NVIDIA header terms, and font/data attribution. Complete supplemental OpenBLAS
+notices accompany affected stack packages. No entirely MIT, literally GPL-free, or wholly
+permissive binary environment is claimed; optional solver/provider installations are
+separate reviews. Full notices and applicable conditions remain required.
+
+The existing conformance entry point accepts the same bounded review using
+`--license-inspect`, `--license-review`, and `--license-site` together. It writes a separate
+`runtime_license` result and preserves its qualifications; without evidence this result is
+`unknown`. An explicitly requested runtime failure exits nonzero even without
+`--fail-on-drift`. Existing eleven-package metadata/backlog findings remain separate and
+are not cleared by this one-runtime pass. Run its controlled failure/restoration tests with
+`python -m unittest discover -s scripts/tests -p test_license_policy.py`.
+
 The scheduled workflow collects sources into fresh temporary clones and commits only its
 JSON/Markdown report. Collection has read-only credentials; report writing is a separate job.
 `python scripts/update_github_about.py` prints exact proposed command arguments without making
@@ -39,6 +84,13 @@ Each package receives `.github/workflows/release.yml` and the two helpers genera
 `scripts/templates/`. Regenerate with `python scripts/generate_release_files.py --repos-root
 /path/to/clones`; `--check` detects edited generated copies. Change the templates before
 regenerating package files.
+
+For a scoped workflow change, use `python scripts/generate_release_files.py --repos-root
+/path/to/clones --package optimalportfolios --workflow-only`; add `--check` to verify
+the selected output. Package-specific release helpers and every other repository remain
+untouched. OP's reviewed registry profile retains its Europe/Zurich timezone and checks the
+explicit `[riskbudget]` backend after the base tests. That lane requires a nonempty result
+with no failed, errored or skipped cases before the validation job can permit publication.
 
 After the usual release metadata commit has reached `origin/main`, run the package's
 `python .github/scripts/publish_tag.py vX.Y.Z --push`. Omitting `--push` is a local dry run.
@@ -93,3 +145,11 @@ package metadata.
 Trusted Publishing setup is documented by [PyPI](https://docs.pypi.org/trusted-publishers/adding-a-publisher/).
 The publisher action is pinned to [PyPA v1.14.2](https://github.com/pypa/gh-action-pypi-publish/commit/dc37677b2e1c63e2034f94d8a5b11f265b73ba33),
 and artifact download to [actions/download-artifact v8.0.1](https://github.com/actions/download-artifact/commit/3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c).
+
+The `factormodels` registry entry enables its scoped `release_navigation_check`.
+The release producer runs `tools/check_navigation_refs.py --require-current-source`
+after exact tag checkout and before tests/builds. The package records its reviewed
+navigation ref and any individually explained immutable evidence links; the guard
+preserves historical `/commit/` links and other repositories. Preparation mode can
+check a recorded prepublication ref, while release mode requires that ref to resolve
+to the clean checked-out commit. Other package workflow emissions are unchanged.

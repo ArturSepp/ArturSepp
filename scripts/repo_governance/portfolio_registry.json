@@ -30,7 +30,13 @@
       "directory": "FactorLasso",
       "visibility": "public-package",
       "python_environment": "FactorLasso312",
-      "artifact_policy": {"paper_agents": true},
+      "artifact_policy": {
+        "paper_agents": true,
+        "roadmap_exclusions": [
+          "papers/exposure_budget_floor_2026/submission/Downloads/ROADMAP_cluster_lineage_empirics.md",
+          "papers/exposure_budget_floor_2026/submission/Downloads/roadmap_pointer.md"
+        ]
+      },
       "tasks": {
         "check": {"steps": [{"name": "Ruff", "kind": "module", "module": "ruff", "arguments": ["check", "src/factorlasso", "tests"]}]},
         "test": {"steps": [{"name": "Pytest", "kind": "module", "module": "pytest", "arguments": []}]}
@@ -61,11 +67,35 @@
       }
     },
     {
+      "name": "FactorModels",
+      "directory": "FactorModels",
+      "visibility": "public-package",
+      "python_environment": "FactorModels312",
+      "tasks": {
+        "check": {"steps": [{"name": "Ruff", "kind": "module", "module": "ruff", "arguments": ["check", "src/factormodels", "tests", "tools"]}]},
+        "test": {"steps": [{"name": "Pytest", "kind": "module", "module": "pytest", "arguments": []}]},
+        "verify": {"steps": [
+          {"name": "Ruff", "kind": "module", "module": "ruff", "arguments": ["check", "src/factormodels", "tests", "tools"]},
+          {"name": "Pytest", "kind": "module", "module": "pytest", "arguments": []}
+        ]}
+      }
+    },
+    {
       "name": "OptimalPortfolios",
       "directory": "OptimalPortfolios",
       "visibility": "public-package",
       "python_environment": "OptimalPortfolios312",
-      "artifact_policy": {"paper_agents": true},
+      "artifact_policy": {
+        "paper_agents": true,
+        "roadmap_exclusions": [
+          "papers/equity_factors/ROADMAP_equity_factors.md",
+          "papers/factorlasso_slides_wbs_2026/presentations/roadmap.md",
+          "papers/factorlasso_slides_wbs_2026/presentations/slides_roadmap.md",
+          "papers/factorlasso_slides_wbs_2026/drafts/2026-09-27-before-figure-programme/presentations/roadmap.md",
+          "papers/factorlasso_slides_wbs_2026/drafts/2026-09-27-before-figure-programme/presentations/slides_roadmap.md",
+          "papers/factorlasso_slides_wbs_2026/drafts/2026-09-28-before-rebalance/presentations/slides_roadmap.md"
+        ]
+      },
       "tasks": {
         "check": {"steps": [{"name": "Ruff", "kind": "module", "module": "ruff", "arguments": ["check", "src/optimalportfolios/"]}]},
         "test": {"steps": [{"name": "Pytest", "kind": "module", "module": "pytest", "arguments": []}]}

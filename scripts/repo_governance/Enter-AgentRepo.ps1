@@ -29,7 +29,8 @@ $durableRoot = if ($LASTEXITCODE -eq 0) { Split-Path -Parent $commonGit } else {
 
 $matches = @(
     foreach ($repository in $registry.repositories) {
-        $root = (Resolve-Path -LiteralPath (Join-Path $repositoriesRootPath $repository.directory)).Path.TrimEnd('\')
+        # Match registry paths without requiring unrelated checkouts to exist.
+        $root = [IO.Path]::GetFullPath((Join-Path $repositoriesRootPath $repository.directory)).TrimEnd('\')
         if ($durableRoot -eq $root -or $candidatePath -eq $root -or $candidatePath.StartsWith($root + '\', [StringComparison]::OrdinalIgnoreCase)) {
             [pscustomobject]@{ Entry = $repository; Root = $root }
         }

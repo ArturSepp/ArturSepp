@@ -52,12 +52,28 @@
       "local_dir": "OptimalPortfolios",
       "dist": "optimalportfolios",
       "import": "optimalportfolios",
+      "release_test_profile": "op-riskbudget",
+      "release_timezone": "Europe/Zurich",
       "rtd": "optimalportfolios",
       "summary": "Production multi-asset portfolio construction and rolling backtesting in Python",
       "tagline": "portfolio construction and rolling backtesting",
-      "core": [
-        "qis",
-        "factorlasso"
+      "core": ["qis"],
+      "development_imports": [
+        {
+          "path": "src/optimalportfolios/tests/factor_integration_test.py",
+          "modules": ["factormodels", "factorlasso"],
+          "reason": "Explicit composed-environment integration tests"
+        },
+        {
+          "path": "src/optimalportfolios/tests/documentation_analytics_covariance_comparison_test.py",
+          "modules": ["factorlasso"],
+          "reason": "Offline documentation comparison in the composed environment"
+        },
+        {
+          "path": "src/optimalportfolios/alphas/signals/run_local/signals_run.py",
+          "modules": ["factormodels", "factorlasso"],
+          "reason": "Explicit local composed example, excluded from the library distribution"
+        }
       ],
       "extras": {},
       "tier": "T2",

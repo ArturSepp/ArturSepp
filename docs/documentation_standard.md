@@ -304,3 +304,25 @@ for build commands, docstring conventions, and numerical contracts.
 | [GoalBasedAllocation](https://github.com/ArturSepp/GoalBasedAllocation) | [AGENTS.md](https://github.com/ArturSepp/GoalBasedAllocation/blob/main/AGENTS.md) | Local instructions apply. |
 | [VanillaOptionPricers](https://github.com/ArturSepp/VanillaOptionPricers) | [AGENTS.md](https://github.com/ArturSepp/VanillaOptionPricers/blob/main/AGENTS.md) | Local instructions apply. |
 | [OptionChainAnalytics](https://github.com/ArturSepp/OptionChainAnalytics) | [AGENTS.md](https://github.com/ArturSepp/OptionChainAnalytics/blob/main/AGENTS.md) | Local instructions apply. |
+| [FactorModels](https://github.com/ArturSepp/FactorModels) | [AGENTS.md](https://github.com/ArturSepp/FactorModels/blob/main/AGENTS.md) | Local instructions apply. |
+
+## Release channels and generated navigation
+
+Package documentation distinguishes released `stable` builds from development `latest` builds.
+Show the actual build version and link to channel home pages: a page or symbol added on main
+may be absent from the release. Preserve each build's own canonical URL. A stable alias can lag
+PyPI; it is not evidence of the newest published version. If released HTML is unavailable,
+link a verified tagged-source guide and explain the fallback instead of inventing an alias.
+
+State a minimum supported released version beside public examples or in their linked catalogue.
+A conservatively verified support floor is not a historical first-introduction claim. Mark any
+source-only capability explicitly, without marking already released neighbouring features as
+unreleased. Explain the owning package's actual compatibility policy and source/dependency
+licences; changing a classifier or source licence is separate work.
+
+Where a package uses Sphinx, generate `llms.txt` and an API companion at successful HTML build
+time through its existing indexing extension. Discover pages from Sphinx and exports from the
+same verified contract as the API producer (`__all__` or the owning documentation inventory).
+Use Sphinx's real object targets; omit invented anchors and fail on nonexistent declared exports.
+Keep output deterministic and out of the source tree. Verification includes source checks,
+strict docs/CI profiles, local targets and anchors, channel navigation, and Markdown/HTML review.

@@ -19,6 +19,9 @@ For contributors: [OSS documentation authoring standard](docs/documentation_stan
 covers article templates, authorship, equations, references, and reproducible analytics
 across the packages.
 
+For bounded starter tasks, review expectations and automation-assisted contributions, see
+[contributing to the OSS portfolio stack](docs/contributing_to_stack.md).
+
 ## Python Packages
 
 Over 20 years of building quantitative models — across equity, credit and rates derivatives on the sell-side, a systematic CTA, market-neutral crypto/DeFi, and now multi-asset private banking — one pattern holds: volatility regimes migrate across asset classes, and models that feel robust fail at the worst moment. These open-source packages are my working answer, spanning the full quant workflow from market data — prices, fundamentals and point-in-time option chains — to signal generation, factor modelling, and portfolio construction, through to performance measurement of private assets.
@@ -26,6 +29,8 @@ Over 20 years of building quantitative models — across equity, credit and rate
 Developed alongside my published research, these packages provide runnable implementations of the methods described in the papers.
 
 New to the ecosystem? Start with `qis` for analytics and reporting, `optimalportfolios` for portfolio construction, or `stochvolmodels` for volatility modelling.
+
+For three offline paths using released packages, see [first workflows for the OSS portfolio stack](docs/first_steps.md): supplied weights to a factsheet, constrained allocation, and sparse factor estimation.
 
 ### Package Overview
 
