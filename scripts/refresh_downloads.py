@@ -99,7 +99,7 @@ def refresh(output: Path) -> dict:
         total = counts["total"]
         value = str(total) if total < 1000 else f"{(total + 500) // 1000}K"
         files[f"{slug}-total.svg"] = badge(
-            value, f"{slug}: {total:,} downloads (all time); {stamp}", color="#7E57C2")
+            value, f"{slug}: {total:,} downloads (all time); {stamp}", color="#007ec6")
     output.mkdir(parents=True, exist_ok=True)
     for name, content in files.items():
         (output / name).write_text(content, encoding="utf-8", newline="\n")
