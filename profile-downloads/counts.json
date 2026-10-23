@@ -1,55 +1,55 @@
 {
-  "observed_at": "2026-10-23T06:33:57.457170+00:00",
+  "observed_at": "2026-10-23T12:18:18.389661+00:00",
   "packages": {
     "qis": {
       "source": "https://pepy.tech/projects/qis",
-      "month": 19232,
-      "total": 231050
+      "month": 19272,
+      "total": 231518
     },
     "optimalportfolios": {
       "source": "https://pepy.tech/projects/optimalportfolios",
-      "month": 8229,
-      "total": 78681
+      "month": 8466,
+      "total": 78959
     },
     "factorlasso": {
       "source": "https://pepy.tech/projects/factorlasso",
-      "month": 10228,
-      "total": 43881
+      "month": 10777,
+      "total": 44660
     },
     "factormodels": {
       "source": "https://pepy.tech/projects/factormodels",
-      "month": 217,
-      "total": 217
+      "month": 533,
+      "total": 533
     },
     "stochvolmodels": {
       "source": "https://pepy.tech/projects/stochvolmodels",
-      "month": 1760,
-      "total": 33094
+      "month": 1975,
+      "total": 33379
     },
     "option-chain-analytics": {
       "source": "https://pepy.tech/projects/option-chain-analytics",
-      "month": 1721,
-      "total": 20507
+      "month": 2004,
+      "total": 20822
     },
     "vanilla-option-pricers": {
       "source": "https://pepy.tech/projects/vanilla-option-pricers",
-      "month": 2709,
-      "total": 11468
+      "month": 2966,
+      "total": 11824
     },
     "trendfollowing": {
       "source": "https://pepy.tech/projects/trendfollowing",
-      "month": 1534,
-      "total": 4549
+      "month": 1793,
+      "total": 4829
     },
     "goal-based-allocation": {
       "source": "https://pepy.tech/projects/goal-based-allocation",
-      "month": 1054,
-      "total": 3332
+      "month": 1569,
+      "total": 3852
     },
     "privateassets": {
       "source": "https://pepy.tech/projects/privateassets",
-      "month": 613,
-      "total": 2296
+      "month": 620,
+      "total": 2307
     },
     "bbg-fetch": {
       "source": "https://pepy.tech/projects/bbg-fetch",
