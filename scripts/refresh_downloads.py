@@ -1,7 +1,7 @@
-"""Publish exact public Pepy dashboard counts as daily profile badge snapshots.
+"""Publish public Pepy dashboard totals as daily profile badge snapshots.
 
-Pepy's monthly badge and dashboard can report different totals. Read the visible
-dashboard summary so both profile download columns match the linked source.
+Read the visible dashboard summary and retain exact counts in counts.json.
+Display total downloads rounded to thousands (K), keeping counts below 1,000 exact.
 Fail before writing any output if a source is unavailable or its format changes.
 The workflow publishes only profile-downloads/ on automation/reports; main and
 the generated conformance reports are never changed by this collector.
@@ -96,9 +96,9 @@ def refresh(output: Path) -> dict:
     files = {"counts.json": json.dumps(snapshot, indent=2) + "\n",
              "updated.svg": badge(observed.strftime("%Y-%m-%d"), f"Downloads checked {stamp}")}
     for slug, counts in packages.items():
-        for period, label in (("month", "last 30 days"), ("total", "all time")):
-            value = f"{counts[period]:,}"
-            files[f"{slug}-{period}.svg"] = badge(value, f"{slug}: {value} downloads ({label}); {stamp}")
+        total = counts["total"]
+        value = str(total) if total < 1000 else f"{(total + 500) // 1000}K"
+        files[f"{slug}-total.svg"] = badge(value, f"{slug}: {total:,} downloads (all time); {stamp}")
     output.mkdir(parents=True, exist_ok=True)
     for name, content in files.items():
         (output / name).write_text(content, encoding="utf-8", newline="\n")

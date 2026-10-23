@@ -34,7 +34,7 @@ class DownloadTests(unittest.TestCase):
             self.assertEqual(list(root.iterdir()), [root / "counts.json"])
             self.assertEqual((root / "counts.json").read_text(), "previous successful data")
 
-    def test_snapshot_and_badges_preserve_exact_counts_and_timestamp(self):
+    def test_snapshot_preserves_exact_counts_and_badge_shows_thousands(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             with mock.patch.object(downloads, "REPOS", {"Example": "qis"}), \
@@ -42,10 +42,11 @@ class DownloadTests(unittest.TestCase):
                      "source": "https://pepy.tech/projects/qis", "month": 19232, "total": 231050}):
                 snapshot = downloads.refresh(root)
             self.assertEqual(json.loads((root / "counts.json").read_text()), snapshot)
-            for period, expected in (("month", "19,232"), ("total", "231,050")):
-                svg = ET.parse(root / f"qis-{period}.svg").getroot()
-                self.assertEqual(svg.find("{http://www.w3.org/2000/svg}text").text, expected)
-                self.assertIn("UTC", svg.get("aria-label"))
+            svg = ET.parse(root / "qis-total.svg").getroot()
+            self.assertEqual(svg.find("{http://www.w3.org/2000/svg}text").text, "231K")
+            self.assertIn("231,050", svg.get("aria-label"))
+            self.assertIn("UTC", svg.get("aria-label"))
+            self.assertFalse((root / "qis-month.svg").exists())
             self.assertTrue((root / "updated.svg").exists())
 
 

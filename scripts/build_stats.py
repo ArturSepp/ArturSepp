@@ -75,20 +75,18 @@ def row(repo: str, slug: str, concept: str) -> str:
     forks = (f"[![Forks](https://img.shields.io/github/forks/{OWNER}/{repo}?style=flat-square&label=)]"
              f"({base}/network/members)")
     downloads_url = f"https://pepy.tech/projects/{slug}"
-    monthly = (f"[![Last 30 days downloads]({DOWNLOAD_BADGES}/{slug}-month.svg)]"
-               f"({downloads_url})")
-    total = (f"[![Total downloads]({DOWNLOAD_BADGES}/{slug}-total.svg)]"
+    total = (f"[![Total downloads]({DOWNLOAD_BADGES}/{slug}-total.svg?format=K)]"
              f"({downloads_url})")
     return (f"| [{repo}]({base}) ({slug}) · [Docs]({DOCS[slug]}) | {concept} | "
-            f"{version} | {stars} | {forks} | {monthly} | {total} |")
+            f"{version} | {stars} | {forks} | {total} |")
 
 
 def build_table() -> str:
-    header = ("| Package | Concept | Version | Stars | Forks | Last 30 days<br>Downloads | Total<br>Downloads |\n"
-              "|---------|---------|:-------:|:-----:|:-----:|:-----------------:|:---------------:|")
+    header = ("| Package | Concept | Version | Stars | Forks | Total<br>Downloads |\n"
+              "|---------|---------|:-------:|:-----:|:-----:|:---------------:|")
     body = []
     for group, repos in GROUPS.items():
-        body.append(f"| **{group}** | | | | | | |")
+        body.append(f"| **{group}** | | | | | |")
         body.extend(row(repo, REPOS[repo], CONCEPTS[repo]) for repo in repos)
     return f"{header}\n" + "\n".join(body)
 
