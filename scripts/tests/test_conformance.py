@@ -139,8 +139,8 @@ class RegistryTests(unittest.TestCase):
         for repo, slug in build_stats.REPOS.items():
             self.assertIn(f"img.shields.io/github/stars/ArturSepp/{repo}", table)
             self.assertIn(f"img.shields.io/github/forks/ArturSepp/{repo}", table)
-            self.assertIn(f"{build_stats.DOWNLOAD_BADGES}/{slug}-month.svg", table)
-            self.assertIn(f"{build_stats.DOWNLOAD_BADGES}/{slug}-total.svg", table)
+            self.assertNotIn(f"{slug}-month.svg", table)
+            self.assertIn(f"{build_stats.DOWNLOAD_BADGES}/{slug}-total.svg?format=K", table)
 
     def test_profile_render_is_independent_of_working_directory(self):
         source = build_stats.README_PATH.read_text(encoding="utf-8")

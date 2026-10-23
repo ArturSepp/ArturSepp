@@ -117,11 +117,11 @@ Scheduled bots use their own branches. Pull requests remain available for change
 full remote validation pass before they reach `main`.
 
 The **Profile downloads** workflow reads the visible summaries on the 11 Pepy package
-pages daily at 06:43 UTC, and can also be run manually from Actions. It publishes exact
-last-30-days and all-time counts, their source URLs, and the observation time under
-`profile-downloads/` on `automation/reports`. The profile shows the last successful
-refresh date. Pepy's separate badge endpoint can disagree with its dashboard, so these
-download badges use the dashboard counts. Stars and forks continue to use GitHub badges.
+pages daily at 06:43 UTC, and can also be run manually from Actions. It retains exact
+counts, their source URLs, and the observation time under `profile-downloads/` on
+`automation/reports`. The profile displays only all-time downloads, rounded to the nearest
+thousand with a K suffix (counts below 1,000 stay exact), and the last successful refresh
+date. Stars and forks continue to use GitHub badges.
 If a page is unavailable or its summary cannot be validated, the workflow fails and
 preserves the previous dated snapshot. Inspect the failed run before updating the parser
 in `scripts/refresh_downloads.py`; do not substitute zeros or refresh the old timestamp.
