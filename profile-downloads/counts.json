@@ -1,0 +1,60 @@
+{
+  "observed_at": "2026-10-23T05:14:22.279046+00:00",
+  "packages": {
+    "qis": {
+      "source": "https://pepy.tech/projects/qis",
+      "month": 19232,
+      "total": 231050
+    },
+    "optimalportfolios": {
+      "source": "https://pepy.tech/projects/optimalportfolios",
+      "month": 8229,
+      "total": 78681
+    },
+    "factorlasso": {
+      "source": "https://pepy.tech/projects/factorlasso",
+      "month": 10228,
+      "total": 43881
+    },
+    "factormodels": {
+      "source": "https://pepy.tech/projects/factormodels",
+      "month": 217,
+      "total": 217
+    },
+    "stochvolmodels": {
+      "source": "https://pepy.tech/projects/stochvolmodels",
+      "month": 1760,
+      "total": 33094
+    },
+    "option-chain-analytics": {
+      "source": "https://pepy.tech/projects/option-chain-analytics",
+      "month": 1721,
+      "total": 20507
+    },
+    "vanilla-option-pricers": {
+      "source": "https://pepy.tech/projects/vanilla-option-pricers",
+      "month": 2709,
+      "total": 11468
+    },
+    "trendfollowing": {
+      "source": "https://pepy.tech/projects/trendfollowing",
+      "month": 1534,
+      "total": 4549
+    },
+    "goal-based-allocation": {
+      "source": "https://pepy.tech/projects/goal-based-allocation",
+      "month": 1054,
+      "total": 3332
+    },
+    "privateassets": {
+      "source": "https://pepy.tech/projects/privateassets",
+      "month": 613,
+      "total": 2296
+    },
+    "bbg-fetch": {
+      "source": "https://pepy.tech/projects/bbg-fetch",
+      "month": 1505,
+      "total": 42374
+    }
+  }
+}
