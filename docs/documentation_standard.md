@@ -304,6 +304,7 @@ for build commands, docstring conventions, and numerical contracts.
 | [GoalBasedAllocation](https://github.com/ArturSepp/GoalBasedAllocation) | [AGENTS.md](https://github.com/ArturSepp/GoalBasedAllocation/blob/main/AGENTS.md) | Local instructions apply. |
 | [VanillaOptionPricers](https://github.com/ArturSepp/VanillaOptionPricers) | [AGENTS.md](https://github.com/ArturSepp/VanillaOptionPricers/blob/main/AGENTS.md) | Local instructions apply. |
 | [OptionChainAnalytics](https://github.com/ArturSepp/OptionChainAnalytics) | [AGENTS.md](https://github.com/ArturSepp/OptionChainAnalytics/blob/main/AGENTS.md) | Local instructions apply. |
+| [FactorModels](https://github.com/ArturSepp/FactorModels) | [AGENTS.md](https://github.com/ArturSepp/FactorModels/blob/main/AGENTS.md) | Local instructions apply. |
 
 ## Release channels and generated navigation
 

@@ -67,15 +67,15 @@
       }
     },
     {
-      "name": "TradableFactors",
-      "directory": "Matf",
+      "name": "FactorModels",
+      "directory": "FactorModels",
       "visibility": "public-package",
-      "python_environment": "TradableFactors312",
+      "python_environment": "FactorModels312",
       "tasks": {
-        "check": {"steps": [{"name": "Ruff", "kind": "module", "module": "ruff", "arguments": ["check", "src/tradablefactors", "tests", "tools"]}]},
+        "check": {"steps": [{"name": "Ruff", "kind": "module", "module": "ruff", "arguments": ["check", "src/factormodels", "tests", "tools"]}]},
         "test": {"steps": [{"name": "Pytest", "kind": "module", "module": "pytest", "arguments": []}]},
         "verify": {"steps": [
-          {"name": "Ruff", "kind": "module", "module": "ruff", "arguments": ["check", "src/tradablefactors", "tests", "tools"]},
+          {"name": "Ruff", "kind": "module", "module": "ruff", "arguments": ["check", "src/factormodels", "tests", "tools"]},
           {"name": "Pytest", "kind": "module", "module": "pytest", "arguments": []}
         ]}
       }
@@ -139,7 +139,7 @@
       "name": "Rosaa",
       "directory": "Rosaa",
       "visibility": "private-package",
-      "python_environment": "Rosaa312",
+      "python_environment": "RosaaFactorModels011312",
       "artifact_policy": {
         "roadmap_exclusions": [
           "outputs",

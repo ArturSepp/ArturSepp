@@ -27,6 +27,11 @@ The reviewed `agent_core_manifest.json` hashes the entire generated agent block.
 files are compared with their reviewed templates, so edits retaining a current stamp fail.
 Historical provenance gaps stay visible as `known-gap`, independently of new missing-tag failures.
 
+Regenerate an existing package's `.github/stack-policy.json` from the registry with
+`python scripts/generate_stack_policy.py --repos-root /path/to/checkouts --package factorlasso`.
+Repeat `--package` to select another package; selection is mandatory and no other checkout is
+changed. Add `--check` to verify the generated policy without writing. The generator does not
+create policies for repositories that use a different boundary-check interface.
 ### Recorded runtime licence review
 
 The focused `license_policy.py` assertion checks a saved **runtime-only** `pip inspect`
@@ -139,3 +144,11 @@ package metadata.
 Trusted Publishing setup is documented by [PyPI](https://docs.pypi.org/trusted-publishers/adding-a-publisher/).
 The publisher action is pinned to [PyPA v1.14.2](https://github.com/pypa/gh-action-pypi-publish/commit/dc37677b2e1c63e2034f94d8a5b11f265b73ba33),
 and artifact download to [actions/download-artifact v8.0.1](https://github.com/actions/download-artifact/commit/3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c).
+
+The `factormodels` registry entry enables its scoped `release_navigation_check`.
+The release producer runs `tools/check_navigation_refs.py --require-current-source`
+after exact tag checkout and before tests/builds. The package records its reviewed
+navigation ref and any individually explained immutable evidence links; the guard
+preserves historical `/commit/` links and other repositories. Preparation mode can
+check a recorded prepublication ref, while release mode requires that ref to resolve
+to the clean checked-out commit. Other package workflow emissions are unchanged.

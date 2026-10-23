@@ -33,16 +33,18 @@
       ]
     },
     {
-      "repo": "tradablefactors",
-      "local_dir": "Matf",
-      "dist": "tradablefactors",
-      "import": "tradablefactors",
-      "rtd": "tradablefactors",
-      "summary": "Tradable factor construction, GLS premia, capital market assumptions and factor covariance estimation",
+      "repo": "FactorModels",
+      "local_dir": "FactorModels",
+      "dist": "factormodels",
+      "import": "factormodels",
+        "release_navigation_check": true,
+      "rtd": "factormodels",
+      "documentation_url": "https://github.com/ArturSepp/FactorModels/blob/main/docs/index.md",
+      "summary": "Factor construction, GLS premia, capital market assumptions and factor covariance estimation",
       "tagline": "factor-model construction, estimation and GLS analytics",
       "core": ["qis", "factorlasso"],
       "extras": {},
-      "tier": "T2",
+      "tier": "T1",
       "topics": ["python", "quantitative-finance", "factor-models"]
     },
     {
@@ -59,7 +61,7 @@
       "development_imports": [
         {
           "path": "src/optimalportfolios/tests/factor_integration_test.py",
-          "modules": ["tradablefactors", "factorlasso"],
+          "modules": ["factormodels", "factorlasso"],
           "reason": "Explicit composed-environment integration tests"
         },
         {
@@ -69,7 +71,7 @@
         },
         {
           "path": "src/optimalportfolios/alphas/signals/run_local/signals_run.py",
-          "modules": ["tradablefactors", "factorlasso"],
+          "modules": ["factormodels", "factorlasso"],
           "reason": "Explicit local composed example, excluded from the library distribution"
         }
       ],

@@ -12,6 +12,7 @@ import subprocess
 import time
 import tomllib
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -20,6 +21,17 @@ import license_policy
 REGISTRY = Path(__file__).with_name("public_registry.json")
 AGENT_MANIFEST = Path(__file__).with_name("agent_core_manifest.json")
 URL_KEYS = {"Homepage", "Documentation", "Repository", "Changelog", "Issues"}
+
+
+def documentation_url(package: dict) -> str:
+    """Resolve an explicit documentation URL or the existing Read the Docs default."""
+    url = package.get("documentation_url", f"https://{package['rtd']}.readthedocs.io")
+    if not isinstance(url, str) or re.search(r"\s", url):
+        raise ValueError("documentation_url must be an absolute HTTPS URL")
+    parsed = urllib.parse.urlsplit(url)
+    if parsed.scheme != "https" or not parsed.netloc or parsed.username or parsed.password:
+        raise ValueError("documentation_url must be an absolute HTTPS URL without credentials")
+    return url.rstrip("/")
 
 
 def normalized(name: str) -> str:
@@ -42,6 +54,8 @@ def load_registry(path: Path = REGISTRY) -> dict:
     for field in ("repo", "dist", "import", "rtd"):
         if len({p[field].lower() for p in packages}) != len(packages):
             raise ValueError(f"Duplicate registry {field}")
+    for package in packages:
+        documentation_url(package)
     graph = {p["import"]: set(p["core"]) | {x for xs in p["extras"].values() for x in xs}
              for p in packages}
     visited, active = set(), set()
@@ -119,8 +133,15 @@ def render_release_template(name: str, package: dict) -> str:
     timezone = package.get("release_timezone")
     if timezone not in (None, "Europe/Zurich"):
         raise ValueError(f"Unreviewed release timezone: {timezone}")
+    navigation = package.get("release_navigation_check", False)
+    if not isinstance(navigation, bool) or (navigation and package["import"] != "factormodels"):
+        raise ValueError("The reviewed navigation check belongs to factormodels")
     numerical = profile == "windows-numerical"
     replacements = {
+        "PROJECT_NAVIGATION": (
+            "      - name: Verify advertised navigation against the tagged source\n"
+            "        run: python tools/check_navigation_refs.py --require-current-source\n"
+        ) if navigation else "",
         "PYTEST_ARGS": ' -m "not slow"' if numerical else "",
         "NUMERICAL_JOB": (
             Path(__file__).with_name("templates") / "release_windows_numerical.yml"
@@ -169,7 +190,7 @@ def offline_checks(root: Path, package: dict, registry: dict) -> list[dict]:
         mismatches.append("summary")
     if set(metadata.get("urls", {})) != URL_KEYS | set(package.get("extra_url_keys", [])):
         mismatches.append("URL key set")
-    if metadata.get("urls", {}).get("Documentation", "").rstrip("/") != f"https://{package['rtd']}.readthedocs.io":
+    if metadata.get("urls", {}).get("Documentation", "").rstrip("/") != documentation_url(package):
         mismatches.append("canonical Documentation URL")
     result.append(finding("source_metadata", "fail" if mismatches else "pass", ", ".join(mismatches) or "registry matches"))
     imports = {normalized(p["dist"]): p["import"] for p in registry["packages"]}
@@ -290,7 +311,7 @@ def network_checks(root: Path, package: dict, registry: dict, fetch=fetch_json) 
         urls = info.get("project_urls") or {}
         stale = (info.get("summary") != package["summary"]
                  or set(urls) != URL_KEYS | set(package.get("extra_url_keys", []))
-                 or urls.get("Documentation", "").rstrip("/") != f"https://{package['rtd']}.readthedocs.io")
+                 or urls.get("Documentation", "").rstrip("/") != documentation_url(package))
         result.append(finding("pypi_metadata", "fail" if stale else "pass", "latest published metadata differs; requires next release" if stale else "latest published summary and URL keys match"))
     except (OSError, ValueError, KeyError, subprocess.SubprocessError) as error:
         result.append(finding("pypi", "unknown", str(error)))
@@ -302,7 +323,7 @@ def network_checks(root: Path, package: dict, registry: dict, fetch=fetch_json) 
         errors = []
         if data["description"] != package["summary"]:
             errors.append("description")
-        if (data.get("homepage") or "").rstrip("/") != f"https://{package['rtd']}.readthedocs.io":
+        if (data.get("homepage") or "").rstrip("/") != documentation_url(package):
             errors.append("homepage")
         if not set(package["topics"]).issubset(data["topics"]):
             errors.append("required topics")

@@ -25,7 +25,7 @@ agreeing the scope. Package contribution rules, licences and governance remain a
 | factorlasso | Sparse estimation, estimator cross-validation and factor covariance | [FL-1 to FL-3](https://github.com/ArturSepp/factorlasso/blob/main/CONTRIBUTING.md#starter-tasks) | [CITATION.cff](https://github.com/ArturSepp/factorlasso/blob/main/CITATION.cff) | MIT from [1.0.4.post1](https://pypi.org/project/factorlasso/1.0.4.post1/) |
 
 ArturSepp owns shared practices and adoption measurement. QIS does not import OP or FactorLasso;
-OP consumes QIS and accepts supplied alphas and covariance. TradableFactors consumes QIS and
+OP consumes QIS and accepts supplied alphas and covariance. FactorModels consumes QIS and
 FactorLasso; generic estimation belongs in FactorLasso. Do not copy numerical routines between
 packages or introduce dependencies to complete a documentation task. Historical FactorLasso
 GPL releases retain their grants; use the verified MIT release for the current factor stack.

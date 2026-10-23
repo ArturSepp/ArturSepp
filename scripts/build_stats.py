@@ -9,14 +9,17 @@ import json
 import re
 from pathlib import Path
 
+from conformance import documentation_url
+
 OWNER = "ArturSepp"
 SCRIPT_DIR = Path(__file__).resolve().parent
 README_PATH = SCRIPT_DIR.parent / "README.md"
 REGISTRY = json.loads((SCRIPT_DIR / "public_registry.json").read_text(encoding="utf-8"))
-DOCS = {p["dist"]: f"https://{p['rtd']}.readthedocs.io" for p in REGISTRY["packages"]}
+DOCS = {p["dist"]: documentation_url(p) for p in REGISTRY["packages"]}
 
 REPOS = {
     "QuantInvestStrats": "qis",
+    "FactorModels": "factormodels",
     "OptimalPortfolios": "optimalportfolios",
     "factorlasso": "factorlasso",
     "StochVolModels": "stochvolmodels",
@@ -30,6 +33,7 @@ REPOS = {
 
 CONCEPTS = {
     "QuantInvestStrats": "Performance analytics, backtesting and factsheets",
+    "FactorModels": "Factor construction, GLS premia and covariance estimation",
     "OptimalPortfolios": "Portfolio optimisation and rolling backtests",
     "factorlasso": "Sparse factor models with sign-constrained LASSO",
     "StochVolModels": "Stochastic volatility pricing and calibration",
@@ -43,7 +47,7 @@ CONCEPTS = {
 
 GROUPS = {
     "Portfolio Construction, Factor Models, Backtest Reporting":
-        ["QuantInvestStrats", "OptimalPortfolios", "factorlasso"],
+        ["QuantInvestStrats", "FactorModels", "OptimalPortfolios", "factorlasso"],
     "Volatility and Option Modelling":
         ["StochVolModels", "OptionChainAnalytics", "VanillaOptionPricers"],
     "Dynamic Trading Strategies":

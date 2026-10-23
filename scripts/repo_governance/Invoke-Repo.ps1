@@ -38,14 +38,16 @@ if ($All) {
     $current = (Resolve-Path -LiteralPath (Get-Location).Path).Path.TrimEnd('\')
     $selected = @(
         foreach ($repository in $registry.repositories) {
-            $root = (Resolve-Path -LiteralPath (Join-Path $repositoriesRootPath $repository.directory)).Path.TrimEnd('\')
+            # Match registry paths without requiring unrelated checkouts to exist.
+            $root = [IO.Path]::GetFullPath((Join-Path $repositoriesRootPath $repository.directory)).TrimEnd('\')
             if ($current -eq $root -or $current.StartsWith($root + '\', [StringComparison]::OrdinalIgnoreCase)) {
                 $repository
             }
         }
     )
     if ($selected.Count -ne 1) {
-        $active = & (Join-Path $PSScriptRoot 'Enter-AgentRepo.ps1') -RepoPath $current -PassThru
+        $active = & (Join-Path $PSScriptRoot 'Enter-AgentRepo.ps1') -RepoPath $current `
+            -RegistryPath $registryFile -RepositoriesRoot $repositoriesRootPath -PassThru
         $selected = @($registry.repositories | Where-Object { $_.name -eq $active.Name })
     }
     if ($selected.Count -ne 1) { throw 'Run inside a registered repository or pass -Repo/-All.' }
