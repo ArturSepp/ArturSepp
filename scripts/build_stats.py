@@ -75,7 +75,7 @@ def row(repo: str, slug: str, concept: str) -> str:
     forks = (f"[![Forks](https://img.shields.io/github/forks/{OWNER}/{repo}?style=flat-square&label=)]"
              f"({base}/network/members)")
     downloads_url = f"https://pepy.tech/projects/{slug}"
-    total = (f"[![Total downloads]({DOWNLOAD_BADGES}/{slug}-total.svg?format=K&color=7E57C2)]"
+    total = (f"[![Total downloads]({DOWNLOAD_BADGES}/{slug}-total.svg?format=K&color=007ec6)]"
              f"({downloads_url})")
     return (f"| [{repo}]({base}) ({slug}) · [Docs]({DOCS[slug]}) | {concept} | "
             f"{version} | {stars} | {forks} | {total} |")
