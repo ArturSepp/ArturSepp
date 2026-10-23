@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-10-22T10:11:53.180385+00:00",
+  "observed_at": "2026-10-23T10:04:22.280094+00:00",
   "mode": "online",
   "packages": [
     {
@@ -267,8 +267,8 @@
         },
         {
           "check": "dependency_graph",
-          "state": "fail",
-          "detail": "core dependency edges differ from approved registry; src/optimalportfolios/alphas/signals/run_local/signals_run.py:121: forbidden import factormodels; src/optimalportfolios/tests/factor_integration_test.py:42: forbidden import factormodels; src/optimalportfolios/tests/factor_integration_test.py:99: forbidden import factormodels; src/optimalportfolios/tests/factor_integration_test.py:139: forbidden import factormodels; src/optimalportfolios/tests/factor_integration_test.py:161: forbidden import factormodels; src/optimalportfolios/tests/factor_integration_test.py:199: forbidden import factormodels"
+          "state": "pass",
+          "detail": "declared and imported stack edges allowed"
         },
         {
           "check": "hygiene",
@@ -283,7 +283,7 @@
         {
           "check": "release_templates",
           "state": "fail",
-          "detail": ".github/workflows/release.yml, .github/scripts/release_guard.py"
+          "detail": ".github/scripts/release_guard.py"
         },
         {
           "check": "published_tag",
@@ -1192,5 +1192,10 @@
         }
       ]
     }
-  ]
+  ],
+  "runtime_license": {
+    "check": "recorded_runtime_license",
+    "state": "unknown",
+    "detail": "No runtime evidence supplied; source metadata checks do not establish a runtime licence claim."
+  }
 }
