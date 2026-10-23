@@ -42,7 +42,7 @@ class DownloadTests(unittest.TestCase):
                      "source": "https://pepy.tech/projects/qis", "month": 19232, "total": 231050}):
                 snapshot = downloads.refresh(root)
             self.assertEqual(json.loads((root / "counts.json").read_text()), snapshot)
-            svg = ET.parse(root / "qis-total.svg").getroot()
+            svg = ET.parse(root / "qis-total-blue.svg").getroot()
             self.assertEqual(svg.find("{http://www.w3.org/2000/svg}text").text, "231K")
             self.assertIn("231,050", svg.get("aria-label"))
             self.assertIn("UTC", svg.get("aria-label"))

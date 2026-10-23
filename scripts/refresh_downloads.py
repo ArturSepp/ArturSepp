@@ -98,7 +98,7 @@ def refresh(output: Path) -> dict:
     for slug, counts in packages.items():
         total = counts["total"]
         value = str(total) if total < 1000 else f"{(total + 500) // 1000}K"
-        files[f"{slug}-total.svg"] = badge(
+        files[f"{slug}-total-blue.svg"] = badge(
             value, f"{slug}: {total:,} downloads (all time); {stamp}", color="#007ec6")
     output.mkdir(parents=True, exist_ok=True)
     for name, content in files.items():
