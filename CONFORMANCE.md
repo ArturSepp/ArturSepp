@@ -1,14 +1,14 @@
 # Public package conformance
 
-Observed: 2026-10-23T10:04:22.280094+00:00 · mode: online
+Observed: 2026-10-24T09:33:00.936206+00:00 · mode: online
 
 GitHub Release pages are optional. Unpublished source versions are preparation states.
 
 | Package | Pass | Fail | Known gap | Unknown | Findings |
 |---|---:|---:|---:|---:|---|
-| qis | 35 | 2 | 2 | 0 | dependency_graph: missing import bans: factormodels; release_templates: .github/workflows/release.yml, .github/scripts/release_guard.py; historical_provenance: 5.15.0: Multiple matching packaged-source commits; release commit not uniquely established; historical_provenance: 5.18.0: Multiple matching packaged-source commits; release commit not uniquely established |
-| factormodels | 10 | 0 | 0 | 0 | checked contracts pass |
-| optimalportfolios | 39 | 1 | 5 | 0 | release_templates: .github/scripts/release_guard.py; historical_provenance: 6.21.1: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.2: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.3: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.4: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 7.1.0: Published settings.yaml differs from all checked repository candidates; provenance unresolved |
+| qis | 36 | 2 | 2 | 0 | dependency_graph: missing import bans: factormodels; release_templates: .github/workflows/release.yml, .github/scripts/release_guard.py; historical_provenance: 5.15.0: Multiple matching packaged-source commits; release commit not uniquely established; historical_provenance: 5.18.0: Multiple matching packaged-source commits; release commit not uniquely established |
+| factormodels | 11 | 0 | 0 | 0 | checked contracts pass |
+| optimalportfolios | 40 | 1 | 5 | 0 | release_templates: .github/scripts/release_guard.py; historical_provenance: 6.21.1: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.2: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.3: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.4: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 7.1.0: Published settings.yaml differs from all checked repository candidates; provenance unresolved |
 | factorlasso | 28 | 1 | 0 | 0 | release_templates: .github/workflows/release.yml |
 | bbg-fetch | 11 | 2 | 0 | 0 | dependency_graph: missing import bans: factormodels; release_templates: .github/workflows/release.yml |
 | stochvolmodels | 17 | 2 | 0 | 0 | dependency_graph: missing import bans: factormodels; release_templates: .github/workflows/release.yml |
