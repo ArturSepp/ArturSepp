@@ -1,6 +1,8 @@
 # OSS documentation standard
 
-*Author: [Artur Sepp](https://github.com/ArturSepp)*
+*Author: [Artur Sepp](https://github.com/ArturSepp) / First recorded: [2026-09-20](https://github.com/ArturSepp/ArturSepp/commit/59afe221758e9b7e5c7bcdd5ddd012b6ddd14d1f)*
+
+Maintained in [the ArturSepp OSS stack](https://github.com/ArturSepp/ArturSepp).
 
 This is the common authoring standard for the public Python packages maintained in
 [ArturSepp's OSS stack](https://github.com/ArturSepp). It covers methodology articles,
@@ -56,6 +58,49 @@ Installation, quickstart, navigation, gallery, architecture, comparison, and con
 pages use a shorter utility form: one H1, byline, software links, a useful lead, and logical
 headings. Do not add empty methodology sections to these pages.
 
+## Required attribution links
+
+Every human-authored package page **must** place one attribution block immediately after its
+title, with these four ordinary links:
+
+| Link | Required target |
+|---|---|
+| Author | [Artur Sepp](https://github.com/ArturSepp), preserving genuine coauthors and third-party credits. |
+| Repository | The page's owning software repository, using its canonical GitHub URL. |
+| Software citation | That repository's `blob/main/CITATION.cff`, with the visible label `CITATION.cff`. |
+| First recorded | The earliest verified source commit, with its committer calendar date as the label and its full 40-character SHA in the URL. |
+
+For an article with verified history, use this Markdown layout, replacing every example token:
+
+~~~markdown
+*Author: [Artur Sepp](https://github.com/ArturSepp) / First recorded: [YYYY-MM-DD](https://github.com/ArturSepp/REPOSITORY/commit/FULL_COMMIT_SHA)*
+
+Implemented in [PACKAGE](https://github.com/ArturSepp/REPOSITORY).
+Software citation: [CITATION.cff](https://github.com/ArturSepp/REPOSITORY/blob/main/CITATION.cff).
+~~~
+
+Use native RST links for retained RST pages. The owning package may use its established display
+name; upstream handoff pages may say `Documented in PACKAGE` while naming the actual upstream
+implementation. Repository and citation links always identify the current owning package.
+
+This requirement covers methodology and utility pages, root and packaged READMEs, contributor
+and example guides, governance and community policies, and maintained redirect pages. Preserve
+the formats of licences, legal notices, manuscripts, agent instructions, submission templates,
+machine-readable records and generated API stubs; change generated attribution through its
+producer. Shared profile/governance guides are not software packages: link their source
+repository and the applicable package citations or package directory, without inventing a
+profile-repository `CITATION.cff`.
+
+A new uncommitted page has the linked author, repository and citation block, with **First
+recorded pending** in the working audit until a real commit exists. Missing or shallow history
+is an evidence limitation to resolve or record, not permission to invent a date. A page with
+available commit history must not retain an author-only byline.
+
+If an article moved between public repositories, its First recorded link may identify the
+verified earlier source repository. Explain that transfer beside the header and retain the
+real source URL; do not attach the former date or SHA to the new repository's URL. Follow the
+history checks below and record the verified original path in the audit.
+
 ## Authorship and dates
 
 The confirmed author for maintainer-authored documentation is
@@ -68,7 +113,7 @@ The confirmed author for maintainer-authored documentation is
 Preserve genuine coauthor and third-party attribution. Omit affiliations unless supplied
 and confirmed for the article. Do not insert author placeholders or infer an affiliation.
 
-When history is available, append a linked **First recorded** date:
+Every page already recorded in available commit history must append a linked **First recorded** date:
 
 ~~~markdown
 *Author: [Artur Sepp](https://github.com/ArturSepp) / First recorded: [YYYY-MM-DD](https://github.com/ArturSepp/REPOSITORY/commit/FULL_COMMIT_SHA)*
@@ -268,6 +313,11 @@ unverified superiority claims, fabricated adoption statistics, or duplicate meth
 
 Before completing a documentation change:
 
+Verify the four attribution links on every revised human-authored page. Check that the author
+link is correct, the repository and `CITATION.cff` identify the owning package, and the recorded
+date, full commit SHA and source path agree with Git history. Report uncommitted pages as
+pending evidence rather than claiming every date is verified.
+
 1. Run the owning repository's source checks and applicable example/doc tests. Register new
    pages and images in its existing inventories; keep migration and review status explicit.
 2. Build changed site sources with the established strict Sphinx configuration and check local
@@ -298,10 +348,10 @@ for build commands, docstring conventions, and numerical contracts.
 | [OptimalPortfolios](https://github.com/ArturSepp/OptimalPortfolios) | [AGENTS.md](https://github.com/ArturSepp/OptimalPortfolios/blob/main/AGENTS.md) | [OP supplement](https://github.com/ArturSepp/OptimalPortfolios/blob/main/docs/documentation_standard.md) |
 | [FactorLasso](https://github.com/ArturSepp/factorlasso) | [AGENTS.md](https://github.com/ArturSepp/factorlasso/blob/main/AGENTS.md) | [FactorLasso supplement](https://github.com/ArturSepp/factorlasso/blob/main/docs/documentation_standard.md) |
 | [BloombergFetch](https://github.com/ArturSepp/BloombergFetch) | [AGENTS.md](https://github.com/ArturSepp/BloombergFetch/blob/main/AGENTS.md) | Local instructions apply. |
-| [StochVolModels](https://github.com/ArturSepp/StochVolModels) | [AGENTS.md](https://github.com/ArturSepp/StochVolModels/blob/main/AGENTS.md) | Local instructions apply. |
-| [TrendFollowingSystems](https://github.com/ArturSepp/TrendFollowingSystems) | [AGENTS.md](https://github.com/ArturSepp/TrendFollowingSystems/blob/main/AGENTS.md) | Local instructions apply. |
+| [StochVolModels](https://github.com/ArturSepp/StochVolModels) | [AGENTS.md](https://github.com/ArturSepp/StochVolModels/blob/main/AGENTS.md) | [Documentation supplement](https://github.com/ArturSepp/StochVolModels/blob/main/docs/documentation_standard.md) |
+| [TrendFollowingSystems](https://github.com/ArturSepp/TrendFollowingSystems) | [AGENTS.md](https://github.com/ArturSepp/TrendFollowingSystems/blob/main/AGENTS.md) | [Documentation supplement](https://github.com/ArturSepp/TrendFollowingSystems/blob/main/docs/documentation_standard.md) |
 | [PrivateAssets](https://github.com/ArturSepp/privateassets) | [AGENTS.md](https://github.com/ArturSepp/privateassets/blob/main/AGENTS.md) | Local instructions apply. |
-| [GoalBasedAllocation](https://github.com/ArturSepp/GoalBasedAllocation) | [AGENTS.md](https://github.com/ArturSepp/GoalBasedAllocation/blob/main/AGENTS.md) | Local instructions apply. |
+| [GoalBasedAllocation](https://github.com/ArturSepp/GoalBasedAllocation) | [AGENTS.md](https://github.com/ArturSepp/GoalBasedAllocation/blob/main/AGENTS.md) | [Documentation supplement](https://github.com/ArturSepp/GoalBasedAllocation/blob/main/docs/documentation_standard.md) |
 | [VanillaOptionPricers](https://github.com/ArturSepp/VanillaOptionPricers) | [AGENTS.md](https://github.com/ArturSepp/VanillaOptionPricers/blob/main/AGENTS.md) | Local instructions apply. |
 | [OptionChainAnalytics](https://github.com/ArturSepp/OptionChainAnalytics) | [AGENTS.md](https://github.com/ArturSepp/OptionChainAnalytics/blob/main/AGENTS.md) | Local instructions apply. |
 | [FactorModels](https://github.com/ArturSepp/FactorModels) | [AGENTS.md](https://github.com/ArturSepp/FactorModels/blob/main/AGENTS.md) | Local instructions apply. |

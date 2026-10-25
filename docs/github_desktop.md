@@ -1,10 +1,12 @@
 # GitHub Desktop workflow for the OSS stack
 
-*Author: [Artur Sepp](https://github.com/ArturSepp)*
+*Author: [Artur Sepp](https://github.com/ArturSepp) / First recorded: [2026-09-21](https://github.com/ArturSepp/ArturSepp/commit/6ac9bf8271e1f05d44c8822ee177b9e6479769f9)*
+
+Maintained in [ArturSepp](https://github.com/ArturSepp/ArturSepp).
 
 Use GitHub Desktop to save work normally. Automatic local checks give early feedback;
 the full required checks run when you choose to open a pull request.
-This guide applies to the ten libraries in the [package directory](documentation_standard.md#package-directory),
+This guide applies to the registered libraries in the [package directory](documentation_standard.md#package-directory),
 including [qis](https://github.com/ArturSepp/QuantInvestStrats)
 ([software citation](https://github.com/ArturSepp/QuantInvestStrats/blob/main/CITATION.cff)).
 

@@ -7,7 +7,7 @@ myst:
 
 # Contributing to the OSS portfolio stack
 
-*Author: [Artur Sepp](https://github.com/ArturSepp)*
+*Author: [Artur Sepp](https://github.com/ArturSepp) / First recorded: [2026-10-23](https://github.com/ArturSepp/ArturSepp/commit/f650e061044695b945489d7bcd314b2b565af801)*
 
 Maintained in [ArturSepp](https://github.com/ArturSepp/ArturSepp).
 Software citation metadata belongs to each package; use its linked CITATION.cff below.

@@ -1,6 +1,8 @@
 # First workflows for the OSS portfolio stack
 
-*Author: [Artur Sepp](https://github.com/ArturSepp)*
+*Author: [Artur Sepp](https://github.com/ArturSepp) / First recorded: [2026-10-23](https://github.com/ArturSepp/ArturSepp/commit/f650e061044695b945489d7bcd314b2b565af801)*
+
+Maintained in [ArturSepp](https://github.com/ArturSepp/ArturSepp).
 
 Choose a task and run an offline example with a released package. These three workflows
 connect supplied portfolio weights, constrained allocation and sparse factor estimation.

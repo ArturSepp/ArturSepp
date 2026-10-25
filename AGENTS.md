@@ -21,9 +21,12 @@ Guidance for AI coding agents working in the **ArturSepp** repository.
 - The canonical authoring guide is [docs/documentation_standard.md](docs/documentation_standard.md).
   It owns shared article structure, attribution and dates, Markdown mathematics, references,
   figure provenance, navigation, and review requirements for the public Python stack.
-- Each package's AGENTS.md links to this guide. QIS and OP retain supplements for their
+- Each package's AGENTS.md links to this guide. Packages retain supplements for their
   local tooling and numerical contracts. Change common rules here, preserve local exceptions,
   and keep the package links current.
+- Enforce the guide's four required attribution links: linked author, owning repository,
+  `CITATION.cff`, and the verified First recorded source commit. Preserve documented exceptions
+  for new uncommitted pages and verified transfers between repositories.
 - Keep shared documentation links outside the generated SHARED AGENT CORE blocks.
   Linking this guide does not certify migration or review of an existing package's pages.
 
