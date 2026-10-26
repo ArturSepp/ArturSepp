@@ -39,7 +39,7 @@
       "import": "factormodels",
       "release_navigation_check": true,
       "rtd": "factormodels",
-      "documentation_url": "https://github.com/ArturSepp/FactorModels/blob/main/docs/index.md",
+      "documentation_url": "https://factormodels.readthedocs.io",
       "summary": "Factor construction, GLS premia, capital market assumptions and factor covariance estimation",
       "tagline": "factor-model construction, estimation and GLS analytics",
       "core": ["qis", "factorlasso"],

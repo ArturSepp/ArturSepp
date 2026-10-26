@@ -31,7 +31,7 @@ class RegistryTests(unittest.TestCase):
     def test_documentation_override_and_existing_rtd_defaults(self):
         packages = c.load_registry()["packages"]
         fm = next(p for p in packages if p["import"] == "factormodels")
-        expected = "https://github.com/ArturSepp/FactorModels/blob/main/docs/index.md"
+        expected = "https://factormodels.readthedocs.io"
         self.assertEqual(c.documentation_url(fm), expected)
         for package in packages:
             if package["import"] != "factormodels":
@@ -55,6 +55,7 @@ class RegistryTests(unittest.TestCase):
         registry = c.load_registry()
         package = next(p for p in registry["packages"] if p["import"] == "factormodels")
         expected = "https://github.com/ArturSepp/FactorModels/blob/main/docs/index.md"
+        package["documentation_url"] = expected  # Explicit fixture override stays supported.
         urls = dict.fromkeys(c.URL_KEYS, "https://example.org")
         urls["Documentation"] = expected
         def fetch(url):
