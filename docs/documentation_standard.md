@@ -323,6 +323,49 @@ owning repository, use the existing documentation toolchain, and record hosted c
 from local verification. A corrected source needs publication and a search-engine recrawl;
 a historical alternate-page report does not by itself establish a new defect.
 
+### Independent HTTP verification of published sitemaps
+
+Use [the shared HTTP verifier](../scripts/verify_sitemaps.py) after the intended source
+revision has built successfully on Read the Docs. Fetch the exact plain root `/sitemap.xml`
+and the intended default/indexed version's `/en/<version>/sitemap.xml` through an independent
+HTTP client. A browser view, reload or browser-derived response alone must never establish
+that a deployment is stale. Do not substitute a cache-busting query URL for the plain URL.
+
+```console
+python scripts/verify_sitemaps.py --site https://bloombergfetch.readthedocs.io --version latest --check-pages
+```
+
+Run this command from the shared ArturSepp repository with its prescribed external interpreter
+and generated-state setup. Repeat `--site` for sites sharing the same intended channel. QIS
+uses `--version stable`; preserve every package's existing policy. Use `--output` to retain
+JSON evidence outside the checkout, and optionally `--expected-sitemap` with one site to compare
+the served inventory against the actual local build. See the [tool guide](../scripts/PUBLIC_TOOLS.md#live-sitemap-verification).
+
+Record request URLs, UTC check time, HTTP status, selected cache/routing headers and body
+SHA-256 digests. Inspect `Cache-Control`, `Age`, `ETag`, `Last-Modified`, `CF-Cache-Status`,
+`CF-Ray` and available equivalent/routing headers. `HIT`, a large age, or a different ETag
+alone does not prove stale content. Compare the complete parsed URL inventories; equivalent
+XML with different ordering, whitespace or hashes still agrees. Keep those byte differences
+as diagnostics. Verify listed pages' single matching canonical and absence of meta/HTTP
+`noindex` or refresh redirects. Normalize only the homepage alias, never nested `api/index.html`.
+
+Report an independent HTTP inventory disagreement as an **observed mismatch**, with its
+response evidence. It does not by itself prove which cache or origin is stale. Compare the
+intended project/default version, deployed build and source inventory before changing hosting
+settings or triggering more builds. A diagnostic revalidation request may supplement the
+plain response; record its headers and do not replace the plain-URL result with it.
+
+HTTP 403/429, security challenges, transport failures and incomplete page checks are
+**unverified**, never a pass or proof of stale deployment. Stop requests on 429, respect
+`Retry-After`, and do not evade challenges. Live consistency checks establish the observed
+served content, not every CDN edge, the deployed source commit or Google's eventual indexing.
+The verifier is an explicit online maintainer check; CI exercises deterministic offline fixtures.
+
+Read the Docs serves a custom sitemap from the project's default version when available;
+otherwise it generates a version list. See [its sitemap behavior](https://docs.readthedocs.com/platform/stable/reference/sitemaps.html)
+and [CDN refresh rules](https://docs.readthedocs.com/platform/stable/reference/cdn.html).
+Platform cache refresh and a client/intermediary cache expiring are distinct observations.
+
 ## Verification and adoption
 
 Before completing a documentation change:

@@ -78,6 +78,44 @@ JSON/Markdown report. Collection has read-only credentials; report writing is a 
 changes. Add `--apply` to update descriptions, homepages and the minimum topic set using an
 authenticated `gh` session. This does not change wikis, Discussions or remove existing topics.
 
+## Live sitemap verification
+
+`verify_sitemaps.py` checks published XML using Python's standard library and the system
+`curl` executable (Windows curl.exe, or curl on Linux/macOS). It starts a new curl process for
+each exact URL, ignores curlrc, uses no browser state or cookie jar, and does not add query
+parameters or follow redirects. It records status, selected HTTP/cache/routing headers and
+SHA-256 hashes without retaining cookie/credential headers. Temporary downloads use the
+system temporary directory; apply the mandatory C-local setup on the Windows maintainer host.
+
+```console
+python scripts/verify_sitemaps.py --site https://bloombergfetch.readthedocs.io --site https://privateassets.readthedocs.io --site https://vanillaoptionpricers.readthedocs.io --version latest --check-pages
+```
+
+Add `--output /path/to/external/sitemaps.json` to save evidence instead of printing JSON.
+The required `--version` selects the intended default/indexed channel; QIS uses `--version stable`.
+With exactly one site, `--expected-sitemap /path/to/build/html/sitemap.xml` additionally checks
+the actual locally built inventory. The tool accepts page URL sets, not sitemap indexes.
+A local fixture server may use loopback HTTP; deployed sites require an HTTPS origin.
+
+The root and version inventories must agree, be nonempty, have no duplicates or homepage
+index.html alias, and remain inside the selected channel. Nested api/index.html is preserved.
+XML ordering, whitespace, body hashes and ETags may differ without an inventory mismatch.
+`--check-pages` verifies every listed page's canonical, meta/HTTP robots and meta refresh;
+without it the report explicitly says page checks were not requested. The default page
+limit is 1,000 per site; exceeding `--max-pages` is unverified, not a sampled pass.
+
+Exit codes: **0 verified**, **1 observed mismatch**, **2 unverified**. A mismatch describes the
+received content; it does not identify a stale origin or cache. Non-200 responses, challenges,
+transport errors or incomplete checks cannot pass. Requests stop immediately on HTTP 429 and
+record Retry-After when supplied. The default interval is one second; do not bypass rate limits.
+Missing curl is unverified. This tool never purges caches, changes hosting settings, triggers
+builds or submits anything to Google. Verify the deployed source/build separately.
+
+Run its offline regressions with `python -m unittest discover -s scripts/tests -p test_verify_sitemaps.py`.
+The local HTTP fixture checks that repeated requests observe server changes even when responses
+advertise a four-hour cache lifetime; it needs system curl and uses no external service.
+The existing required workflow discovers these tests without running the online command.
+
 ## Frequent publishing
 
 Each package receives `.github/workflows/release.yml` and the two helpers generated from

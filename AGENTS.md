@@ -27,6 +27,9 @@ Guidance for AI coding agents working in the **ArturSepp** repository.
 - Enforce the guide's four required attribution links: linked author, owning repository,
   `CITATION.cff`, and the verified First recorded source commit. Preserve documented exceptions
   for new uncommitted pages and verified transfers between repositories.
+- Verify published sitemaps with `scripts/verify_sitemaps.py` using independent plain-URL HTTP
+  responses and recorded cache headers/inventories. A cached browser response alone never proves
+  a stale deployment. Preserve unverified outcomes for access failures, rate limits and partial checks.
 - Keep shared documentation links outside the generated SHARED AGENT CORE blocks.
   Linking this guide does not certify migration or review of an existing package's pages.
 
