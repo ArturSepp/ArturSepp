@@ -309,6 +309,20 @@ claims with reproducible evidence; distinguish experimental features from suppor
 Use the existing site configuration for metadata and navigation. Publicity does not justify
 unverified superiority claims, fabricated adoption statistics, or duplicate method pages.
 
+
+The generated sitemap must contain only preferred, indexable URLs, and each entry must match
+one absolute canonical link in the rendered target page. When the homepage canonical uses the
+version root, list that root instead of its `index.html` alias. Exclude redirects, `noindex`
+pages and search/index helper pages. Preserve each package's declared channel policy; a newer
+development page must not point to a missing released-page counterpart. See
+[Google's canonical URL guidance](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls).
+
+Verify the actual HTML and XML together after a strict build, including stable, latest and
+numbered-channel fixtures and an incremental build. Keep the sitemap producer inside the
+owning repository, use the existing documentation toolchain, and record hosted checks separately
+from local verification. A corrected source needs publication and a search-engine recrawl;
+a historical alternate-page report does not by itself establish a new defect.
+
 ## Verification and adoption
 
 Before completing a documentation change:
