@@ -138,6 +138,55 @@ unverified and a 429 stops requests. Add `--check-pages` to check the sitemap's 
 in the same run. Read the Docs' [redirect behavior](https://docs.readthedocs.com/platform/stable/user-defined-redirects.html)
 is separate from repository build validation; verify the live rules after applying them.
 
+### Scheduled documentation monitor
+
+`monitor_documentation.py` checks all packages in `public_registry.json` using independent
+HTTP requests. `documentation_monitor_seed.json` records the reviewed channel policy and
+bootstrap history: 928 preferred pages and 98 legacy paths from the 2026-10-27 audit. QIS
+uses `stable`; the other packages use `latest`. Legacy paths are checked on both active
+`latest` and `stable` channels. The seed is historical evidence, not a fixed expected sitemap
+size. Newly published sitemap URLs are learned and retained even after they disappear.
+Reviewed redirect manifests are fetched from each repository's published `main`, so local
+uncommitted redirect drafts cannot change the operational result.
+
+On the Windows maintainer host, apply the mandatory setup in the same PowerShell session:
+
+```powershell
+. .\scripts\repo_governance\Enter-AgentRepo.ps1 -RepoPath (Get-Location).Path -RepositoriesRoot (Split-Path (Get-Location).Path)
+& C:\Python\ArturSepp312\Scripts\python.exe scripts/monitor_documentation.py `
+  --state-dir (Join-Path $env:AGENT_LOCAL_ROOT 'state\documentation-monitor')
+```
+
+Keep the state directory on C-local storage. `state.json` holds the append-only URL ledger,
+pending/confirmed findings and notification deduplication; timestamped `report-*.json` and
+`latest.json` hold response hashes, selected headers, observed defects and notification deltas.
+Do not delete state merely to silence an alert. Review the seed/channel policy when onboarding
+a package or deliberately retiring a channel. This covers audited or observed URLs, not every
+hypothetical path or pages added and removed between runs. It is not a general external-link
+crawler and does not establish Google's indexing state.
+
+Two definitive failures at least one hour apart confirm a new issue. Unchanged confirmed
+issues remain silent; a verified recovery produces one recovery event. Access blocks, throttles,
+5xx, challenges and transport failures are **unverified**: they reset pending confirmation and
+cannot clear an active finding. Three consecutive incomplete runs produce one separate
+monitoring-unavailable warning, with one recovery event when access returns. A global 429 stops
+new requests; at most two package workers share one-second per-host pacing and an in-run cache.
+An unavailable sitemap stops page probing for that package. Missing optional redirect manifests
+are expected; previously required manifests that become unavailable remain unverified.
+
+A local Codex scheduled task runs this command daily at 08:00 Europe/Zurich and reports only
+new confirmed failures, recoveries or sustained monitoring problems in the existing chat.
+The app and computer must be running. The task is read-only and does not change redirects,
+repositories or search-engine settings. The executable emits `notification_required` and the
+`alerts`, `recoveries`, `monitor_warnings` and `monitor_recoveries` deltas for that consumer.
+Operational network findings always exit **0**, including confirmed failures; invalid
+configuration or inability to save evidence exits **2** as a monitor error. A pre-existing lock
+skips requests without claiming a pass; inspect its PID before removing an abandoned lock.
+
+Keep this online command outside required push/PR checks and pre-commit hooks. The existing
+strict manual verifier retains its 0/1/2 outcomes. CI discovers only deterministic offline
+monitor tests: `python -m unittest discover -s scripts/tests -p test_monitor_documentation.py`.
+
 ## Frequent publishing
 
 Each package receives `.github/workflows/release.yml` and the two helpers generated from

@@ -397,6 +397,24 @@ requests to a common API host share one rate budget even when package sites diff
 See the [redirect verification guide](../scripts/PUBLIC_TOOLS.md#historical-urls-and-permanent-redirects)
 and [Read the Docs redirect behavior](https://docs.readthedocs.com/platform/stable/user-defined-redirects.html).
 
+### Automated historical URL monitoring
+
+Run live URL monitoring separately from normal commits and required CI. Temporary access,
+network or hosting failures are unverified operational observations, not source-code failures.
+Required checks exercise offline fixtures; do not add an online availability gate to push,
+pull-request or pre-commit checks. The shared monitor learns published sitemap URLs, retains
+removed URLs, and checks reviewed published redirects on the correct documentation channels.
+Keep its durable URL history and notification state outside OneDrive on the maintainer host.
+
+Confirm a new broken URL or metadata defect on two definitive observations at least one hour
+apart. Suppress repeated alerts for unchanged issues, report verified recoveries once, and
+report sustained inability to monitor separately from a broken-site finding. An unverified
+observation cannot confirm a pending failure or clear an active one. Preserve independent
+HTTP evidence, host pacing, the global throttle stop and optional-source semantics. Review
+channel-policy changes explicitly rather than silently changing QIS from stable to latest.
+See the [scheduled monitor guide](../scripts/PUBLIC_TOOLS.md#scheduled-documentation-monitor)
+for the command, coverage limits, persisted state and notification contract.
+
 ## Verification and adoption
 
 Before completing a documentation change:
