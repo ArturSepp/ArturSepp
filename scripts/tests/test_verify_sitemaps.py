@@ -234,5 +234,79 @@ class SitemapTests(unittest.TestCase):
             thread.join(timeout=2)
 
 
+class RedirectTests(unittest.TestCase):
+    def fixture(self, status=301, location=None, anchor=True):
+        target = BASE + "new.html#replacement"
+        rules = [{"from_url": "/old.html", "to_url": target,
+                  "redirect_type": "page", "http_status": 301, "force": False, "enabled": True}]
+        client = client_for([BASE])
+        source = BASE + "old.html"
+        client.responses[source] = sitemap.Response(
+            source, status, headers={"location": target if location is None else location},
+        )
+        client.responses[BASE + "new.html"] = sitemap.Response(
+            BASE + "new.html", 200,
+            ('<html><head><link rel="canonical" href="' + BASE + 'new.html"></head>' +
+             ('<body id="replacement">Moved page</body>' if anchor else '<body>No anchor</body>') +
+             '</html>').encode(),
+        )
+        return client, rules
+
+    def test_permanent_legacy_redirect_and_exact_destination_anchor(self):
+        client, rules = self.fixture()
+        result = sitemap.verify_site(SITE, "latest", client, redirects=rules)
+        self.assertEqual(result["state"], "verified")
+        self.assertEqual(result["redirects"]["rules"][0]["actual_location"], rules[0]["to_url"])
+        for status, location, anchor in [(404, None, True), (302, None, True),
+                                         (301, BASE, True), (301, None, False)]:
+            with self.subTest(status=status, location=location, anchor=anchor):
+                client, rules = self.fixture(status, location, anchor)
+                result = sitemap.verify_site(SITE, "latest", client, redirects=rules)
+                self.assertEqual(result["state"], "mismatch")
+                self.assertTrue(result["redirects"]["rules"][0]["problems"])
+
+    def test_non_forced_rules_preserve_existing_archived_pages(self):
+        client, rules = self.fixture(status=200)
+        source = BASE + "old.html"
+        client.responses[source].body = (
+            '<html><head><link rel="canonical" href="' + source + '"></head><body>Archive</body></html>'
+        ).encode()
+        result = sitemap.verify_site(SITE, "latest", client, redirects=rules)
+        self.assertEqual(result["state"], "verified")
+        self.assertTrue(result["redirects"]["rules"][0]["existing_page_preserved"])
+
+    def test_rate_limited_legacy_source_stops_without_following_or_bypassing(self):
+        client, rules = self.fixture(status=429)
+        result = sitemap.verify_sites([SITE, "https://other.example.org"], "latest", client,
+                                       redirects=rules)
+        self.assertEqual(result["state"], "unverified")
+        self.assertEqual(result["not_checked_sites"], ["https://other.example.org"])
+        self.assertEqual(client.calls[-1], BASE + "old.html")
+        self.assertNotIn(BASE + "new.html", client.calls)
+
+    def test_cli_loads_reviewed_manifest_and_rejects_forced_or_wrong_site_rules(self):
+        client, rules = self.fixture()
+        manifest = {"schema_version": 1, "site": SITE, "redirects": rules}
+        with tempfile.TemporaryDirectory() as directory:
+            file = Path(directory) / "redirects.json"
+            file.write_text(json.dumps(manifest), encoding="utf-8")
+            stdout = io.StringIO()
+            with mock.patch.object(sitemap, "CurlClient", return_value=client), \
+                    contextlib.redirect_stdout(stdout):
+                code = sitemap.main(["--site", SITE, "--version", "latest",
+                                     "--redirect-manifest", str(file)])
+            self.assertEqual(code, 0)
+            self.assertEqual(json.loads(stdout.getvalue())["sites"][0]["redirects"]["state"], "verified")
+            rules[0]["force"] = True
+            file.write_text(json.dumps(manifest), encoding="utf-8")
+            with self.assertRaises(ValueError):
+                sitemap.read_redirects(file, SITE)
+            rules[0]["force"] = False
+            manifest["site"] = "https://different.example.org"
+            file.write_text(json.dumps(manifest), encoding="utf-8")
+            with self.assertRaises(ValueError):
+                sitemap.read_redirects(file, SITE)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -116,6 +116,28 @@ The local HTTP fixture checks that repeated requests observe server changes even
 advertise a four-hour cache lifetime; it needs system curl and uses no external service.
 The existing required workflow discovers these tests without running the online command.
 
+### Historical URLs and permanent redirects
+
+Current sitemap checks do not cover removed pages that Google or external sites still link to.
+Keep a reviewed redirect inventory in the owning repository and add `--redirect-manifest` for
+one selected site/channel. The version-1 JSON identifies `site` and `redirects`; each rule has
+`from_url` (page-relative, starting with `/`), absolute HTTPS `to_url`, `redirect_type: "page"`,
+`http_status: 301`, `enabled: true`, and `force: false`. Read the Docs applies these rules only
+when a page is missing, preserving archived pages that still exist. Apply the reviewed rules
+in the project's Redirects settings; the checker only reads them and never changes hosting.
+
+```console
+python scripts/verify_sitemaps.py --site https://optimalportfolios.readthedocs.io --version latest --redirect-manifest /path/to/OptimalPortfolios/tools/docs_redirects.json --output /external/evidence/op-redirects.json
+```
+
+The checker requires the exact permanent Location or an existing self-canonical page, then
+verifies the replacement's HTTP 200, canonical, robots metadata and any destination fragment.
+Destinations shared by multiple rules are downloaded once within that run. Temporary redirects,
+redirect chains, 404s and missing anchors are observed mismatches; blocked access remains
+unverified and a 429 stops requests. Add `--check-pages` to check the sitemap's page inventory
+in the same run. Read the Docs' [redirect behavior](https://docs.readthedocs.com/platform/stable/user-defined-redirects.html)
+is separate from repository build validation; verify the live rules after applying them.
+
 ## Frequent publishing
 
 Each package receives `.github/workflows/release.yml` and the two helpers generated from

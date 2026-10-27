@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import unquote, urljoin, urlsplit, urlunsplit
 from xml.etree import ElementTree
 
 NAMESPACE = "http://www.sitemaps.org/schemas/sitemap/0.9"
@@ -119,20 +119,25 @@ def locations(body: bytes) -> list[str]:
 
 
 class PageHead(HTMLParser):
-    """Read canonical, robots and refresh metadata only inside the HTML head."""
+    """Read head metadata and document IDs used by replacement-page anchors."""
 
     def __init__(self):
         super().__init__()
         self.in_head = False
+        self.ids = set()
         self.canonicals, self.robots = [], []
         self.refresh = False
 
     def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        if a.get("id"):
+            self.ids.add(a["id"])
+        if tag == "a" and a.get("name"):
+            self.ids.add(a["name"])
         if tag == "head":
             self.in_head = True
         if not self.in_head:
             return
-        a = dict(attrs)
         if tag == "link" and "canonical" in a.get("rel", "").lower().split():
             self.canonicals.append(a.get("href"))
         if tag == "meta" and a.get("name", "").lower() == "robots":
@@ -154,8 +159,103 @@ def unavailable(response: Response, row: dict) -> bool:
     return False
 
 
+def page_metadata(response: Response, url: str) -> tuple[PageHead, list[str], bool]:
+    """Check one HTML page without following redirects or guessing canonical targets."""
+    head = PageHead()
+    head.feed(response.body.decode("utf-8", errors="replace"))
+    robots = head.robots + [response.headers.get("x-robots-tag", "")]
+    blocked = any(re.search(r"(?:^|[\s,:])(noindex|none)(?:$|[\s,;])", r, re.IGNORECASE) for r in robots)
+    return head, robots, head.canonicals == [url] and not head.refresh and not blocked
+
+
+def read_redirects(path: Path, site: str) -> list[dict]:
+    """Load reviewed non-forced permanent page redirects for exactly one site."""
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    if (manifest.get("schema_version") != 1 or manifest.get("site") != site_origin(site)
+            or not manifest.get("redirects")):
+        raise ValueError("Redirect manifest must identify this site and a nonempty version-1 inventory")
+    seen = set()
+    for rule in manifest["redirects"]:
+        source, target = rule["from_url"], urlsplit(rule["to_url"])
+        if (not source.startswith("/") or source.startswith(("//", "/en/"))
+                or not source.endswith(".html") or ".." in source.split("/")
+                or any(c in source for c in "*?#") or source in seen):
+            raise ValueError(f"Invalid or duplicate legacy page URL: {source}")
+        if (target.scheme != "https" or not target.hostname or target.username or target.password
+                or target.query or ".." in target.path.split("/")):
+            raise ValueError(f"Invalid redirect destination: {rule['to_url']}")
+        if (rule.get("redirect_type") != "page" or rule.get("http_status") != 301
+                or rule.get("force") is not False or rule.get("enabled") is not True):
+            raise ValueError("Redirect rules must be enabled, non-forced permanent page redirects")
+        seen.add(source)
+    return manifest["redirects"]
+
+
+def verify_redirects(site: str, version: str, client: CurlClient, rules: list[dict]) -> dict:
+    """Check legacy responses and replacement anchors, preserving existing archived pages."""
+    result = {"state": "verified", "rules": [], "checks": "incomplete", "rate_limited": False}
+    destinations = {}
+    for rule in rules:
+        source = site + "/en/" + version + rule["from_url"]
+        target = rule["to_url"]
+        parsed = urlsplit(target)
+        target_page = urlunsplit((parsed.scheme, parsed.netloc, parsed.path, parsed.query, ""))
+        response = client.fetch(source)
+        row = {"source": response.record(), "expected_location": target, "problems": []}
+        result["rules"].append(row)
+        access = {}
+        if (response.status in {0, 401, 403, 429} or response.status >= 500 or response.error
+                or response.headers.get("cf-mitigated", "").lower() == "challenge"):
+            unavailable(response, access)
+        if access:
+            row.update(state="unverified", detail=access["detail"])
+            result["state"] = "unverified"
+            if access["rate_limited"]:
+                result["rate_limited"] = True
+                return result
+            continue
+        if response.status == 301:
+            row["actual_location"] = urljoin(source, response.headers.get("location", ""))
+            if row["actual_location"] != target:
+                row["problems"].append("Permanent redirect does not reach the reviewed destination")
+        elif response.status == 200 and page_metadata(response, source)[2]:
+            row["existing_page_preserved"] = True
+        else:
+            row["problems"].append(f"Expected permanent redirect or preserved page; HTTP {response.status}")
+        if target_page not in destinations:
+            destinations[target_page] = client.fetch(target_page)
+        destination = destinations[target_page]
+        row["destination"] = destination.record()
+        access = {}
+        if (destination.status in {0, 401, 403, 429} or destination.status >= 500 or destination.error
+                or destination.headers.get("cf-mitigated", "").lower() == "challenge"):
+            unavailable(destination, access)
+        if access:
+            row.update(state="unverified", detail=access["detail"])
+            result["state"] = "unverified"
+            if access["rate_limited"]:
+                result["rate_limited"] = True
+                return result
+            continue
+        if destination.status != 200:
+            row["problems"].append(f"Replacement page is not directly available: HTTP {destination.status}")
+        else:
+            head, robots, passed = page_metadata(destination, target_page)
+            row.update(destination_canonicals=head.canonicals, destination_robots=robots)
+            if not passed:
+                row["problems"].append("Replacement canonical or indexability metadata disagrees")
+            if parsed.fragment and unquote(parsed.fragment) not in head.ids:
+                row["problems"].append("Replacement anchor does not exist")
+        row["state"] = "mismatch" if row["problems"] else "verified"
+        if row["state"] == "mismatch" and result["state"] != "unverified":
+            result["state"] = "mismatch"
+    result["checks"] = "incomplete" if result["state"] == "unverified" else "complete"
+    return result
+
+
 def verify_site(site: str, version: str, client: CurlClient, *, check_pages: bool = False,
-                max_pages: int = 1000, expected: list[str] | None = None) -> dict:
+                max_pages: int = 1000, expected: list[str] | None = None,
+                redirects: list[dict] | None = None) -> dict:
     """Compare exact plain URLs; report observed mismatches without inferring their cache layer."""
     site = site_origin(site)
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", version):
@@ -196,6 +296,14 @@ def verify_site(site: str, version: str, client: CurlClient, *, check_pages: boo
     if expected is not None and (set(expected) != set(root_urls) or set(expected) != set(version_urls)):
         problems.append("Served inventories differ from the supplied local build sitemap")
     row.update(state="mismatch" if problems else "verified", problems=problems)
+    if redirects is not None:
+        redirect_result = verify_redirects(site, version, client, redirects)
+        row["redirects"] = redirect_result
+        if redirect_result["state"] == "unverified":
+            row.update(state="unverified", rate_limited=redirect_result["rate_limited"])
+            return row
+        if redirect_result["state"] == "mismatch":
+            row["state"] = "mismatch"
     if not check_pages:
         return row
     if len(version_urls) > max_pages:
@@ -212,11 +320,7 @@ def verify_site(site: str, version: str, client: CurlClient, *, check_pages: boo
             row.update(state="unverified", detail="Listed pages could not all be verified",
                        rate_limited=page["rate_limited"])
             return row
-        head = PageHead()
-        head.feed(response.body.decode("utf-8", errors="replace"))
-        robots = head.robots + [response.headers.get("x-robots-tag", "")]
-        blocked = any(re.search(r"(?:^|[\s,:])(noindex|none)(?:$|[\s,;])", r, re.IGNORECASE) for r in robots)
-        passed = head.canonicals == [url] and not head.refresh and not blocked
+        head, robots, passed = page_metadata(response, url)
         page.update(canonicals=head.canonicals, robots=robots,
                     meta_refresh=head.refresh, state="verified" if passed else "mismatch")
         if not passed:
@@ -250,14 +354,18 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--max-pages", type=int, default=1000)
     parser.add_argument("--interval", type=float, default=1.0, help="Minimum seconds between requests")
     parser.add_argument("--expected-sitemap", type=Path, help="Local build sitemap; requires exactly one --site")
+    parser.add_argument("--redirect-manifest", type=Path, help="Reviewed legacy page redirects; requires one --site")
     parser.add_argument("--output", type=Path, help="Explicit JSON evidence file; otherwise write JSON to stdout")
     args = parser.parse_args(argv)
-    if args.interval < 0 or args.max_pages < 1 or (args.expected_sitemap and len(args.site) != 1):
-        parser.error("Use a nonnegative interval, positive page limit and one site per expected sitemap")
+    if (args.interval < 0 or args.max_pages < 1
+            or ((args.expected_sitemap or args.redirect_manifest) and len(args.site) != 1)):
+        parser.error("Use a nonnegative interval, positive page limit and one site per supplied inventory")
     try:
         expected = locations(args.expected_sitemap.read_bytes()) if args.expected_sitemap else None
+        redirects = read_redirects(args.redirect_manifest, args.site[0]) if args.redirect_manifest else None
         report = verify_sites(args.site, args.version, CurlClient(args.interval),
-                              check_pages=args.check_pages, max_pages=args.max_pages, expected=expected)
+                              check_pages=args.check_pages, max_pages=args.max_pages,
+                              expected=expected, redirects=redirects)
     except (OSError, ValueError, ElementTree.ParseError) as error:
         report = {"state": "unverified", "error": str(error)}
     text = json.dumps(report, indent=2) + "\n"
