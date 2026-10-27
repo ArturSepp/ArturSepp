@@ -54,6 +54,7 @@ class GitHub:
                 "Content-Type": "application/json",
                 "X-GitHub-Api-Version": "2026-03-10",
                 "User-Agent": "ArturSepp-documentation-monitor",
+                "Cache-Control": "no-cache",
             },
         )
         # No retry on writes: ambiguous delivery is reconciled using event markers.
@@ -242,6 +243,13 @@ def publish(api, directory, recipient):
             a["active"] for a in snapshot["state"].get("availability", {}).values()
         )
         if issue is None:
+            if snapshot["delivery"].get("issue_creation_pending"):
+                raise RuntimeError(
+                    "Notification issue creation is pending discovery; refusing a replacement "
+                    "to prevent duplicate alerts. Retry discovery later."
+                )
+            snapshot["delivery"]["issue_creation_pending"] = True
+            save(api, remote)
             issue = api.request(
                 "POST",
                 "issues",
@@ -263,6 +271,7 @@ def publish(api, directory, recipient):
                     "POST", f"issues/{issue['number']}/comments", {"body": body}
                 )
         snapshot["delivery"]["issue_number"] = issue["number"]
+        snapshot["delivery"].pop("issue_creation_pending", None)
         if not active:
             api.request(
                 "PATCH",

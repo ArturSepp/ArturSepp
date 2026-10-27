@@ -137,7 +137,7 @@ class HostedMonitorTests(unittest.TestCase):
             self.assertEqual(api.issues[0]["assignees"], ["ArturSepp"])
             self.assertIn("@ArturSepp", api.issues[0]["body"])
             mutations = [call[:2] for call in api.calls if call[0] in {"PUT", "POST"}]
-            self.assertEqual([m[0] for m in mutations], ["PUT", "POST", "PUT"])
+            self.assertEqual([m[0] for m in mutations], ["PUT", "PUT", "POST", "PUT"])
             self.assertEqual(api.value["outbox"], [])
             self.assertEqual(api.value["delivery"]["issue_number"], 1)
 
@@ -157,10 +157,11 @@ class HostedMonitorTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             directory, api = Path(temporary), FixtureAPI()
             self.prepare(api, directory, alerts=True)
-            api.fail_put = 2
+            api.fail_put = 3
             with self.assertRaises(RuntimeError):
                 actions.publish(api, directory, "ArturSepp")
             self.assertEqual(len(api.value["outbox"]), 1)
+            self.assertEqual(len(api.issues), 1)
             actions.restore(api, directory)
             (directory / "latest.json").write_text(json.dumps(report()))
             actions.prepare(directory, RUN)
@@ -168,6 +169,52 @@ class HostedMonitorTests(unittest.TestCase):
             self.assertEqual(len(api.issues), 1)
             self.assertFalse(api.comments)
             self.assertEqual(api.value["outbox"], [])
+
+    def test_missing_issue_listing_after_creation_cannot_create_replacement(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            directory, api = Path(temporary), FixtureAPI()
+            self.prepare(api, directory, alerts=True)
+            api.fail_put = 3
+            with self.assertRaises(RuntimeError):
+                actions.publish(api, directory, "ArturSepp")
+            self.assertEqual(len(api.issues), 1)
+            self.assertTrue(api.value["delivery"]["issue_creation_pending"])
+            actions.restore(api, directory)
+            (directory / "latest.json").write_text(json.dumps(report()))
+            actions.prepare(directory, RUN)
+            with (
+                patch.object(api, "items", return_value=iter([])),
+                self.assertRaisesRegex(RuntimeError, "refusing a replacement"),
+            ):
+                actions.publish(api, directory, "ArturSepp")
+            self.assertEqual(len(api.issues), 1)
+            self.assertEqual(len(api.value["outbox"]), 1)
+            actions.restore(api, directory)
+            actions.prepare(directory, RUN)
+            actions.publish(api, directory, "ArturSepp")
+            self.assertEqual(len(api.issues), 1)
+            self.assertFalse(api.comments)
+            self.assertFalse(api.value["outbox"])
+            self.assertNotIn("issue_creation_pending", api.value["delivery"])
+
+    def test_recovery_ack_failure_does_not_duplicate_comment_or_reopen(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            directory, api = Path(temporary), FixtureAPI()
+            self.prepare(api, directory, alerts=True)
+            actions.publish(api, directory, "ArturSepp")
+            self.prepare(api, directory, recovery=True)
+            api.fail_put = api.put_count + 2
+            with self.assertRaises(RuntimeError):
+                actions.publish(api, directory, "ArturSepp")
+            self.assertEqual(len(api.comments), 1)
+            self.assertEqual(api.issues[0]["state"], "closed")
+            actions.restore(api, directory)
+            (directory / "latest.json").write_text(json.dumps(report()))
+            actions.prepare(directory, RUN)
+            actions.publish(api, directory, "ArturSepp")
+            self.assertEqual(len(api.comments), 1)
+            self.assertEqual(api.issues[0]["state"], "closed")
+            self.assertFalse(api.value["outbox"])
 
     def test_recovery_comments_and_closes_issue(self):
         with tempfile.TemporaryDirectory() as temporary:
