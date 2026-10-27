@@ -366,6 +366,37 @@ otherwise it generates a version list. See [its sitemap behavior](https://docs.r
 and [CDN refresh rules](https://docs.readthedocs.com/platform/stable/reference/cdn.html).
 Platform cache refresh and a client/intermediary cache expiring are distinct observations.
 
+### Historical URLs and retired API documentation
+
+A healthy current sitemap does not cover pages removed from it. Before renaming a page,
+removing an API stub or transferring a capability, review public Git history, prior
+published links and the source that generated the old API inventory. Include RST/Markdown
+renames, autosummary lists and generated export/ownership records. Do not execute historical
+package code merely to enumerate URLs. Record the source commit and path, and distinguish
+an evidenced article or API entry point from a guessed internal build path.
+
+Check candidate URLs with independent HTTP requests under the package's actual indexed
+channel. Missing internal includes, non-documentable module/data exports and unpublished
+work do not automatically need redirects. A public compiled function may instead link to
+the handbook section that documents its exact contract. A removed API must not be described
+as restored merely because its old documentation URL now resolves.
+
+Keep reviewed mappings in the owning repository's `tools/docs_redirects.json`. Use enabled,
+non-forced Read the Docs Page Redirects with explicit HTTP 301 and an absolute HTTPS target.
+Choose the current owning package's relevant API, migration note or handbook section; verify
+the actual destination fragment. Existing archive pages take precedence. Do not redirect
+unrelated removals to the homepage or add redirect sources to the canonical sitemap.
+
+Validate local destination files and anchors during successful HTML builds, and preserve
+reviewed sources with regression tests. After publication, use the shared HTTP verifier's
+`--redirect-manifest` option to check exact Locations, destination HTTP 200, self-canonical
+and indexability metadata, and anchors. Verify both active `latest` and `stable` legacy paths.
+For a non-default channel, evaluate the redirect subreport separately: its sitemap normally
+differs from the domain root's indexed channel. Preserve request pacing and throttle evidence;
+requests to a common API host share one rate budget even when package sites differ.
+See the [redirect verification guide](../scripts/PUBLIC_TOOLS.md#historical-urls-and-permanent-redirects)
+and [Read the Docs redirect behavior](https://docs.readthedocs.com/platform/stable/user-defined-redirects.html).
+
 ## Verification and adoption
 
 Before completing a documentation change:
