@@ -1,0 +1,66 @@
+name: OSS documentation monitor
+on:
+  schedule:
+    - cron: "17 8 * * *"
+      timezone: Europe/Zurich
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: oss-documentation-monitor
+  cancel-in-progress: false
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+jobs:
+  check:
+    if: github.repository == 'ArturSepp/ArturSepp' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: "3.12"
+      - name: Restore durable URL history and pending notifications
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/documentation_monitor_actions.py restore --state-dir "$RUNNER_TEMP/documentation-monitor"
+      - name: Check published pages, historical URLs and canonical destinations
+        run: python scripts/monitor_documentation.py --state-dir "$RUNNER_TEMP/documentation-monitor"
+      - name: Prepare notification outbox and run summary
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python scripts/documentation_monitor_actions.py prepare --state-dir "$RUNNER_TEMP/documentation-monitor" --run-url "$RUN_URL"
+          cat "$RUNNER_TEMP/documentation-monitor/summary.md" >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: documentation-monitor
+          path: ${{ runner.temp }}/documentation-monitor/
+          if-no-files-found: warn
+          retention-days: 30
+  record-and-notify:
+    needs: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: documentation-monitor
+          path: ${{ runner.temp }}/documentation-monitor
+      - name: Persist state, notify new confirmed findings, acknowledge delivery
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/documentation_monitor_actions.py publish --state-dir "$RUNNER_TEMP/documentation-monitor" --recipient ArturSepp

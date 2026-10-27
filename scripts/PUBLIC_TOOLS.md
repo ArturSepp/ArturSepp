@@ -174,18 +174,49 @@ new requests; at most two package workers share one-second per-host pacing and a
 An unavailable sitemap stops page probing for that package. Missing optional redirect manifests
 are expected; previously required manifests that become unavailable remain unverified.
 
-A local Codex scheduled task runs this command daily at 08:00 Europe/Zurich and reports only
-new confirmed failures, recoveries or sustained monitoring problems in the existing chat.
-The app and computer must be running. The task is read-only and does not change redirects,
-repositories or search-engine settings. The executable emits `notification_required` and the
-`alerts`, `recoveries`, `monitor_warnings` and `monitor_recoveries` deltas for that consumer.
+The standalone [OSS documentation monitor](../.github/workflows/documentation-monitor.yml)
+runs on GitHub-hosted runners daily at **08:17 Europe/Zurich**, including daylight-saving changes.
+It has only `schedule` and `workflow_dispatch` triggers, with no push, pull-request or reusable
+workflow trigger. It runs while the maintainer's computer is off. The former local Codex
+schedule is retired after the first hosted run succeeds. To run it manually, use the workflow's
+**Run workflow** button on `main`, or `gh workflow run documentation-monitor.yml --ref main`.
+
+`scripts/documentation_monitor_actions.py` restores the URL ledger and alert state from
+`documentation-monitor.json` on the dedicated `automation/documentation-monitor` branch.
+The local command above remains useful for manual diagnostics; its state directory is separate
+from the hosted state. Initial hosted setup transfers the existing local history once. A missing
+or unreadable remote snapshot is an infrastructure failure, never permission to reset history.
+State updates use the previous blob SHA and fail on conflicts. Full HTTP evidence and run
+summaries are uploaded as 30-day Actions artifacts; durable confirmation state does not depend
+on expiring artifacts or evictable caches. Do not merge the state branch into `main`.
+
+New confirmed failures, verified recoveries and sustained monitoring warnings are reported
+in one tracking issue assigned to **ArturSepp**, with an explicit mention and the evidence-run
+link. The issue is created only when an event needs reporting, reopened for a new event, and
+closed after all confirmed issues and monitoring gaps recover. Unchanged findings produce no
+comments. Delivery follows GitHub notification preferences; no email credentials or custom
+secrets are required. Pending events are committed before notification, and unique event
+markers prevent duplicate comments after an interrupted acknowledgment. Partial GitHub API
+failures fail only this independent workflow and leave pending delivery recoverable.
+
+The checking job has read-only contents access. Only the separate record-and-notify job gets
+`contents: write` and `issues: write` with the repository's `GITHUB_TOKEN`; it changes only the
+automation state branch and its tracking issue. Workflow concurrency serializes scheduled and
+manual runs. Checkouts do not persist credentials, third-party actions are pinned, and no
+pull-request source or documentation HTML is executed. The workflow changes no redirects,
+hosting or search-engine settings. The monitor emits `notification_required` and the `alerts`,
+`recoveries`, `monitor_warnings` and `monitor_recoveries` deltas for this delivery adapter.
+
+GitHub can delay scheduled runs and can disable schedules after 60 days without repository
+activity; review the workflow's enabled status when returning to an inactive repository. See
+[GitHub's scheduled-workflow behavior](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule).
 Operational network findings always exit **0**, including confirmed failures; invalid
 configuration or inability to save evidence exits **2** as a monitor error. A pre-existing lock
 skips requests without claiming a pass; inspect its PID before removing an abandoned lock.
 
 Keep this online command outside required push/PR checks and pre-commit hooks. The existing
 strict manual verifier retains its 0/1/2 outcomes. CI discovers only deterministic offline
-monitor tests: `python -m unittest discover -s scripts/tests -p test_monitor_documentation.py`.
+monitor tests: `python -m unittest discover -s scripts/tests -p "test*monitor*.py"`.
 
 ## Frequent publishing
 

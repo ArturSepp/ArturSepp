@@ -404,7 +404,11 @@ network or hosting failures are unverified operational observations, not source-
 Required checks exercise offline fixtures; do not add an online availability gate to push,
 pull-request or pre-commit checks. The shared monitor learns published sitemap URLs, retains
 removed URLs, and checks reviewed published redirects on the correct documentation channels.
-Keep its durable URL history and notification state outside OneDrive on the maintainer host.
+Run the shared monitor from a separate scheduled GitHub Actions workflow so it does not
+depend on a maintainer computer. Persist its URL history, confirmation state and pending
+notifications on the dedicated automation state branch, separate from normal source commits;
+expiring artifacts or evictable caches must not be the only copy. Local diagnostic state
+remains outside OneDrive on the maintainer host.
 
 Confirm a new broken URL or metadata defect on two definitive observations at least one hour
 apart. Suppress repeated alerts for unchanged issues, report verified recoveries once, and
@@ -412,6 +416,10 @@ report sustained inability to monitor separately from a broken-site finding. An 
 observation cannot confirm a pending failure or clear an active one. Preserve independent
 HTTP evidence, host pacing, the global throttle stop and optional-source semantics. Review
 channel-policy changes explicitly rather than silently changing QIS from stable to latest.
+Use a tracking issue assigned to the maintainer for new confirmed failures and recoveries;
+store pending delivery before posting, and deduplicate retries with persistent event markers.
+Isolate the writer's contents/issue permissions from the checking job, serialize runs, and
+never expose write credentials to pull-request code or execute downloaded documentation.
 See the [scheduled monitor guide](../scripts/PUBLIC_TOOLS.md#scheduled-documentation-monitor)
 for the command, coverage limits, persisted state and notification contract.
 
