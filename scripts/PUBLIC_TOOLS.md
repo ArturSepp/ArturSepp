@@ -196,8 +196,13 @@ link. The issue is created only when an event needs reporting, reopened for a ne
 closed after all confirmed issues and monitoring gaps recover. Unchanged findings produce no
 comments. Delivery follows GitHub notification preferences; no email credentials or custom
 secrets are required. Pending events are committed before notification, and unique event
-markers prevent duplicate comments after an interrupted acknowledgment. Partial GitHub API
-failures fail only this independent workflow and leave pending delivery recoverable.
+markers prevent duplicate comments after an interrupted acknowledgment. Persist a creation
+intent before posting a new issue. If that issue is not yet discoverable after an interrupted
+write, defer notification delivery rather than create a replacement. GitHub API reads request
+revalidation; an absent listing never proves that a previous creation failed. A genuinely
+ambiguous failed creation may require maintainer reconciliation of the pending intent.
+Partial GitHub API failures fail only this independent workflow and leave pending delivery
+recoverable.
 
 The checking job has read-only contents access. Only the separate record-and-notify job gets
 `contents: write` and `issues: write` with the repository's `GITHUB_TOKEN`; it changes only the
