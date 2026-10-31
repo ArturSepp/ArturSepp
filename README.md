@@ -10,7 +10,7 @@ For publications, speaking, and full background → [artursepp.com](https://artu
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-artursepp-0077B5?logo=linkedin)](https://www.linkedin.com/in/artursepp/)
 [![Twitter](https://img.shields.io/badge/Twitter-@artursepp-1DA1F2?logo=twitter)](https://twitter.com/artursepp)
 [![Google Scholar](https://img.shields.io/badge/Google%20Scholar-Profile-4285F4?logo=googlescholar)](https://scholar.google.com/citations?user=UJy2xxMAAAAJ)
-[![SSRN](https://img.shields.io/badge/SSRN-Author%20Page-154881)](https://ssrn.com/author=1229200)
+[![SSRN](https://img.shields.io/badge/SSRN-Author%20Page-154881)](https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1229200)
 [![ORCID](https://img.shields.io/badge/ORCID-0000--0002--7038--1748-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0000-0002-7038-1748)
 
 ---
