@@ -71,7 +71,7 @@ def row(repo: str, slug: str, concept: str) -> str:
     version = (f"[![](https://img.shields.io/pypi/v/{slug}?style=flat-square&label=&color=blue)]"
                f"(https://pypi.org/project/{slug}/)")
     stars = (f"[![Stars](https://img.shields.io/github/stars/{OWNER}/{repo}?style=flat-square&label=)]"
-             f"({base}/stargazers)")
+             f"({base})")
     forks = (f"[![Forks](https://img.shields.io/github/forks/{OWNER}/{repo}?style=flat-square&label=)]"
              f"({base}/network/members)")
     downloads_url = f"https://pepy.tech/projects/{slug}"
