@@ -26,7 +26,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install pinned governance test tools
-        run: python -m pip install -r scripts/repo_governance/check-requirements.txt
+        run: python -m pip install --retries 5 --timeout 60 -r scripts/repo_governance/check-requirements.txt
       - name: Validate checker and release tooling contracts
         run: python -m unittest discover -s scripts/tests -v
       - name: Collect public sources and all tags
@@ -34,12 +34,12 @@ jobs:
         run: python scripts/clone_public.py --root "$RUNNER_TEMP/public-repos"
       - name: Record timestamped public observations
         if: github.event_name != 'pull_request'
-        run: python scripts/conformance.py --repos-root "$RUNNER_TEMP/public-repos" --output report --online
+        run: python scripts/conformance.py --repos-root "$RUNNER_TEMP/public-repos" --output "$RUNNER_TEMP/conformance-report" --online
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: github.event_name != 'pull_request'
         with:
           name: conformance-report
-          path: report/
+          path: ${{ runner.temp }}/conformance-report/
           if-no-files-found: error
           retention-days: 30
   record:
@@ -47,31 +47,42 @@ jobs:
     needs: collect
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: main
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: "3.12"
+      - name: Download generated report
+        id: download
+        continue-on-error: true
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: conformance-report
-          path: report/
-      - name: Commit only the conformance report
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git fetch origin automation/reports || true
-          if git show-ref --verify --quiet refs/remotes/origin/automation/reports; then
-            git switch -C automation/reports origin/automation/reports
-          else
-            git switch -c automation/reports
-          fi
-          cp report/CONFORMANCE.json CONFORMANCE.json
-          cp report/CONFORMANCE.md CONFORMANCE.md
-          git add -- CONFORMANCE.json CONFORMANCE.md
-          if ! git diff --quiet --cached; then
-            git commit -m "chore: refresh public conformance report"
-            git push origin HEAD:automation/reports
-          fi
+          path: ${{ runner.temp }}/conformance-report
+      - name: Back off before retrying the artifact download
+        if: steps.download.outcome == 'failure'
+        run: sleep 10
+      - name: Retry downloading generated report
+        id: download_retry
+        if: steps.download.outcome == 'failure'
+        continue-on-error: true
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: conformance-report
+          path: ${{ runner.temp }}/conformance-report
+      - name: Back off before the final artifact download attempt
+        if: steps.download_retry.outcome == 'failure'
+        run: sleep 30
+      - name: Final attempt to download generated report
+        if: steps.download_retry.outcome == 'failure'
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: conformance-report
+          path: ${{ runner.temp }}/conformance-report
+      - name: Publish verified conformance snapshot with push reconciliation
+        run: python scripts/workflow_support.py conformance --source "$RUNNER_TEMP/conformance-report"

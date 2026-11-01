@@ -9,7 +9,6 @@ import json
 import re
 import shlex
 import subprocess
-import time
 import tomllib
 import urllib.error
 import urllib.parse
@@ -17,6 +16,7 @@ import urllib.request
 from pathlib import Path
 
 import license_policy
+from workflow_support import retry_read
 
 REGISTRY = Path(__file__).with_name("public_registry.json")
 AGENT_MANIFEST = Path(__file__).with_name("agent_core_manifest.json")
@@ -88,19 +88,12 @@ def git(root: Path, *args: str) -> str:
 
 def fetch_json(url: str, attempts: int = 3) -> dict | list:
     """Fetch public JSON; retry transport/rate errors and surface failure explicitly."""
-    for attempt in range(attempts):
-        try:
-            request = urllib.request.Request(url, headers={"User-Agent": "ArturSepp-conformance/1",
-                                                          "Accept": "application/json"})
-            with urllib.request.urlopen(request, timeout=20) as response:
-                return json.load(response)
-        except (OSError, ValueError) as error:
-            if isinstance(error, urllib.error.HTTPError) and error.code == 404:
-                raise
-            if attempt == attempts - 1:
-                raise
-            time.sleep(1 + attempt)
-    raise AssertionError("unreachable")
+    def fetch():
+        request = urllib.request.Request(url, headers={"User-Agent": "ArturSepp-conformance/1",
+                                                      "Accept": "application/json"})
+        with urllib.request.urlopen(request, timeout=20) as response:
+            return json.load(response)
+    return retry_read(fetch, attempts=attempts)
 
 
 def finding(check: str, state: str, detail: str) -> dict:
@@ -284,7 +277,7 @@ def release_checks(root: Path, package: dict, pypi: dict, since: str, known_gaps
             continue
         try:
             tagged = tomllib.loads(git(root, "show", f"refs/tags/{tag}:pyproject.toml"))["project"]
-        except (subprocess.SubprocessError, ValueError) as error:
+        except (subprocess.SubprocessError, ValueError):
             result.append(finding("published_tag", "fail", f"{version}: missing or unreadable {tag}"))
             continue
         if tagged["version"] != version or normalized(tagged["name"]) != normalized(package["dist"]):
@@ -368,7 +361,7 @@ def main() -> int:
     if any(licence_inputs) and not all(licence_inputs):
         parser.error("--license-inspect, --license-review and --license-site must be supplied together")
     registry = load_registry()
-    report = {"observed_at": dt.datetime.now(dt.timezone.utc).isoformat(), "mode": "online" if args.online else "offline", "packages": []}
+    report = {"observed_at": dt.datetime.now(dt.UTC).isoformat(), "mode": "online" if args.online else "offline", "packages": []}
     for package in registry["packages"]:
         root = args.repos_root / package["local_dir"]
         try:

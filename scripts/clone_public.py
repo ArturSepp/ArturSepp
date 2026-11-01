@@ -1,9 +1,33 @@
 """Collect public sources and all tags for the read-only scheduled audit."""
 import argparse
 import subprocess
+import tempfile
 from pathlib import Path
 
 from conformance import load_registry
+from workflow_support import DELAYS, backoff, permanent_git_error
+
+
+def clone_one(url: str, target: Path) -> bool:
+    """Use a fresh C-local/runner-temp directory per attempt; never reuse a partial clone."""
+    if target.exists():
+        raise ValueError(f"Refusing to reuse an existing checkout: {target}")
+    for attempt in range(len(DELAYS) + 1):
+        attempt_root = Path(tempfile.mkdtemp(prefix=f".{target.name}-clone-", dir=target.parent))
+        try:
+            result = subprocess.run(
+                ["git", "clone", "--filter=blob:none", "--branch", "main", url, str(attempt_root)],
+                capture_output=True, text=True, timeout=180, check=False,
+            )
+        except subprocess.TimeoutExpired:
+            result = None
+        if result is not None and result.returncode == 0:
+            attempt_root.rename(target)
+            return True
+        if permanent_git_error(result) or attempt == len(DELAYS):
+            return False
+        backoff("public source clone", attempt)
+    raise AssertionError("unreachable")
 
 
 def main() -> None:
@@ -18,10 +42,11 @@ def main() -> None:
         if target.exists():
             raise SystemExit(f"Refusing to reuse an existing checkout: {target}")
         # A failed clone remains visible as an unknown source in the report.
-        result = subprocess.run(["git", "clone", "--filter=blob:none", "--branch", "main",
-                                 f"https://github.com/{registry['owner']}/{package['repo']}.git",
-                                 str(target)], capture_output=True, text=True, timeout=180)
-        print(f"{package['repo']}: {'collected' if result.returncode == 0 else 'unavailable'}")
+        collected = clone_one(
+            f"https://github.com/{registry['owner']}/{package['repo']}.git", target
+        )
+        print(f"{package['repo']}: {'collected' if collected else 'unavailable'}")
+
 
 
 if __name__ == "__main__":

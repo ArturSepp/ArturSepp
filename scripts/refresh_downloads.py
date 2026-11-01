@@ -7,18 +7,17 @@ The workflow publishes only profile-downloads/ on automation/reports; main and
 the generated conformance reports are never changed by this collector.
 """
 import argparse
+import json
+import re
 from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from html import escape
 from html.parser import HTMLParser
-import json
 from pathlib import Path
-import re
-import time
-from urllib.error import URLError
 from urllib.request import Request, urlopen
 
 from build_stats import REPOS
+from workflow_support import retry_read
 
 
 class VisibleText(HTMLParser):
@@ -61,15 +60,11 @@ def parse_counts(html: str, slug: str) -> dict:
 def fetch_counts(slug: str) -> dict:
     source = f"https://pepy.tech/projects/{slug}"
     request = Request(source, headers={"User-Agent": "ArturSepp-profile-downloads/1.0"})
-    for attempt in range(3):
-        try:
-            with urlopen(request, timeout=30) as response:
-                counts = parse_counts(response.read().decode("utf-8"), slug)
-            return {"source": source, **counts}
-        except (URLError, TimeoutError):
-            if attempt == 2:
-                raise
-            time.sleep(2 ** attempt)
+    def fetch():
+        with urlopen(request, timeout=30) as response:
+            counts = parse_counts(response.read().decode("utf-8"), slug)
+        return {"source": source, **counts}
+    return retry_read(fetch, attempts=3)
 
 
 def badge(value: str, title: str, color: str = "#4c1") -> str:
@@ -89,7 +84,7 @@ def refresh(output: Path) -> dict:
     slugs = list(REPOS.values())
     with ThreadPoolExecutor(max_workers=4) as pool:
         packages = dict(zip(slugs, pool.map(fetch_counts, slugs)))
-    observed = datetime.now(timezone.utc)
+    observed = datetime.now(UTC)
     stamp = observed.strftime("%Y-%m-%d %H:%M UTC")
     snapshot = {"observed_at": observed.isoformat(), "packages": packages}
     # Prepare every file before touching the previous successful snapshot.
