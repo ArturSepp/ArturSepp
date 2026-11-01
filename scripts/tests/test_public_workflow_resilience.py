@@ -3,6 +3,7 @@ import copy
 import io
 import json
 import sys
+import subprocess
 import tempfile
 import unittest
 import urllib.error
@@ -155,9 +156,7 @@ jobs:
             with self.subTest(key=key), self.assertRaises(ValueError):
                 workflows.validate_artifacts(document)
 
-    def test_conformance_detects_new_unprotected_workflows(self):
-        import conformance
-        self.assertIs(conformance.workflow_retry_drift, workflows.workflow_retry_drift)
+    def test_checker_detects_new_unprotected_workflows(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             path = root / ".github/workflows/ci.yml"
@@ -176,6 +175,27 @@ jobs:
         self.assertEqual(hardened["env"]["UV_HTTP_RETRIES"], "8")
         reusable = "name: Caller\non: [push]\njobs:\n  docs:\n    uses: owner/repo/.github/workflows/docs.yml@main\n"
         self.assertEqual(workflows.harden_workflow(reusable), reusable)
+
+
+class CollectorStartupTests(unittest.TestCase):
+    def test_download_collector_starts_with_only_the_standard_library(self):
+        program = (
+            "import runpy, sys\n"
+            f"sys.path.insert(0, {str(SCRIPTS)!r})\n"
+            "sys.argv = ['refresh_downloads.py', '--help']\n"
+            "try:\n"
+            f"    runpy.run_path({str(SCRIPTS / 'refresh_downloads.py')!r}, run_name='__main__')\n"
+            "except SystemExit as error:\n"
+            "    if error.code not in (0, None): raise\n"
+            "assert 'yaml' not in sys.modules\n"
+            "assert 'harden_public_workflows' not in sys.modules\n"
+        )
+        completed = subprocess.run(
+            [sys.executable, "-I", "-S", "-B", "-c", program],
+            capture_output=True, text=True, check=False, timeout=30,
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertIn("usage:", completed.stdout)
 
 
 if __name__ == "__main__":

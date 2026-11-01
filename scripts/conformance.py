@@ -16,7 +16,6 @@ import urllib.request
 from pathlib import Path
 
 import license_policy
-from harden_public_workflows import workflow_retry_drift
 from workflow_support import retry_read
 
 REGISTRY = Path(__file__).with_name("public_registry.json")
@@ -174,6 +173,9 @@ def generated_release_drift(root: Path, package: dict) -> list[str]:
 
 def offline_checks(root: Path, package: dict, registry: dict) -> list[dict]:
     """Check source metadata, approved graph, import bans and tracked hygiene."""
+    # Metadata collectors import this module in a standard-library-only environment.
+    from harden_public_workflows import workflow_retry_drift
+
     result = []
     project = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))
     metadata = project["project"]
