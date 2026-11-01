@@ -45,7 +45,7 @@ jobs:
   record-and-notify:
     needs: check
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     permissions:
       contents: write
       issues: write
@@ -56,7 +56,30 @@ jobs:
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: "3.12"
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      - name: Download prepared monitor state
+        id: download
+        continue-on-error: true
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: documentation-monitor
+          path: ${{ runner.temp }}/documentation-monitor
+      - name: Back off before retrying the artifact download
+        if: steps.download.outcome == 'failure'
+        run: sleep 10
+      - name: Retry downloading prepared monitor state
+        id: download_retry
+        if: steps.download.outcome == 'failure'
+        continue-on-error: true
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: documentation-monitor
+          path: ${{ runner.temp }}/documentation-monitor
+      - name: Back off before the final artifact download attempt
+        if: steps.download_retry.outcome == 'failure'
+        run: sleep 30
+      - name: Final attempt to download prepared monitor state
+        if: steps.download_retry.outcome == 'failure'
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: documentation-monitor
           path: ${{ runner.temp }}/documentation-monitor

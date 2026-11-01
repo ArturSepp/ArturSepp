@@ -5,9 +5,11 @@ from __future__ import annotations
 import argparse
 import base64
 import hashlib
+import http.client
 import json
 import os
 import re
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -19,6 +21,30 @@ BRANCH = "automation/documentation-monitor"
 STATE_PATH = "documentation-monitor.json"
 ISSUE_MARKER = "<!-- oss-documentation-monitor -->"
 TITLE = "OSS documentation: confirmed link failures and monitoring alerts"
+
+
+RETRY_DELAYS = (2, 5, 10)
+MAX_RETRY_DELAY = 60
+TRANSIENT_STATUS = {408, 500, 502, 503, 504}
+
+
+class GitHubError(RuntimeError):
+    """A sanitized API failure, retaining only safe retry metadata."""
+
+    def __init__(self, message, *, status=None, retry_after=0):
+        super().__init__(message)
+        self.status = status
+        self.retry_after = retry_after
+        self.retryable = status is None or status in TRANSIENT_STATUS
+
+
+def retry_wait(error, attempt):
+    """Bound backoff and refuse to retry before a longer server-requested delay."""
+    delay = max(RETRY_DELAYS[min(attempt, len(RETRY_DELAYS) - 1)], error.retry_after)
+    if delay > MAX_RETRY_DELAY:
+        raise error
+    print(json.dumps({"state": "github_retry", "error": str(error), "delay_seconds": delay}))
+    time.sleep(delay)
 
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -57,20 +83,39 @@ class GitHub:
                 "Cache-Control": "no-cache",
             },
         )
-        # No retry on writes: ambiguous delivery is reconciled using event markers.
-        try:
-            with urllib.request.build_opener(NoRedirect()).open(
-                request, timeout=45
-            ) as response:
-                return json.loads(response.read())
-        except urllib.error.HTTPError as error:
-            raise RuntimeError(
-                f"GitHub {method} {path.split('?')[0]}: HTTP {error.code}"
-            ) from None
-        except urllib.error.URLError:
-            raise RuntimeError(
-                "GitHub API transport unavailable; state/delivery not assumed successful"
-            ) from None
+        # Reads may be repeated. Writes are single-attempt here: only save() can
+        # safely reconcile a lost acknowledgement before repeating a state PUT.
+        attempts = len(RETRY_DELAYS) + 1 if method == "GET" else 1
+        for attempt in range(attempts):
+            try:
+                with urllib.request.build_opener(NoRedirect()).open(
+                    request, timeout=30
+                ) as response:
+                    return json.loads(response.read())
+            except urllib.error.HTTPError as error:
+                header = (error.headers or {}).get("Retry-After")
+                try:
+                    retry_after = max(0, int(header)) if header is not None else 0
+                except (TypeError, ValueError):
+                    # An unrecognized delay is not permission to retry immediately.
+                    retry_after = MAX_RETRY_DELAY + 1
+                failure = GitHubError(
+                    f"GitHub {method} {path.split('?')[0]}: HTTP {error.code}",
+                    status=error.code,
+                    retry_after=retry_after,
+                )
+                error.close()
+            except (
+                urllib.error.URLError, TimeoutError, ConnectionError,
+                http.client.HTTPException, json.JSONDecodeError, UnicodeDecodeError,
+            ):
+                failure = GitHubError(
+                    "GitHub API transport/response unavailable; "
+                    "state/delivery not assumed successful"
+                )
+            if not failure.retryable or attempt + 1 == attempts:
+                raise failure from None
+            retry_wait(failure, attempt)
 
     def items(self, path):
         page = 1
@@ -95,7 +140,8 @@ def validate_snapshot(snapshot):
         raise ValueError("Invalid durable monitor snapshot; refusing to reset history")
 
 
-def restore(api, directory):
+def read_remote(api):
+    """Read and validate the exact durable snapshot, including large blobs."""
     path = f"contents/{STATE_PATH}?ref={urllib.parse.quote(BRANCH, safe='')}"
     metadata = api.request("GET", path, object_format=True)
     if metadata.get("encoding") == "base64":
@@ -105,9 +151,15 @@ def restore(api, directory):
         blob = api.request("GET", "git/blobs/" + metadata["sha"])
         snapshot = json.loads(base64.b64decode(blob["content"]))
     validate_snapshot(snapshot)
+    return {"sha": metadata["sha"], "snapshot": snapshot}
+
+
+def restore(api, directory):
+    remote = read_remote(api)
+    snapshot = remote["snapshot"]
     directory.mkdir(parents=True, exist_ok=True)
     atomic_json(
-        directory / "remote.json", {"sha": metadata["sha"], "snapshot": snapshot}
+        directory / "remote.json", remote
     )
     atomic_json(directory / "state.json", snapshot["state"])
     return snapshot
@@ -157,17 +209,39 @@ def save(api, remote):
     content = base64.b64encode(
         (json.dumps(remote["snapshot"], separators=(",", ":")) + "\n").encode()
     ).decode()
-    response = api.request(
-        "PUT",
-        f"contents/{STATE_PATH}",
-        {
-            "branch": BRANCH,
-            "sha": remote["sha"],
-            "content": content,
-            "message": "chore: record documentation monitor state [skip ci]",
-        },
-    )
-    remote["sha"] = response["content"]["sha"]
+    data = {
+        "branch": BRANCH,
+        "sha": remote["sha"],
+        "content": content,
+        "message": "chore: record documentation monitor state [skip ci]",
+    }
+    for attempt in range(len(RETRY_DELAYS) + 1):
+        try:
+            response = api.request("PUT", f"contents/{STATE_PATH}", data)
+            try:
+                sha = response["content"]["sha"]
+                if not isinstance(sha, str) or not sha:
+                    raise ValueError("Missing blob SHA")
+            except (KeyError, TypeError, ValueError):
+                raise GitHubError("GitHub state write acknowledgement was incomplete") from None
+            remote["sha"] = sha
+            return
+        except GitHubError as error:
+            if not error.retryable and error.status != 409:
+                raise
+            retry_wait(error, attempt)
+            # A 500 or lost reply can follow a successful commit. Confirm the
+            # durable content before retrying; never update to an unrelated SHA.
+            current = read_remote(api)
+            if current["snapshot"] == remote["snapshot"]:
+                remote["sha"] = current["sha"]
+                return
+            if current["sha"] != remote["sha"]:
+                raise RuntimeError(
+                    "HTTP 409 stale monitor snapshot; refusing to overwrite newer state"
+                ) from None
+            if attempt == len(RETRY_DELAYS):
+                raise
 
 
 def marker(event):

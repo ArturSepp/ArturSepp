@@ -2,10 +2,14 @@
 
 import base64
 import copy
+import io
 import json
 import sys
 import tempfile
 import unittest
+import urllib.error
+from collections import Counter
+from contextlib import contextmanager, redirect_stdout
 from pathlib import Path
 from unittest.mock import patch
 
@@ -306,6 +310,230 @@ class HostedMonitorTests(unittest.TestCase):
             for step in job["steps"]:
                 if "uses" in step:
                     self.assertRegex(step["uses"], r"@[0-9a-f]{40}$")
+
+
+class FaultOpener:
+    """Exercise the real HTTP client against a durable fake GitHub backend."""
+
+    def __init__(self, backend, faults):
+        self.backend = backend
+        self.faults = faults
+        self.counts = Counter()
+        self.calls = []
+
+    def open(self, request, timeout):
+        method = request.get_method()
+        path = request.full_url.split("/repos/ArturSepp/ArturSepp/", 1)[1]
+        data = json.loads(request.data) if request.data else None
+        self.counts[method] += 1
+        self.calls.append((method, path))
+        fault = self.faults.get((method, self.counts[method]))
+
+        def fail():
+            error = fault[1]
+            if isinstance(error, int):
+                error = urllib.error.HTTPError(
+                    request.full_url, error, "Injected GitHub failure", {}, None
+                )
+            raise error
+
+        if fault and fault[0] == "before":
+            fail()
+        endpoint = path.split("?")[0]
+        if method == "GET" and (endpoint == "issues" or endpoint.endswith("/comments")):
+            response = list(self.backend.items(endpoint))
+        else:
+            try:
+                response = self.backend.request(method, path, data)
+            except RuntimeError as error:
+                if "HTTP 409" not in str(error):
+                    raise
+                raise urllib.error.HTTPError(
+                    request.full_url, 409, "Conflict", {}, None
+                ) from None
+        if fault and fault[0] == "after":
+            if isinstance(fault[1], bytes):
+                return io.BytesIO(fault[1])
+            fail()
+        return io.BytesIO(json.dumps(response).encode())
+
+
+class ResilientMonitorTests(unittest.TestCase):
+    @contextmanager
+    def fixture(self, faults=None, *, alerts=False, large=False):
+        with tempfile.TemporaryDirectory() as temporary:
+            directory, backend = Path(temporary), FixtureAPI()
+            HostedMonitorTests.prepare(self, backend, directory, alerts=alerts)
+            backend.large = large
+            opener = FaultOpener(backend, faults or {})
+            api = actions.GitHub("ArturSepp/ArturSepp", "fake-test-token")
+            output = io.StringIO()
+            with (
+                patch.object(actions.urllib.request, "build_opener", return_value=opener),
+                patch("time.sleep") as sleep,
+                redirect_stdout(output),
+            ):
+                yield api, backend, directory, opener, sleep, output
+
+    def test_state_write_500_before_commit_recovers_and_alert_is_sent_once(self):
+        with self.fixture({("PUT", 1): ("before", 500)}, alerts=True) as fixture:
+            api, backend, directory, opener, sleep, _ = fixture
+            actions.publish(api, directory, "ArturSepp")
+            self.assertEqual(len(backend.issues), 1)
+            self.assertEqual(backend.value["outbox"], [])
+            self.assertEqual(opener.counts["POST"], 1)
+            self.assertEqual(opener.counts["PUT"], 4)
+            sleep.assert_called()
+
+    def test_lost_write_acknowledgement_is_reconciled_without_repeating_put(self):
+        for error in (500, TimeoutError("lost reply"), b"not JSON", b"{}"):
+            with self.subTest(error=error), self.fixture(
+                {("PUT", 1): ("after", error)}
+            ) as fixture:
+                api, backend, directory, opener, _, _ = fixture
+                actions.publish(api, directory, "ArturSepp")
+                self.assertEqual(opener.counts["PUT"], 1)
+                published = json.loads((directory / "published.json").read_text())
+                self.assertEqual(published["sha"], backend.sha)
+
+    def test_acknowledgement_save_recovers_without_duplicate_notification(self):
+        for position in ("before", "after"):
+            with self.subTest(position=position), self.fixture(
+                {("PUT", 3): (position, 503)}, alerts=True
+            ) as fixture:
+                api, backend, directory, opener, _, _ = fixture
+                actions.publish(api, directory, "ArturSepp")
+                self.assertEqual(opener.counts["POST"], 1)
+                self.assertEqual(len(backend.issues), 1)
+                self.assertEqual(backend.value["outbox"], [])
+
+    def test_transient_reads_are_retried_without_resetting_history(self):
+        faults = {
+            ("GET", 1): ("before", 502),
+            ("GET", 2): ("before", urllib.error.URLError("temporary outage")),
+        }
+        with self.fixture(faults) as fixture:
+            api, backend, directory, opener, sleep, _ = fixture
+            restored = actions.restore(api, directory)
+            self.assertEqual(restored, backend.value)
+            self.assertEqual(opener.counts["GET"], 3)
+            self.assertEqual(sleep.call_count, 2)
+
+    def test_permanent_http_errors_are_not_retried(self):
+        for status in (401, 403, 404, 422):
+            with self.subTest(status=status), self.fixture(
+                {("GET", 1): ("before", status)}
+            ) as fixture:
+                api, _, directory, opener, sleep, _ = fixture
+                with self.assertRaisesRegex(RuntimeError, str(status)):
+                    actions.restore(api, directory)
+                self.assertEqual(opener.counts["GET"], 1)
+                sleep.assert_not_called()
+
+    def test_read_outage_has_a_bounded_retry_budget(self):
+        faults = {("GET", attempt): ("before", 503) for attempt in range(1, 5)}
+        with self.fixture(faults) as fixture:
+            api, _, directory, opener, sleep, _ = fixture
+            with self.assertRaisesRegex(RuntimeError, "503"):
+                actions.restore(api, directory)
+            self.assertEqual(opener.counts["GET"], 4)
+            self.assertEqual(sleep.call_count, 3)
+
+    def test_write_outage_fails_without_notifying_or_discarding_prepared_state(self):
+        faults = {("PUT", attempt): ("before", 500) for attempt in range(1, 5)}
+        with self.fixture(faults, alerts=True) as fixture:
+            api, backend, directory, opener, _, _ = fixture
+            with self.assertRaisesRegex(RuntimeError, "500"):
+                actions.publish(api, directory, "ArturSepp")
+            self.assertEqual(opener.counts["PUT"], 4)
+            self.assertEqual(opener.counts["POST"], 0)
+            self.assertEqual(backend.sha, "initial")
+            prepared = json.loads((directory / "prepared.json").read_text())
+            self.assertEqual(len(prepared["snapshot"]["outbox"]), 1)
+
+    def test_newer_remote_state_is_never_overwritten_during_recovery(self):
+        with self.fixture({("PUT", 1): ("before", 500)}, alerts=True) as fixture:
+            api, backend, directory, opener, _, _ = fixture
+            backend.sha = "newer-run"
+            backend.value["state"]["checked_at_utc"] = "2026-11-01T09:00:00Z"
+            newer = copy.deepcopy(backend.value)
+            with self.assertRaisesRegex(RuntimeError, "stale|newer"):
+                actions.publish(api, directory, "ArturSepp")
+            self.assertEqual(backend.value, newer)
+            self.assertEqual(opener.counts["PUT"], 1)
+            self.assertEqual(opener.counts["POST"], 0)
+
+    def test_already_saved_healthy_artifact_is_safe_to_rerun(self):
+        with self.fixture() as fixture:
+            api, backend, directory, opener, _, _ = fixture
+            actions.publish(api, directory, "ArturSepp")
+            actions.publish(api, directory, "ArturSepp")
+            self.assertEqual(backend.put_count, 2)
+            self.assertEqual(opener.counts["POST"], 0)
+            self.assertTrue((directory / "published.json").exists())
+
+    def test_uncertain_reconciliation_never_repeats_the_write(self):
+        faults = {("PUT", 1): ("before", 500)}
+        faults.update({("GET", attempt): ("before", 503) for attempt in range(1, 5)})
+        with self.fixture(faults, alerts=True) as fixture:
+            api, _, directory, opener, _, _ = fixture
+            with self.assertRaises(RuntimeError):
+                actions.publish(api, directory, "ArturSepp")
+            self.assertEqual(opener.counts["PUT"], 1)
+            self.assertEqual(opener.counts["POST"], 0)
+
+    def test_large_snapshot_is_reconciled_using_its_exact_blob(self):
+        with self.fixture({("PUT", 1): ("after", 500)}, large=True) as fixture:
+            api, backend, directory, opener, _, _ = fixture
+            actions.publish(api, directory, "ArturSepp")
+            self.assertIn(("GET", "git/blobs/" + backend.sha), opener.calls)
+            self.assertEqual(opener.counts["PUT"], 1)
+
+    def test_lost_issue_creation_reply_is_not_blindly_retried(self):
+        with self.fixture({("POST", 1): ("after", 500)}, alerts=True) as fixture:
+            api, backend, directory, opener, _, _ = fixture
+            with self.assertRaisesRegex(RuntimeError, "500"):
+                actions.publish(api, directory, "ArturSepp")
+            self.assertEqual(opener.counts["POST"], 1)
+            self.assertEqual(len(backend.issues), 1)
+            self.assertTrue(backend.value["delivery"]["issue_creation_pending"])
+            self.assertEqual(len(backend.value["outbox"]), 1)
+            actions.restore(api, directory)
+            actions.prepare(directory, RUN)
+            actions.publish(api, directory, "ArturSepp")
+            self.assertEqual(opener.counts["POST"], 1)
+            self.assertEqual(backend.value["outbox"], [])
+
+    def test_long_retry_after_is_not_ignored(self):
+        error = urllib.error.HTTPError(
+            "https://api.github.com/", 503, "Unavailable", {"Retry-After": "120"}, None
+        )
+        with self.fixture({("PUT", 1): ("before", error)}) as fixture:
+            api, _, directory, opener, sleep, _ = fixture
+            with self.assertRaisesRegex(RuntimeError, "503"):
+                actions.publish(api, directory, "ArturSepp")
+            self.assertEqual(opener.counts["PUT"], 1)
+            self.assertEqual(opener.counts["GET"], 0)
+            sleep.assert_not_called()
+
+    def test_artifact_transfer_retries_are_bounded_and_exhaustion_remains_fatal(self):
+        root = Path(__file__).resolve().parents[2]
+        workflow = yaml.load(
+            (root / ".github/workflows/documentation-monitor.yml").read_text(),
+            Loader=yaml.BaseLoader,
+        )
+        steps = workflow["jobs"]["record-and-notify"]["steps"]
+        downloads = [s for s in steps if s.get("uses", "").startswith("actions/download-artifact@")]
+        self.assertEqual(len(downloads), 3)
+        self.assertEqual([s.get("continue-on-error") for s in downloads], ["true", "true", None])
+        self.assertNotIn("if", downloads[0])
+        self.assertEqual(downloads[1]["if"], "steps.download.outcome == 'failure'")
+        self.assertEqual(downloads[2]["if"], "steps.download_retry.outcome == 'failure'")
+        for step in downloads:
+            self.assertEqual(step["with"]["name"], "documentation-monitor")
+            self.assertEqual(step["with"]["path"], "${{ runner.temp }}/documentation-monitor")
+        publisher = next(s for s in steps if " publish " in s.get("run", ""))
+        self.assertNotIn("continue-on-error", publisher)
 
 
 if __name__ == "__main__":
