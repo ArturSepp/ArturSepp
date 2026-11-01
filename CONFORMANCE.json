@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-10-31T10:55:52.862836+00:00",
+  "observed_at": "2026-11-01T06:52:24.079423+00:00",
   "mode": "online",
   "packages": [
     {
@@ -211,9 +211,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "pass",
-          "detail": "description, homepage and required topics match"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 403: rate limit exceeded"
         }
       ]
     },
@@ -276,9 +276,9 @@
           "detail": "latest published metadata differs; requires next release"
         },
         {
-          "check": "github_about",
-          "state": "fail",
-          "detail": "homepage"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 403: rate limit exceeded"
         }
       ]
     },
@@ -541,9 +541,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "pass",
-          "detail": "description, homepage and required topics match"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 403: rate limit exceeded"
         }
       ]
     },
@@ -856,9 +856,14 @@
           "detail": "v2.6.0: matches published version"
         },
         {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v2.6.1: matches published version"
+        },
+        {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 2.6.1.dev1: prepared/unpublished; GitHub Release page optional"
+          "detail": "main/source 2.6.1: published"
         },
         {
           "check": "pypi_metadata",
@@ -1246,9 +1251,14 @@
           "detail": "v6.0.0: matches published version"
         },
         {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v6.0.1: matches published version"
+        },
+        {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 6.0.0: published"
+          "detail": "main/source 6.0.1: published"
         },
         {
           "check": "pypi_metadata",
