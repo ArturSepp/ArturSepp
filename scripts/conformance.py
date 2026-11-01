@@ -16,6 +16,7 @@ import urllib.request
 from pathlib import Path
 
 import license_policy
+from harden_public_workflows import workflow_retry_drift
 from workflow_support import retry_read
 
 REGISTRY = Path(__file__).with_name("public_registry.json")
@@ -255,6 +256,9 @@ def offline_checks(root: Path, package: dict, registry: dict) -> list[dict]:
             if not action.startswith("./") and not re.fullmatch(r"[^@]+@[0-9a-f]{40}", action):
                 workflows.append(f"{path.name}: mutable action {action}")
     result.append(finding("action_pins", "fail" if workflows else "pass", "; ".join(workflows) or "external actions pinned to full SHA"))
+    retry_problems = workflow_retry_drift(root)
+    result.append(finding("workflow_retries", "fail" if retry_problems else "pass",
+                          "; ".join(retry_problems) or "bounded HTTP and artifact reads configured"))
     generated = generated_release_drift(root, package)
     result.append(finding("release_templates", "fail" if generated else "pass", ", ".join(generated) or "generated release files match reviewed template content"))
     return result

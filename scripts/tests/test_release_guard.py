@@ -78,7 +78,7 @@ class DigestTests(unittest.TestCase):
     def test_only_confirmed_404_means_unpublished(self):
         with mock.patch.object(guard.urllib.request, "urlopen", side_effect=urllib.error.HTTPError("url", 404, "missing", {}, None)):
             self.assertIsNone(guard.pypi_files("sample", "1.2.3"))
-        with mock.patch.object(guard.urllib.request, "urlopen", side_effect=urllib.error.HTTPError("url", 503, "unavailable", {}, None)):
+        with mock.patch.object(guard.urllib.request, "urlopen", side_effect=urllib.error.HTTPError("url", 503, "unavailable", {}, None)), mock.patch("time.sleep"):
             with self.assertRaises(urllib.error.HTTPError):
                 guard.pypi_files("sample", "1.2.3")
 
