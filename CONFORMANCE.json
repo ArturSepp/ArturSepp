@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-11-01T06:52:24.079423+00:00",
+  "observed_at": "2026-11-01T07:48:43.006849+00:00",
   "mode": "online",
   "packages": [
     {
@@ -24,6 +24,11 @@
           "check": "action_pins",
           "state": "pass",
           "detail": "external actions pinned to full SHA"
+        },
+        {
+          "check": "workflow_retries",
+          "state": "pass",
+          "detail": "bounded HTTP and artifact reads configured"
         },
         {
           "check": "release_templates",
@@ -211,9 +216,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github",
-          "state": "unknown",
-          "detail": "HTTP Error 403: rate limit exceeded"
+          "check": "github_about",
+          "state": "pass",
+          "detail": "description, homepage and required topics match"
         }
       ]
     },
@@ -239,6 +244,11 @@
           "check": "action_pins",
           "state": "pass",
           "detail": "external actions pinned to full SHA"
+        },
+        {
+          "check": "workflow_retries",
+          "state": "pass",
+          "detail": "bounded HTTP and artifact reads configured"
         },
         {
           "check": "release_templates",
@@ -276,9 +286,9 @@
           "detail": "latest published metadata differs; requires next release"
         },
         {
-          "check": "github",
-          "state": "unknown",
-          "detail": "HTTP Error 403: rate limit exceeded"
+          "check": "github_about",
+          "state": "fail",
+          "detail": "homepage"
         }
       ]
     },
@@ -304,6 +314,11 @@
           "check": "action_pins",
           "state": "pass",
           "detail": "external actions pinned to full SHA"
+        },
+        {
+          "check": "workflow_retries",
+          "state": "pass",
+          "detail": "bounded HTTP and artifact reads configured"
         },
         {
           "check": "release_templates",
@@ -541,9 +556,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github",
-          "state": "unknown",
-          "detail": "HTTP Error 403: rate limit exceeded"
+          "check": "github_about",
+          "state": "pass",
+          "detail": "description, homepage and required topics match"
         }
       ]
     },
@@ -569,6 +584,11 @@
           "check": "action_pins",
           "state": "pass",
           "detail": "external actions pinned to full SHA"
+        },
+        {
+          "check": "workflow_retries",
+          "state": "pass",
+          "detail": "bounded HTTP and artifact reads configured"
         },
         {
           "check": "release_templates",
@@ -726,6 +746,11 @@
           "detail": "external actions pinned to full SHA"
         },
         {
+          "check": "workflow_retries",
+          "state": "pass",
+          "detail": "bounded HTTP and artifact reads configured"
+        },
+        {
           "check": "release_templates",
           "state": "fail",
           "detail": ".github/workflows/release.yml"
@@ -794,6 +819,11 @@
           "check": "action_pins",
           "state": "pass",
           "detail": "external actions pinned to full SHA"
+        },
+        {
+          "check": "workflow_retries",
+          "state": "pass",
+          "detail": "bounded HTTP and artifact reads configured"
         },
         {
           "check": "release_templates",
@@ -901,6 +931,11 @@
           "detail": "external actions pinned to full SHA"
         },
         {
+          "check": "workflow_retries",
+          "state": "pass",
+          "detail": "bounded HTTP and artifact reads configured"
+        },
+        {
           "check": "release_templates",
           "state": "fail",
           "detail": ".github/workflows/release.yml"
@@ -981,6 +1016,11 @@
           "detail": "external actions pinned to full SHA"
         },
         {
+          "check": "workflow_retries",
+          "state": "pass",
+          "detail": "bounded HTTP and artifact reads configured"
+        },
+        {
           "check": "release_templates",
           "state": "fail",
           "detail": ".github/workflows/release.yml"
@@ -1039,6 +1079,11 @@
           "check": "action_pins",
           "state": "pass",
           "detail": "external actions pinned to full SHA"
+        },
+        {
+          "check": "workflow_retries",
+          "state": "pass",
+          "detail": "bounded HTTP and artifact reads configured"
         },
         {
           "check": "release_templates",
@@ -1121,6 +1166,11 @@
           "detail": "external actions pinned to full SHA"
         },
         {
+          "check": "workflow_retries",
+          "state": "pass",
+          "detail": "bounded HTTP and artifact reads configured"
+        },
+        {
           "check": "release_templates",
           "state": "fail",
           "detail": ".github/workflows/release.yml"
@@ -1194,6 +1244,11 @@
           "check": "action_pins",
           "state": "pass",
           "detail": "external actions pinned to full SHA"
+        },
+        {
+          "check": "workflow_retries",
+          "state": "pass",
+          "detail": "bounded HTTP and artifact reads configured"
         },
         {
           "check": "release_templates",
