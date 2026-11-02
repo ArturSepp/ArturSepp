@@ -489,6 +489,18 @@ class DependabotPolicyTests(unittest.TestCase):
             self.assertEqual(payload["sha"], BASE)
             self.assertEqual(payload["branch"], merge.BRANCH)
 
+    def test_cli_repository_metadata_uses_canonical_root_url(self):
+        api = merge.RepoAPI(REPO, "fixture-token")
+        with patch(
+            "documentation_monitor_actions.urllib.request.build_opener"
+        ) as build:
+            build.return_value.open.return_value.__enter__.return_value = io.BytesIO(
+                b'{"default_branch":"main"}'
+            )
+            self.assertEqual(api.request("GET", "")["default_branch"], "main")
+            request = build.return_value.open.call_args.args[0]
+            self.assertEqual(request.full_url, "https://api.github.com/repos/" + REPO)
+
     def test_invalid_state_cannot_be_reset(self):
         from unittest.mock import Mock
 
