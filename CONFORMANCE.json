@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-11-01T15:01:07.981193+00:00",
+  "observed_at": "2026-11-02T13:30:43.020872+00:00",
   "mode": "online",
   "packages": [
     {
@@ -22,8 +22,8 @@
         },
         {
           "check": "action_pins",
-          "state": "pass",
-          "detail": "external actions pinned to full SHA"
+          "state": "fail",
+          "detail": "dependabot-merge.yml: mutable action read"
         },
         {
           "check": "workflow_retries",
@@ -208,7 +208,7 @@
         {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 5.44.5: published"
+          "detail": "main/source 5.45.0: prepared/unpublished; GitHub Release page optional"
         },
         {
           "check": "pypi_metadata",
@@ -242,8 +242,8 @@
         },
         {
           "check": "action_pins",
-          "state": "pass",
-          "detail": "external actions pinned to full SHA"
+          "state": "fail",
+          "detail": "dependabot-merge.yml: mutable action read"
         },
         {
           "check": "workflow_retries",
@@ -312,8 +312,8 @@
         },
         {
           "check": "action_pins",
-          "state": "pass",
-          "detail": "external actions pinned to full SHA"
+          "state": "fail",
+          "detail": "dependabot-merge.yml: mutable action read"
         },
         {
           "check": "workflow_retries",
@@ -582,8 +582,8 @@
         },
         {
           "check": "action_pins",
-          "state": "pass",
-          "detail": "external actions pinned to full SHA"
+          "state": "fail",
+          "detail": "dependabot-merge.yml: mutable action read"
         },
         {
           "check": "workflow_retries",
@@ -742,8 +742,8 @@
         },
         {
           "check": "action_pins",
-          "state": "pass",
-          "detail": "external actions pinned to full SHA"
+          "state": "fail",
+          "detail": "dependabot-merge.yml: mutable action read"
         },
         {
           "check": "workflow_retries",
@@ -817,8 +817,8 @@
         },
         {
           "check": "action_pins",
-          "state": "pass",
-          "detail": "external actions pinned to full SHA"
+          "state": "fail",
+          "detail": "dependabot-merge.yml: mutable action read"
         },
         {
           "check": "workflow_retries",
@@ -927,8 +927,8 @@
         },
         {
           "check": "action_pins",
-          "state": "pass",
-          "detail": "external actions pinned to full SHA"
+          "state": "fail",
+          "detail": "dependabot-merge.yml: mutable action read"
         },
         {
           "check": "workflow_retries",
@@ -1012,8 +1012,8 @@
         },
         {
           "check": "action_pins",
-          "state": "pass",
-          "detail": "external actions pinned to full SHA"
+          "state": "fail",
+          "detail": "dependabot-merge.yml: mutable action read"
         },
         {
           "check": "workflow_retries",
@@ -1077,8 +1077,8 @@
         },
         {
           "check": "action_pins",
-          "state": "pass",
-          "detail": "external actions pinned to full SHA"
+          "state": "fail",
+          "detail": "dependabot-merge.yml: mutable action read"
         },
         {
           "check": "workflow_retries",
@@ -1162,8 +1162,8 @@
         },
         {
           "check": "action_pins",
-          "state": "pass",
-          "detail": "external actions pinned to full SHA"
+          "state": "fail",
+          "detail": "dependabot-merge.yml: mutable action read"
         },
         {
           "check": "workflow_retries",
@@ -1242,8 +1242,8 @@
         },
         {
           "check": "action_pins",
-          "state": "pass",
-          "detail": "external actions pinned to full SHA"
+          "state": "fail",
+          "detail": "dependabot-merge.yml: mutable action read"
         },
         {
           "check": "workflow_retries",
