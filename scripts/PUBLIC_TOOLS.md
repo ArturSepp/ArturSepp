@@ -1,6 +1,6 @@
 # Public package maintenance
 
-`public_registry.json` records the ten packages' names, canonical descriptions, docs roots,
+`public_registry.json` records the eleven packages' names, canonical descriptions, docs roots,
 approved core and optional stack dependencies, and minimum GitHub topics. Existing topics
 outside this minimum remain valid. The graph includes StochVolModels' core pricing dependency
 on vanilla-option-pricers and its optional research integration with option-chain-analytics.
@@ -11,7 +11,7 @@ Never create a Python environment in a OneDrive checkout.
 
 The Windows portfolio-wide command interface is documented in
 [`repo_governance/README.md`](repo_governance/README.md). Its registry covers the public profile,
-all ten public packages, and the three private checkouts while keeping public package metadata
+all eleven public packages, and the three private checkouts while keeping public package metadata
 in `public_registry.json`. It provides uniform `check`, `test`, and `verify` tasks, C-local
 generated-state setup, agent-policy validation, and LaTeX builds.
 
@@ -137,6 +137,65 @@ redirect chains, 404s and missing anchors are observed mismatches; blocked acces
 unverified and a 429 stops requests. Add `--check-pages` to check the sitemap's page inventory
 in the same run. Read the Docs' [redirect behavior](https://docs.readthedocs.com/platform/stable/user-defined-redirects.html)
 is separate from repository build validation; verify the live rules after applying them.
+
+### Scheduled Dependabot merges
+
+Each of the eleven packages has an independent `dependabot-merge.yml` workflow. It runs
+when **Required checks** finishes for a PR, hourly at a staggered minute, or through
+**Run workflow** on `main`. Select `dry_run` to inspect decisions without merging or
+writing notifications. These online checks are separate from ordinary commit and PR gates.
+
+The caller uses the shared composite action in
+[`.github/actions/dependabot-merge`](../.github/actions/dependabot-merge/action.yml), pinned
+to an immutable reviewed commit. Its source and `scripts/dependabot_merge.py` come from that
+same commit. It uses only that package's short-lived `GITHUB_TOKEN`; no cross-repository PAT,
+PR checkout, PR artifact, or dependency installation is used by the merge job.
+
+Automatic merges require an open, non-draft, same-repository `dependabot[bot]` PR targeting
+the default branch. The trusted `required.yml` workflow and its **Required checks** job must
+pass on the exact current head; other current-head checks and external statuses must also
+finish without failure, and no reviewer may have an outstanding changes request. The merge
+API receives that exact head SHA and uses squash merging without administrator bypass.
+GitHub still enforces branch protection, required reviews, conflicts and branch freshness.
+A branch that needs updating stays for maintainer attention; the token does not create an
+untested replacement head or automatically approve reviews.
+
+The reviewed policy allows version constraints for existing declared dependencies in
+`pyproject.toml`, PyPI-only updates in `uv.lock` with artifact hashes verified against PyPI,
+and existing upstream action SHA/version pins in workflow files. All version sizes are
+eligible under those gates. New dependency names, source/registry changes, code, workflow
+logic, and the merge caller itself require manual review. Complete immutable workflow
+blobs are compared, so a truncated PR patch cannot hide another workflow change.
+
+Verified CI failures, policy/review blocks and permanent merge refusals produce a comment
+mentioning **@ArturSepp** on the affected PR, with its head, reason and run link. Unchanged
+failures do not repeat the comment. New heads or different failures may notify again.
+Notification intents and delivery receipts live in `dependabot-merge.json` on each package's
+`automation/dependabot-merge` branch, outside its source history. An uncertain comment write
+is reconciled against a bot-authored marker; an ambiguous missing comment never authorizes
+a second POST. Do not delete or reset this branch to clear an alert. The PR's later checks
+and merge status show recovery; successful merges do not create extra comments.
+
+Temporary GitHub/PyPI access failures stay **unverified** and never authorize a merge or a
+false dependency-failure comment. Infrastructure errors fail only this maintenance workflow;
+GitHub Actions supplies its normal run-failure notifications according to account settings.
+Every run publishes a step summary and a 30-day JSON evidence artifact. A missing or invalid
+durable snapshot fails closed. The deployment initializes snapshots before enabling callers.
+
+Regenerate callers into C-local storage, review their immutable shared reference, and deploy
+through passing PRs:
+
+```powershell
+& C:\Python\ArturSepp312\Scripts\python.exe scripts/generate_dependabot_automation.py `
+  --shared-ref <reviewed-40-character-commit> `
+  --output-dir (Join-Path $env:AGENT_LOCAL_ROOT 'outputs\dependabot-callers')
+```
+
+Run the offline contracts with
+`python -m unittest discover -s scripts/tests -p test_dependabot_merge.py` after the
+mandatory C-local setup. GitHub can delay schedules or disable them after prolonged
+repository inactivity; **Run workflow** remains available. The event follow-up and hourly
+fallback share a non-cancelling concurrency group to serialize state writes.
 
 ### Scheduled documentation monitor
 
