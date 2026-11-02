@@ -69,7 +69,7 @@ class GitHub:
         if path.startswith(("/", "http")) or ".." in path.split("/"):
             raise ValueError("GitHub endpoint must stay inside this repository")
         request = urllib.request.Request(
-            self.base + path,
+            self.base + path if path else self.base.rstrip("/"),
             data=json.dumps(data).encode() if data is not None else None,
             method=method,
             headers={
@@ -274,7 +274,7 @@ def event_body(event, recipient):
             else:
                 url = urllib.parse.quote(row["url"], safe=":/#%._-~")
                 detail = row.get("detail", "").replace("`", "'").replace("\n", " ")
-                lines.append(f"- {row['repository']}: <{url}> — {detail}")
+                lines.append(f"- {row['repository']}: <{url}> â€” {detail}")
         if len(rows) > 100:
             lines.append("- Additional findings are recorded in the run artifact.")
         lines.append("")
