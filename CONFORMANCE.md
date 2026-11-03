@@ -1,6 +1,6 @@
 # Public package conformance
 
-Observed: 2026-11-02T13:30:43.020872+00:00 · mode: online
+Observed: 2026-11-03T12:47:53.553156+00:00 · mode: online
 
 GitHub Release pages are optional. Unpublished source versions are preparation states.
 
