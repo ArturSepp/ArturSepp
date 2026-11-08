@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-11-07T11:44:08.749521+00:00",
+  "observed_at": "2026-11-08T11:56:36.239494+00:00",
   "mode": "online",
   "packages": [
     {
@@ -221,9 +221,19 @@
           "detail": "v5.44.8: matches published version"
         },
         {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.47.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v5.47.1: matches published version"
+        },
+        {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 5.44.8: published"
+          "detail": "main/source 5.47.1: published"
         },
         {
           "check": "pypi_metadata",
@@ -231,9 +241,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "pass",
-          "detail": "description, homepage and required topics match"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 503: Service Unavailable"
         }
       ]
     },
@@ -301,9 +311,9 @@
           "detail": "latest published metadata differs; requires next release"
         },
         {
-          "check": "github_about",
-          "state": "fail",
-          "detail": "homepage"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 503: Service Unavailable"
         }
       ]
     },
@@ -576,9 +586,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "pass",
-          "detail": "description, homepage and required topics match"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 503: Service Unavailable"
         }
       ]
     },
@@ -746,9 +756,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "pass",
-          "detail": "description, homepage and required topics match"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 503: Service Unavailable"
         }
       ]
     },
@@ -821,9 +831,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "pass",
-          "detail": "description, homepage and required topics match"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 503: Service Unavailable"
         }
       ]
     },
@@ -931,9 +941,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "pass",
-          "detail": "description, homepage and required topics match"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 503: Service Unavailable"
         }
       ]
     },
@@ -1016,9 +1026,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "pass",
-          "detail": "description, homepage and required topics match"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 503: Service Unavailable"
         }
       ]
     },
@@ -1081,9 +1091,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "pass",
-          "detail": "description, homepage and required topics match"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 503: Service Unavailable"
         }
       ]
     },
@@ -1166,9 +1176,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "pass",
-          "detail": "description, homepage and required topics match"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 503: Service Unavailable"
         }
       ]
     },
@@ -1246,9 +1256,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "pass",
-          "detail": "description, homepage and required topics match"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 503: Service Unavailable"
         }
       ]
     },
@@ -1356,9 +1366,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "pass",
-          "detail": "description, homepage and required topics match"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 503: Service Unavailable"
         }
       ]
     }
