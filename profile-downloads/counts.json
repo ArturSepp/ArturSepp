@@ -1,60 +1,60 @@
 {
-  "observed_at": "2026-11-11T14:42:56.624519+00:00",
+  "observed_at": "2026-11-12T15:36:48.323641+00:00",
   "packages": {
     "qis": {
       "source": "https://pepy.tech/projects/qis",
-      "month": 19979,
-      "total": 244297
+      "month": 20299,
+      "total": 245517
     },
     "optimalportfolios": {
       "source": "https://pepy.tech/projects/optimalportfolios",
-      "month": 8328,
-      "total": 84550
+      "month": 8294,
+      "total": 84561
     },
     "factorlasso": {
       "source": "https://pepy.tech/projects/factorlasso",
-      "month": 8095,
-      "total": 49206
+      "month": 8058,
+      "total": 49311
     },
     "factormodels": {
       "source": "https://pepy.tech/projects/factormodels",
-      "month": 2347,
-      "total": 2347
+      "month": 2376,
+      "total": 2376
     },
     "stochvolmodels": {
       "source": "https://pepy.tech/projects/stochvolmodels",
-      "month": 2181,
-      "total": 34506
+      "month": 2162,
+      "total": 34525
     },
     "option-chain-analytics": {
       "source": "https://pepy.tech/projects/option-chain-analytics",
-      "month": 2548,
-      "total": 22315
+      "month": 2555,
+      "total": 22336
     },
     "vanilla-option-pricers": {
       "source": "https://pepy.tech/projects/vanilla-option-pricers",
-      "month": 3062,
-      "total": 13498
+      "month": 3028,
+      "total": 13549
     },
     "trendfollowing": {
       "source": "https://pepy.tech/projects/trendfollowing",
-      "month": 2077,
-      "total": 6028
+      "month": 2222,
+      "total": 6200
     },
     "goal-based-allocation": {
       "source": "https://pepy.tech/projects/goal-based-allocation",
-      "month": 1239,
-      "total": 4356
+      "month": 1214,
+      "total": 4371
     },
     "privateassets": {
       "source": "https://pepy.tech/projects/privateassets",
-      "month": 325,
-      "total": 2463
+      "month": 308,
+      "total": 2465
     },
     "bbg-fetch": {
       "source": "https://pepy.tech/projects/bbg-fetch",
-      "month": 1296,
-      "total": 43243
+      "month": 1361,
+      "total": 43384
     }
   }
 }
