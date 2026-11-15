@@ -1,6 +1,6 @@
 # Public package conformance
 
-Observed: 2026-11-14T12:12:03.659853+00:00 · mode: online
+Observed: 2026-11-15T12:44:45.120182+00:00 · mode: online
 
 GitHub Release pages are optional. Unpublished source versions are preparation states.
 
@@ -8,8 +8,8 @@ GitHub Release pages are optional. Unpublished source versions are preparation s
 |---|---:|---:|---:|---:|---|
 | qis | 48 | 3 | 2 | 0 | dependency_graph: missing import bans: factormodels; src/qis/fx/run_local/fx_rates_data_run.py:111: forbidden import bbg_fetch; action_pins: dependabot-merge.yml: mutable action read; release_templates: .github/workflows/release.yml, .github/scripts/release_guard.py; historical_provenance: 5.15.0: Multiple matching packaged-source commits; release commit not uniquely established; historical_provenance: 5.18.0: Multiple matching packaged-source commits; release commit not uniquely established |
 | factormodels | 11 | 3 | 0 | 0 | action_pins: dependabot-merge.yml: mutable action read; release_templates: .github/workflows/release.yml; github_about: homepage |
-| optimalportfolios | 47 | 2 | 5 | 0 | action_pins: dependabot-merge.yml: mutable action read; release_templates: .github/workflows/release.yml, .github/scripts/release_guard.py; historical_provenance: 6.21.1: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.2: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.3: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.4: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 7.1.0: Published settings.yaml differs from all checked repository candidates; provenance unresolved |
-| factorlasso | 32 | 2 | 0 | 0 | action_pins: dependabot-merge.yml: mutable action read; release_templates: .github/workflows/release.yml |
+| optimalportfolios | 48 | 2 | 5 | 0 | action_pins: dependabot-merge.yml: mutable action read; release_templates: .github/workflows/release.yml, .github/scripts/release_guard.py; historical_provenance: 6.21.1: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.2: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.3: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.4: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 7.1.0: Published settings.yaml differs from all checked repository candidates; provenance unresolved |
+| factorlasso | 33 | 2 | 0 | 0 | action_pins: dependabot-merge.yml: mutable action read; release_templates: .github/workflows/release.yml |
 | bbg-fetch | 11 | 3 | 0 | 0 | dependency_graph: missing import bans: factormodels; action_pins: dependabot-merge.yml: mutable action read; release_templates: .github/workflows/release.yml |
 | stochvolmodels | 18 | 3 | 0 | 0 | dependency_graph: missing import bans: factormodels; action_pins: dependabot-merge.yml: mutable action read; release_templates: .github/workflows/release.yml |
 | trendfollowing | 13 | 3 | 0 | 0 | dependency_graph: missing import bans: factormodels; action_pins: dependabot-merge.yml: mutable action read; release_templates: .github/workflows/release.yml |
