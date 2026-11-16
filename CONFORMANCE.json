@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-11-15T12:44:45.120182+00:00",
+  "observed_at": "2026-11-16T13:40:24.819158+00:00",
   "mode": "online",
   "packages": [
     {
@@ -266,9 +266,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "pass",
-          "detail": "description, homepage and required topics match"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 403: rate limit exceeded"
         }
       ]
     },
@@ -341,9 +341,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "fail",
-          "detail": "homepage"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 403: rate limit exceeded"
         }
       ]
     },
@@ -621,9 +621,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "pass",
-          "detail": "description, homepage and required topics match"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 403: rate limit exceeded"
         }
       ]
     },
@@ -801,9 +801,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "pass",
-          "detail": "description, homepage and required topics match"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 403: rate limit exceeded"
         }
       ]
     },
@@ -876,9 +876,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "pass",
-          "detail": "description, homepage and required topics match"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 403: rate limit exceeded"
         }
       ]
     },
@@ -938,6 +938,11 @@
         {
           "check": "published_tag",
           "state": "pass",
+          "detail": "v2.18.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
           "detail": "v2.2.0: matches published version"
         },
         {
@@ -978,7 +983,7 @@
         {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 2.6.1: published"
+          "detail": "main/source 2.18.0: published"
         },
         {
           "check": "pypi_metadata",
@@ -986,9 +991,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "pass",
-          "detail": "description, homepage and required topics match"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 403: rate limit exceeded"
         }
       ]
     },
@@ -1071,9 +1076,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "pass",
-          "detail": "description, homepage and required topics match"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 403: rate limit exceeded"
         }
       ]
     },
@@ -1136,9 +1141,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "pass",
-          "detail": "description, homepage and required topics match"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 403: rate limit exceeded"
         }
       ]
     },
@@ -1221,9 +1226,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "pass",
-          "detail": "description, homepage and required topics match"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 403: rate limit exceeded"
         }
       ]
     },
@@ -1301,9 +1306,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "pass",
-          "detail": "description, homepage and required topics match"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 403: rate limit exceeded"
         }
       ]
     },
@@ -1411,9 +1416,9 @@
           "detail": "latest published summary and URL keys match"
         },
         {
-          "check": "github_about",
-          "state": "pass",
-          "detail": "description, homepage and required topics match"
+          "check": "github",
+          "state": "unknown",
+          "detail": "HTTP Error 403: rate limit exceeded"
         }
       ]
     }
