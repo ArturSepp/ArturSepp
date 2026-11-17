@@ -1,50 +1,50 @@
 {
-  "observed_at": "2026-11-16T16:26:28.761678+00:00",
+  "observed_at": "2026-11-17T16:29:28.672377+00:00",
   "packages": {
     "qis": {
       "source": "https://pepy.tech/projects/qis",
-      "month": 20983,
-      "total": 248454
+      "month": 20178,
+      "total": 249066
     },
     "optimalportfolios": {
       "source": "https://pepy.tech/projects/optimalportfolios",
-      "month": 8135,
-      "total": 85404
+      "month": 7971,
+      "total": 85712
     },
     "factorlasso": {
       "source": "https://pepy.tech/projects/factorlasso",
-      "month": 7878,
-      "total": 50266
+      "month": 7781,
+      "total": 50394
     },
     "factormodels": {
       "source": "https://pepy.tech/projects/factormodels",
-      "month": 2529,
-      "total": 2529
+      "month": 2555,
+      "total": 2555
     },
     "stochvolmodels": {
       "source": "https://pepy.tech/projects/stochvolmodels",
-      "month": 2378,
-      "total": 35114
+      "month": 2400,
+      "total": 35169
     },
     "option-chain-analytics": {
       "source": "https://pepy.tech/projects/option-chain-analytics",
-      "month": 2289,
-      "total": 22532
+      "month": 2315,
+      "total": 22603
     },
     "vanilla-option-pricers": {
       "source": "https://pepy.tech/projects/vanilla-option-pricers",
-      "month": 2695,
-      "total": 13729
+      "month": 2705,
+      "total": 13792
     },
     "trendfollowing": {
       "source": "https://pepy.tech/projects/trendfollowing",
-      "month": 2806,
-      "total": 6900
+      "month": 2930,
+      "total": 7036
     },
     "goal-based-allocation": {
       "source": "https://pepy.tech/projects/goal-based-allocation",
-      "month": 1211,
-      "total": 4471
+      "month": 1192,
+      "total": 4479
     },
     "privateassets": {
       "source": "https://pepy.tech/projects/privateassets",
@@ -53,8 +53,8 @@
     },
     "bbg-fetch": {
       "source": "https://pepy.tech/projects/bbg-fetch",
-      "month": 1388,
-      "total": 43604
+      "month": 1441,
+      "total": 43675
     }
   }
 }
