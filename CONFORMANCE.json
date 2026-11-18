@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-11-17T14:24:51.682070+00:00",
+  "observed_at": "2026-11-18T13:58:57.692438+00:00",
   "mode": "online",
   "packages": [
     {
@@ -13,7 +13,7 @@
         {
           "check": "dependency_graph",
           "state": "fail",
-          "detail": "missing import bans: factormodels; src/qis/fx/run_local/fx_rates_data_run.py:111: forbidden import bbg_fetch"
+          "detail": "missing import bans: factormodels; src/qis/fx/run_local/fx_rates_data_run.py:107: forbidden import bbg_fetch"
         },
         {
           "check": "hygiene",
@@ -256,9 +256,14 @@
           "detail": "v6.0.4: matches published version"
         },
         {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v6.1.0: matches published version"
+        },
+        {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 6.0.4: published"
+          "detail": "main/source 6.1.0: published"
         },
         {
           "check": "pypi_metadata",
@@ -331,9 +336,14 @@
           "detail": "v0.5.0: matches published version"
         },
         {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v0.5.1: matches published version"
+        },
+        {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 0.5.0: published"
+          "detail": "main/source 0.5.1: published"
         },
         {
           "check": "pypi_metadata",
@@ -394,6 +404,11 @@
           "check": "published_tag",
           "state": "pass",
           "detail": "v10.0.2: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
+          "detail": "v10.0.3: matches published version"
         },
         {
           "check": "published_tag",
@@ -613,7 +628,7 @@
         {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 10.0.2: published"
+          "detail": "main/source 10.0.3: published"
         },
         {
           "check": "pypi_metadata",
@@ -943,6 +958,11 @@
         {
           "check": "published_tag",
           "state": "pass",
+          "detail": "v2.18.8: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
           "detail": "v2.2.0: matches published version"
         },
         {
@@ -983,7 +1003,7 @@
         {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 2.18.8: prepared/unpublished; GitHub Release page optional"
+          "detail": "main/source 2.18.8: published"
         },
         {
           "check": "pypi_metadata",
