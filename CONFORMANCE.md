@@ -1,6 +1,6 @@
 # Public package conformance
 
-Observed: 2026-11-23T15:59:12.510215+00:00 · mode: online
+Observed: 2026-11-24T15:54:05.400348+00:00 · mode: online
 
 GitHub Release pages are optional. Unpublished source versions are preparation states.
 
@@ -11,7 +11,7 @@ GitHub Release pages are optional. Unpublished source versions are preparation s
 | optimalportfolios | 50 | 2 | 5 | 0 | action_pins: dependabot-merge.yml: mutable action read; release_templates: .github/workflows/release.yml, .github/scripts/release_guard.py; historical_provenance: 6.21.1: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.2: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.3: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 6.21.4: Published settings.yaml differs from all checked repository candidates; provenance unresolved; historical_provenance: 7.1.0: Published settings.yaml differs from all checked repository candidates; provenance unresolved |
 | factorlasso | 33 | 2 | 0 | 0 | action_pins: dependabot-merge.yml: mutable action read; release_templates: .github/workflows/release.yml |
 | bbg-fetch | 11 | 3 | 0 | 0 | dependency_graph: missing import bans: factormodels; action_pins: dependabot-merge.yml: mutable action read; release_templates: .github/workflows/release.yml |
-| stochvolmodels | 20 | 3 | 0 | 0 | dependency_graph: missing import bans: factormodels; action_pins: dependabot-merge.yml: mutable action read; release_templates: .github/workflows/release.yml |
+| stochvolmodels | 21 | 3 | 0 | 0 | dependency_graph: missing import bans: factormodels; action_pins: dependabot-merge.yml: mutable action read; release_templates: .github/workflows/release.yml |
 | trendfollowing | 13 | 3 | 0 | 0 | dependency_graph: missing import bans: factormodels; action_pins: dependabot-merge.yml: mutable action read; release_templates: .github/workflows/release.yml |
 | privateassets | 9 | 3 | 0 | 0 | dependency_graph: missing import bans: factormodels; action_pins: dependabot-merge.yml: mutable action read; release_templates: .github/workflows/release.yml |
 | goal-based-allocation | 13 | 3 | 0 | 0 | dependency_graph: missing import bans: factormodels; action_pins: dependabot-merge.yml: mutable action read; release_templates: .github/workflows/release.yml |

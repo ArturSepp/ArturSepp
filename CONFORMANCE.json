@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-11-23T15:59:12.510215+00:00",
+  "observed_at": "2026-11-24T15:54:05.400348+00:00",
   "mode": "online",
   "packages": [
     {
@@ -993,6 +993,11 @@
         {
           "check": "published_tag",
           "state": "pass",
+          "detail": "v2.20.0: matches published version"
+        },
+        {
+          "check": "published_tag",
+          "state": "pass",
           "detail": "v2.3.0: matches published version"
         },
         {
@@ -1028,7 +1033,7 @@
         {
           "check": "development_state",
           "state": "pass",
-          "detail": "main/source 2.19.0.dev1: prepared/unpublished; GitHub Release page optional"
+          "detail": "main/source 2.20.0: published"
         },
         {
           "check": "pypi_metadata",
