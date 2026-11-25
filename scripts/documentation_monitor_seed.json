@@ -4,6 +4,7 @@
   "provenance": "Reviewed public Git history and live HTTP audit, 2026-10-27; bootstrap URL history, not a fixed sitemap count.",
   "packages": {
     "QuantInvestStrats": {
+      "generated_page_batches": 2,
       "site": "https://quantinveststrats.readthedocs.io",
       "version": "stable",
       "channels": [
