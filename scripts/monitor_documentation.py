@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -101,6 +102,9 @@ def check_package(package, seed, history, client, origins):
     version, channels = seed["version"], seed["channels"]
     base = f"{site}/en/{version}/"
     rows, evidence = {}, {}
+    deferred = set()
+    batches = seed.get("generated_page_batches", 1)
+    batch = history.get("generated_page_batch", 0) % batches
     ledger = set(seed["pages"]) | set(history.get("pages", []))
     legacy = set(seed["legacy_paths"]) | set(history.get("legacy_paths", []))
 
@@ -295,10 +299,15 @@ def check_package(package, seed, history, client, origins):
     if maps_available:
         for path in sorted(ledger):
             url = base + path
-            if url in current:
-                page(url)
-            else:
+            if url not in current:
                 historical(url, expected.get("/" + path))
+                continue
+            if batches > 1 and path.startswith("api/generated/"):
+                bucket = int.from_bytes(hashlib.sha256(path.encode()).digest()[:4], "big")
+                if bucket % batches != batch:
+                    deferred.add("page:" + url)
+                    continue
+            page(url)
         for path in sorted(legacy):
             for channel in channels:
                 url = site + "/en/" + channel + path
@@ -313,21 +322,27 @@ def check_package(package, seed, history, client, origins):
         "known_pages": len(ledger),
         "legacy_rules": len(legacy),
         "observations": rows,
+        "deferred": sorted(deferred - rows.keys()),
         "evidence": list(evidence.values()),
         "history": {
             "pages": sorted(ledger),
             "legacy_paths": sorted(legacy),
             "manifest_seen": manifest_seen,
-        },
+        }
+        | ({"generated_page_batch": (batch + int(maps_available)) % batches} if batches > 1 else {}),
     }
 
 
-def reconcile(previous, observations, timestamp, packages):
-    """Confirm twice >=1h apart; unavailable observations cannot confirm or recover."""
+def reconcile(previous, observations, timestamp, packages, deferred=()):
+    """Confirm twice >=1h apart; retain prior results for scheduled work not yet due."""
     checks, alerts, recoveries = {}, [], []
     stamp = datetime.fromisoformat(timestamp)
     for key in sorted(set(previous.get("checks", {})) | set(observations)):
         old = previous.get("checks", {}).get(key, {})
+        if key in deferred and key not in observations:
+            if old:
+                checks[key] = old
+            continue
         if key not in observations and not old.get("active") and not old.get("streak"):
             continue
         row = observations.get(
@@ -403,6 +418,9 @@ def load_configuration(registry_path, seed_path):
         for version in [config["version"], *config["channels"]]:
             if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", version):
                 raise ValueError("Invalid documentation channel")
+        batches = config.get("generated_page_batches", 1)
+        if type(batches) is not int or batches < 1:
+            raise ValueError("Generated-page batch count must be a positive integer")
         base = config["site"] + "/en/" + config["version"] + "/"
         if any(not safe_page(base + p, base) for p in config["pages"]):
             raise ValueError("Unsafe seed page path")
@@ -450,7 +468,8 @@ def run(packages, seeds, previous, client, timestamp):
         for result in results
         for key, value in result["observations"].items()
     }
-    state, notifications = reconcile(previous, observations, timestamp, seeds)
+    deferred = {key for result in results for key in result["deferred"]} - observations.keys()
+    state, notifications = reconcile(previous, observations, timestamp, seeds, deferred)
     state.update(
         schema_version=1,
         checked_at_utc=timestamp,
@@ -461,13 +480,14 @@ def run(packages, seeds, previous, client, timestamp):
         "checked_at_utc": timestamp,
         **notifications,
         "state": "unverified"
-        if "unverified" in states
+        if "unverified" in states or deferred - state["checks"].keys()
         else "findings"
         if "broken" in states
         else "verified",
         "counts": {
             name: states.count(name) for name in ("healthy", "broken", "unverified")
         },
+        "deferred_pages": len(deferred),
         "active_issues": [k for k, v in state["checks"].items() if v["active"]],
         "packages": [{k: v for k, v in r.items() if k != "history"} for r in results],
     }

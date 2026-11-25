@@ -209,6 +209,64 @@ class MonitorTests(unittest.TestCase):
             result["observations"]["anchor:" + BASE + "#missing"]["state"], "broken"
         )
 
+    def test_redirect_manifest_accepts_only_reviewed_source_download_paths(self):
+        responses = fixtures()
+        for source, expected in (
+            ("/_sources/api/example.rst.txt", "healthy"),
+            ("/_sources/guide.md.txt", "healthy"),
+            ("/api/example.rst.txt", "unverified"),
+            ("/_sources/example.txt", "unverified"),
+            ("/_sources/%2e%2e/guide.md.txt", "unverified"),
+        ):
+            with self.subTest(source=source):
+                rule = {
+                    "from_url": source, "to_url": BASE, "redirect_type": "page",
+                    "http_status": 301, "force": False, "enabled": True,
+                }
+                responses[MANIFEST] = Response(
+                    MANIFEST, 200, json.dumps({
+                        "schema_version": 1, "site": SITE, "redirects": [rule],
+                    }).encode(),
+                )
+                for channel in SEED["channels"]:
+                    url = SITE + "/en/" + channel + source
+                    responses[url] = Response(url, 301, headers={"location": BASE})
+                observed = self.check(responses)["observations"]
+                self.assertEqual(observed["manifest:Example"]["state"], expected)
+                if expected == "healthy":
+                    self.assertEqual(observed["page:" + url]["state"], "healthy")
+
+    def test_generated_page_batches_preserve_daily_guide_and_legacy_checks(self):
+        urls = {BASE + f"api/generated/function-{n}.html" for n in range(30)}
+        guide = BASE + "guide.html"
+        source = BASE + "old.html"
+        responses = fixtures([BASE, guide, *sorted(urls)])
+        seed = {**SEED, "generated_page_batches": 2}
+        first = self.check(responses, seed=seed)
+        second = self.check(responses, first["history"], seed=seed)
+        left, right = set(first["deferred"]), set(second["deferred"])
+        self.assertTrue(left and right)
+        self.assertFalse(left & right)
+        self.assertEqual(left | right, {"page:" + u for u in urls})
+        for report in (first, second):
+            self.assertEqual(report["observations"]["page:" + guide]["state"], "healthy")
+            self.assertEqual(report["observations"]["page:" + source]["state"], "broken")
+
+        previous = {"checks": {
+            key: {"observation": {"state": "broken", "repository": "Example"},
+                  "active": True, "streak": 2} for key in left
+        }}
+        state, delta = monitor.reconcile(
+            previous, first["observations"], "2026-11-25T08:00:00+00:00", ["Example"], left,
+        )
+        self.assertFalse(delta["recoveries"])
+        for key in left:
+            self.assertEqual(state["checks"][key], previous["checks"][key])
+        _, delta = monitor.reconcile(
+            state, second["observations"], "2026-11-26T08:00:00+00:00", ["Example"], right,
+        )
+        self.assertEqual({row["key"] for row in delta["recoveries"]}, left)
+
     def test_destination_redirect_chain_cannot_be_hidden_by_historical_source(self):
         seed = {**SEED, "pages": ["", "a.html", "z.html"]}
         responses = fixtures()

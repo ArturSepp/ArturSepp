@@ -177,9 +177,15 @@ def read_redirects(path: Path, site: str) -> list[dict]:
     seen = set()
     for rule in manifest["redirects"]:
         source, target = rule["from_url"], urlsplit(rule["to_url"])
-        if (not source.startswith("/") or source.startswith(("//", "/en/"))
-                or not source.endswith(".html") or ".." in source.split("/")
-                or any(c in source for c in "*?#") or source in seen):
+        decoded = unquote(source)
+        source_download = source.startswith("/_sources/") and source.endswith(
+            (".rst.txt", ".md.txt")
+        )
+        if (not source.startswith("/") or decoded.startswith(("//", "/en/"))
+                or not (source.endswith(".html") or source_download)
+                or any(part in {".", ".."} for part in decoded.split("/"))
+                or any(c in decoded for c in "*?#\\") or any(c.isspace() for c in decoded)
+                or source in seen):
             raise ValueError(f"Invalid or duplicate legacy page URL: {source}")
         if (target.scheme != "https" or not target.hostname or target.username or target.password
                 or target.query or ".." in target.path.split("/")):

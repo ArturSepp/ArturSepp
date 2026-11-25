@@ -202,6 +202,11 @@ def prepare(directory, run_url):
         f"monitoring warnings: {len(report['monitor_warnings'])}.\n\n"
         "Network availability is outside normal commit/PR checks. See the evidence artifact.\n"
     )
+    if report.get("deferred_pages"):
+        summary += (
+            f"\nScheduled for another run: {report['deferred_pages']} generated API pages. "
+            "The counts retain their last observed results where available.\n"
+        )
     (directory / "summary.md").write_text(summary, encoding="utf-8")
 
 
