@@ -136,6 +136,13 @@
           "option_chain_analytics"
         ]
       },
+      "optional_adapters": [
+        {
+          "path": "src/stochvolmodels/data/fetch_option_chain.py",
+          "modules": ["option_chain_analytics"],
+          "reason": "The optional data loader exposes OCA providers outside the package-root import graph."
+        }
+      ],
       "tier": "T2",
       "topics": [
         "python",
