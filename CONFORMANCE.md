@@ -1,6 +1,6 @@
 # Public package conformance
 
-Observed: 2026-11-27T15:05:58.085874+00:00 · mode: online
+Observed: 2026-11-28T14:13:07.541987+00:00 · mode: online
 
 GitHub Release pages are optional. Unpublished source versions are preparation states.
 
@@ -16,7 +16,7 @@ GitHub Release pages are optional. Unpublished source versions are preparation s
 | privateassets | 9 | 3 | 0 | 0 | dependency_graph: missing import bans: factormodels; action_pins: dependabot-merge.yml: mutable action read; release_templates: .github/workflows/release.yml |
 | goal-based-allocation | 13 | 3 | 0 | 0 | dependency_graph: missing import bans: factormodels; action_pins: dependabot-merge.yml: mutable action read; release_templates: .github/workflows/release.yml |
 | vanilla-option-pricers | 12 | 3 | 0 | 0 | dependency_graph: missing import bans: factormodels; action_pins: dependabot-merge.yml: mutable action read; release_templates: .github/workflows/release.yml |
-| option-chain-analytics | 18 | 3 | 0 | 0 | dependency_graph: missing import bans: factormodels; action_pins: dependabot-merge.yml: mutable action read; release_templates: .github/workflows/release.yml |
+| option-chain-analytics | 20 | 3 | 0 | 0 | dependency_graph: missing import bans: factormodels; action_pins: dependabot-merge.yml: mutable action read; release_templates: .github/workflows/release.yml |
 
 Recorded runtime licence review: **unknown** — No runtime evidence supplied; source metadata checks do not establish a runtime licence claim.
 
